@@ -26,6 +26,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    final currentHeight = MediaQuery.of(context).size.height;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -37,19 +38,28 @@ class _SignInState extends State<SignIn> {
           inAsyncCall: isLoading,
           child: Scaffold(
             appBar: AppBar(
-              title: const Directionality(
+              title: Directionality(
                 textDirection: TextDirection.rtl,
                 child: Center(
                   child: Text(
                     'تسجيل الدخول',
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: currentHeight / 24,
                       fontFamily: 'Lalezar',
                     ),
                   ),
                 ),
               ),
-              backgroundColor: Color.fromRGBO(7, 205, 219, 1),
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: currentHeight / 30,
+                ),
+              ),
+              backgroundColor: const Color.fromRGBO(7, 205, 219, 1),
               elevation: 10,
             ),
             body: Directionality(
@@ -58,9 +68,12 @@ class _SignInState extends State<SignIn> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 40,
+                    ),
                     Image.asset(
                       'imgs/little-kid.png',
-                      height: 130,
+                      height: currentHeight / 4,
                     ),
                     // ignore: sized_box_for_whitespace
                     Form(
@@ -76,6 +89,8 @@ class _SignInState extends State<SignIn> {
                                   margin: const EdgeInsets.only(
                                       left: 40, right: 40),
                                   child: TextFormField(
+                                    style:
+                                        TextStyle(fontSize: currentHeight / 32),
                                     decoration: InputDecoration(
                                       enabledBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -92,10 +107,11 @@ class _SignInState extends State<SignIn> {
                                               Color.fromRGBO(255, 113, 25, 1),
                                         ),
                                       ),
-                                      suffixIcon: const Icon(
+                                      suffixIcon: Icon(
                                         Icons.email_outlined,
-                                        color:
-                                            Color.fromARGB(255, 201, 201, 201),
+                                        color: const Color.fromARGB(
+                                            255, 201, 201, 201),
+                                        size: currentHeight / 26,
                                       ),
                                       border: const OutlineInputBorder(),
                                       filled: true,
@@ -138,6 +154,8 @@ class _SignInState extends State<SignIn> {
                                   margin: const EdgeInsets.only(
                                       left: 40, right: 40),
                                   child: TextFormField(
+                                    style:
+                                        TextStyle(fontSize: currentHeight / 32),
                                     decoration: InputDecoration(
                                         enabledBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -154,10 +172,11 @@ class _SignInState extends State<SignIn> {
                                                 Color.fromRGBO(255, 113, 25, 1),
                                           ),
                                         ),
-                                        suffixIcon: const Icon(
+                                        suffixIcon: Icon(
                                           Icons.lock_outline,
-                                          color: Color.fromARGB(
+                                          color: const Color.fromARGB(
                                               255, 201, 201, 201),
+                                          size: currentHeight / 26,
                                         ),
                                         border: const OutlineInputBorder(),
                                         filled: true,
@@ -222,11 +241,11 @@ class _SignInState extends State<SignIn> {
                                       AwesomeDialog(
                                         context: context,
                                         title: '!خطأ',
-                                        body: const Text(
+                                        body: Text(
                                           'لا يوجد بريد مسجل بهذا الاسم',
                                           style: TextStyle(
                                               fontFamily: 'Lalezar',
-                                              fontSize: 25,
+                                              fontSize: currentHeight / 28,
                                               color: Colors.red),
                                         ),
                                       ).show();
@@ -235,11 +254,11 @@ class _SignInState extends State<SignIn> {
                                       AwesomeDialog(
                                         context: context,
                                         title: '!خطأ',
-                                        body: const Text(
+                                        body: Text(
                                           'كلمة المرور غير صحيحة',
                                           style: TextStyle(
                                               fontFamily: 'Lalezar',
-                                              fontSize: 25,
+                                              fontSize: currentHeight / 28,
                                               color: Colors.red),
                                         ),
                                       ).show();
@@ -254,14 +273,14 @@ class _SignInState extends State<SignIn> {
                               },
 
                               elevation: 10,
-                              fillColor: Color.fromRGBO(245, 171, 0, 1),
+                              fillColor: const Color.fromRGBO(245, 171, 0, 1),
                               // ignore: sort_child_properties_last
-                              child: const Text(
+                              child: Text(
                                 'التالي',
                                 // ignore: unnecessary_const
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 25,
+                                  fontSize: currentHeight / 24,
                                   fontFamily: 'Lalezar',
                                 ),
                               ),
@@ -278,12 +297,12 @@ class _SignInState extends State<SignIn> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           ' هل نسيت كلمة المرور ؟',
                           style: TextStyle(
                             fontFamily: 'Lalezar',
-                            fontSize: 20,
-                            color: Color.fromRGBO(245, 171, 0, 1),
+                            fontSize: currentHeight / 28,
+                            color: const Color.fromRGBO(245, 171, 0, 1),
                           ),
                         ),
                         InkWell(
@@ -291,12 +310,12 @@ class _SignInState extends State<SignIn> {
                             Navigator.pushNamed(
                                 context, ForgetPass.ScreenRoute);
                           },
-                          child: const Text(
+                          child: Text(
                             ' اضغط هنا',
                             style: TextStyle(
                               fontFamily: 'Lalezar',
-                              fontSize: 20,
-                              color: Color.fromRGBO(99, 149, 255, 1),
+                              fontSize: currentHeight / 28,
+                              color: const Color.fromRGBO(99, 149, 255, 1),
                             ),
                           ),
                         ),
@@ -308,24 +327,24 @@ class _SignInState extends State<SignIn> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           'ليس لديك حساب  ؟ ',
                           style: TextStyle(
                             fontFamily: 'Lalezar',
-                            fontSize: 20,
-                            color: Color.fromRGBO(245, 171, 0, 1),
+                            fontSize: currentHeight / 32,
+                            color: const Color.fromRGBO(245, 171, 0, 1),
                           ),
                         ),
                         InkWell(
                           onTap: () {
                             Navigator.pushNamed(context, SignUp.ScreenRoute);
                           },
-                          child: const Text(
+                          child: Text(
                             'اضغط هنا',
                             style: TextStyle(
                               fontFamily: 'Lalezar',
-                              fontSize: 20,
-                              color: Color.fromRGBO(99, 149, 255, 1),
+                              fontSize: currentHeight / 32,
+                              color: const Color.fromRGBO(99, 149, 255, 1),
                             ),
                           ),
                         ),

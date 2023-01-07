@@ -66,6 +66,8 @@ class _AddChildState extends State<AddChild> {
 
   @override
   Widget build(BuildContext context) {
+    final currentHeight = MediaQuery.of(context).size.height;
+    final currentwidth = MediaQuery.of(context).size.width;
     WidgetsFlutterBinding.ensureInitialized();
 
     //these lines of code to make the screen in vertical state.
@@ -96,14 +98,14 @@ class _AddChildState extends State<AddChild> {
                   );
                 },
                 color: Colors.grey[500],
-                iconSize: 50,
+                iconSize: currentHeight / 24,
               ),
             ],
             leading: IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.logout,
                 color: Colors.red,
-                size: 40,
+                size: currentHeight / 23,
               ),
               onPressed: () {
                 //when press on log-out button; Show dialog that asks the user Yes or No ?.
@@ -114,12 +116,12 @@ class _AddChildState extends State<AddChild> {
                       contentPadding: const EdgeInsets.all(10),
                       titlePadding: const EdgeInsets.all(10),
                       buttonPadding: const EdgeInsets.all(10),
-                      title: const Center(
+                      title: Center(
                         child: Text(
                           'هل أنت متأكد من أنك تريد تسجيل الخروج ؟',
                           style: TextStyle(
                               fontFamily: 'Lalezar',
-                              fontSize: 20,
+                              fontSize: currentHeight / 28,
                               color: Colors.red),
                         ),
                       ),
@@ -132,10 +134,11 @@ class _AddChildState extends State<AddChild> {
                               onTap: () {
                                 Navigator.pop(context);
                               },
-                              child: const Text(
+                              child: Text(
                                 'لا',
                                 style: TextStyle(
-                                    fontFamily: 'Lalezar', fontSize: 30),
+                                    fontFamily: 'Lalezar',
+                                    fontSize: currentHeight / 32),
                               ),
                             ),
                             const SizedBox(
@@ -152,10 +155,11 @@ class _AddChildState extends State<AddChild> {
                                             const FirstPage()),
                                     (Route<dynamic> route) => false);
                               },
-                              child: const Text(
+                              child: Text(
                                 'نعم',
                                 style: TextStyle(
-                                    fontFamily: 'Lalezar', fontSize: 30),
+                                    fontFamily: 'Lalezar',
+                                    fontSize: currentHeight / 32),
                               ),
                             ),
                           ],
