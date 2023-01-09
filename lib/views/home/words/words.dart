@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,6 +7,12 @@ import 'package:little_reader/views/home/home.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_speech/flutter_speech.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'dart:async';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 const languages = const [
   const Language('Arabic', 'ar-Ar'),
@@ -16,6 +24,8 @@ class Language {
 
   const Language(this.name, this.code);
 }
+
+enum TtsState { playing, stopped, paused, continued }
 
 class WordsPage extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
@@ -46,8 +56,24 @@ class _WordsPageState extends State<WordsPage> {
 
   // String _currentLocale = 'en_US';
   Language selectedLang = languages.first;
-
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  late FlutterTts flutterTts;
+  String? language;
+  String? engine;
+  double volume = 1.5;
+  double pitch = 1.0;
+  double rate = 0.5;
+  bool isCurrentLanguageInstalled = false;
+
+  String? word = 'أَسَدْ';
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+  get isStopped => ttsState == TtsState.stopped;
+  get isContinued => ttsState == TtsState.continued;
+  bool get isAndroid => !kIsWeb && Platform.isAndroid;
 
   @override
   initState() {
@@ -55,6 +81,7 @@ class _WordsPageState extends State<WordsPage> {
       play = true;
     });
     activateSpeechRecognizer();
+    initTts();
     super.initState();
   }
 
@@ -69,6 +96,114 @@ class _WordsPageState extends State<WordsPage> {
 
     _speech.activate('ar_Ar').then((res) {
       setState(() => _speechRecognitionAvailable = res);
+    });
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    _setAwaitOptions();
+
+    if (isAndroid) {
+      _getDefaultVoice();
+    }
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("Playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    if (isAndroid) {
+      flutterTts.setInitHandler(() {
+        setState(() {
+          print("TTS Initialized");
+        });
+      });
+    }
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setContinueHandler(() {
+      setState(() {
+        print("Continued");
+        ttsState = TtsState.continued;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future<dynamic> _getLanguages() async => await flutterTts.getLanguages;
+
+  Future _getDefaultVoice() async {
+    var voice = await flutterTts.getDefaultVoice;
+    if (voice != null) {
+      print(voice);
+    }
+  }
+
+  Future _speak() async {
+    await flutterTts.setVolume(volume = 1);
+    await flutterTts.setSpeechRate(rate = 0.4);
+    await flutterTts.setPitch(pitch);
+
+    if (word != null) {
+      if (word!.isNotEmpty) {
+        await flutterTts.speak(word!);
+      }
+    }
+  }
+
+  Future _setAwaitOptions() async {
+    await flutterTts.awaitSpeakCompletion(true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    flutterTts.stop();
+  }
+
+  List<DropdownMenuItem<String>> getEnginesDropDownMenuItems(dynamic engines) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in engines) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  List<DropdownMenuItem<String>> getLanguageDropDownMenuItems(
+      dynamic languages) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in languages) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  void changedLanguageDropDownItem(String? selectedType) {
+    setState(() {
+      language = 'name: ar-xa-x-arz-local, locale: ar';
+      flutterTts.setLanguage('ar');
+      if (isAndroid) {
+        flutterTts
+            .isLanguageInstalled(language!)
+            .then((value) => isCurrentLanguageInstalled = (value as bool));
+      }
     });
   }
 
@@ -150,12 +285,8 @@ class _WordsPageState extends State<WordsPage> {
                               Text(
                                 'أسد',
                                 style: TextStyle(
-                                    fontSize: currentHeight / 10,
-                                    color: isMatched == true
-                                        ? colorGreen
-                                        : isMatched == false
-                                            ? colorRed
-                                            : Colors.black),
+                                    fontFamily: 'Lalezar',
+                                    fontSize: currentHeight / 10),
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -216,34 +347,20 @@ class _WordsPageState extends State<WordsPage> {
                                   SizedBox(
                                     width: currentWidht / 8,
                                   ),
-                                  AudioWidget.assets(
-                                    path: 'audios/ALEF.mp3',
-                                    play: play,
-                                    child: MaterialButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          if (play == true) {
-                                            play = false;
-                                          } else {
-                                            if (play == false) {
-                                              play = true;
-                                            }
-                                          }
-                                        });
-                                      },
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(60),
-                                      ),
-                                      splashColor: Colors.amber,
-                                      child: CircleAvatar(
-                                        radius: currentHeight / 16,
-                                        backgroundColor: const Color.fromRGBO(
-                                            245, 171, 0, 1),
-                                        child: Icon(
-                                          Icons.volume_up,
-                                          color: Colors.white,
-                                          size: currentHeight / 14,
-                                        ),
+                                  MaterialButton(
+                                    onPressed: () => _speak(),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(60),
+                                    ),
+                                    splashColor: Colors.amber,
+                                    child: CircleAvatar(
+                                      radius: currentHeight / 16,
+                                      backgroundColor:
+                                          const Color.fromRGBO(245, 171, 0, 1),
+                                      child: Icon(
+                                        Icons.volume_up,
+                                        color: Colors.white,
+                                        size: currentHeight / 14,
                                       ),
                                     ),
                                   ),

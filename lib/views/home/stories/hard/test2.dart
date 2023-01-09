@@ -1,68 +1,206 @@
-import 'package:flutter/services.dart';
+import 'dart:async';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_azure_tts/flutter_azure_tts.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
-class Testing extends StatefulWidget {
-  const Testing({Key? key}) : super(key: key);
+void main() => runApp(const TTS());
+
+class TTS extends StatefulWidget {
+  const TTS({super.key});
 
   @override
-  State<Testing> createState() => _TestingState();
+  _TTSState createState() => _TTSState();
 }
 
-class _TestingState extends State<Testing> {
-  final text = "Microsoft Speech Service Text-to-Speech API";
+enum TtsState { playing, stopped, paused, continued }
 
-  void start() async {
-    AzureTts.init(
-        subscriptionKey: "Product-scoped", region: "ASIA", withLogs: true);
-    final voicesResponse = await AzureTts.getAvailableVoices() as VoicesSuccess;
+class _TTSState extends State<TTS> {
+  late FlutterTts flutterTts;
+  String? language;
+  String? engine;
+  double volume = 0.5;
+  double pitch = 1.0;
+  double rate = 0.5;
+  bool isCurrentLanguageInstalled = false;
 
-    //Pick a Neural voice
-    final voice = voicesResponse.voices
-        .where((element) =>
-            element.voiceType == "Neural" && element.locale.startsWith("ar-"))
-        .toList(growable: false)[0];
+  String? word = 'أَسَدْ';
 
-    //List all available voices
-    print("${voicesResponse.voices}");
+  TtsState ttsState = TtsState.stopped;
 
-    TtsParams params = TtsParams(
-        voice: voice,
-        audioFormat: AudioOutputFormat.audio16khz32kBitrateMonoMp3,
-        rate: 1.5, // optional prosody rate (default is 1.0)
-        text: text);
-    final ttsResponse = await AzureTts.getTts(params) as AudioSuccess;
+  get isPlaying => ttsState == TtsState.playing;
+  get isStopped => ttsState == TtsState.stopped;
+  get isContinued => ttsState == TtsState.continued;
+  bool get isAndroid => !kIsWeb && Platform.isAndroid;
 
-    //Get the audio bytes.
-    print("${ttsResponse.audio}");
+  @override
+  initState() {
+    super.initState();
+    initTts();
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    _setAwaitOptions();
+
+    if (isAndroid) {
+      _getDefaultVoice();
+    }
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("Playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    if (isAndroid) {
+      flutterTts.setInitHandler(() {
+        setState(() {
+          print("TTS Initialized");
+        });
+      });
+    }
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setContinueHandler(() {
+      setState(() {
+        print("Continued");
+        ttsState = TtsState.continued;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future<dynamic> _getLanguages() async => await flutterTts.getLanguages;
+
+  Future _getDefaultVoice() async {
+    var voice = await flutterTts.getDefaultVoice;
+    if (voice != null) {
+      print(voice);
+    }
+  }
+
+  Future _speak() async {
+    await flutterTts.setVolume(volume);
+    await flutterTts.setSpeechRate(rate);
+    await flutterTts.setPitch(pitch);
+
+    if (word != null) {
+      if (word!.isNotEmpty) {
+        await flutterTts.speak(word!);
+      }
+    }
+  }
+
+  Future _setAwaitOptions() async {
+    await flutterTts.awaitSpeakCompletion(true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    flutterTts.stop();
+  }
+
+  List<DropdownMenuItem<String>> getEnginesDropDownMenuItems(dynamic engines) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in engines) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  List<DropdownMenuItem<String>> getLanguageDropDownMenuItems(
+      dynamic languages) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in languages) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  void changedLanguageDropDownItem(String? selectedType) {
+    setState(() {
+      language = 'name: ar-xa-x-arz-local, locale: ar';
+      flutterTts.setLanguage('ar');
+      if (isAndroid) {
+        flutterTts
+            .isLanguageInstalled(language!)
+            .then((value) => isCurrentLanguageInstalled = (value as bool));
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsFlutterBinding.ensureInitialized();
-
-    //these lines of code to make the screen in horizontal state
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Flutter TTS'),
+        ),
         body: Column(
           children: [
-            Text(text),
-            ElevatedButton(
-              onPressed: () {
-                start();
-              },
-              child: const Text('speech'),
-            ),
+            Word(),
+            _btnSection(),
           ],
         ),
       ),
     );
+  }
+
+  Widget Word() => Container(
+      alignment: Alignment.topCenter,
+      padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
+      child: Text(word!));
+
+  Widget _btnSection() {
+    return Container(
+      padding: EdgeInsets.only(top: 50.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildButtonColumn(Colors.green, Colors.greenAccent, Icons.play_arrow,
+              'PLAY', _speak),
+        ],
+      ),
+    );
+  }
+
+  Column _buildButtonColumn(Color color, Color splashColor, IconData icon,
+      String label, Function func) {
+    return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+              icon: Icon(icon),
+              color: color,
+              splashColor: splashColor,
+              onPressed: () => func()),
+          Container(
+              margin: const EdgeInsets.only(top: 8.0),
+              child: Text(label,
+                  style: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w400,
+                      color: color)))
+        ]);
   }
 }

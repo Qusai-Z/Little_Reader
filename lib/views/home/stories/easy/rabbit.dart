@@ -204,12 +204,12 @@ class _TestSpeechState extends State<TestSpeech> {
   void matchingWords() async {
     List<String> text_word = [].toString().split(' ');
     text_word.add(list.toString());
-    final url = Uri.parse('https://littlereader.azurewebsites.net/AI_System');
+    final url = Uri.parse('https://littlereader.azurewebsites.net/Speech_AI');
     for (var i = 0; i < text_word.length; i++) {
       final response = await http.post(url,
           body: json.encode(
               {'Child_word': transcription, 'Text_word': text_word[i]}));
-
+      print(url);
       print('response: $response');
     }
   }
@@ -425,7 +425,7 @@ class _TestSpeechState extends State<TestSpeech> {
       transcription = text;
     });
 
-    //matchingWords();
+    matchingWords();
   }
 
   void onRecognitionComplete(String text) {
