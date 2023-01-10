@@ -85,6 +85,8 @@ class _WordsPageState extends State<WordsPage> {
     super.initState();
   }
 
+  void uploadWord() async {}
+
   // Platform messages are asynchronous, so we initialize in an async method.
   void activateSpeechRecognizer() {
     print('_TestSpeechState.activateSpeechRecognizer... ');

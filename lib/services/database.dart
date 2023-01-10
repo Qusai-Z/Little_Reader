@@ -8,6 +8,7 @@ String? email = _auth.currentUser!.email;
 class DatabaseServices {
   var childID = RandomStringGenerator(minLength: 5, maxLength: 10).generate();
   DatabaseServices({childID});
+
   setParentInformationData(name, bool isMale, avatarUrl) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -24,8 +25,8 @@ class DatabaseServices {
     }
   }
 
-  setChildInformationData(
-      childName, childAge, relation, avatarUrl, level1, level2, level3) async {
+  setChildInformationData(childName, childAge, relation, avatarUrl, level_1,
+      level_2, level_3) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     try {
@@ -40,6 +41,45 @@ class DatabaseServices {
         "relation": relation,
         "avatar_url": avatarUrl,
         "childID": childID,
+        "level_1": level_1,
+        "level_2": level_2,
+        "level_3": level_3,
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  setChildWordStatistics(correctWord, incorrectWord) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+
+    try {
+      await db
+          .collection('words')
+          .doc(email)
+          .collection('children')
+          .doc(childID)
+          .set({
+        "correct_word": correctWord,
+        "incorrect_word": incorrectWord,
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void updateWordsStatistics(wordCorrect, wordIncorrect) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+
+    try {
+      db
+          .collection('parents')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(childID)
+          .update({
+        "wordCorrect": wordCorrect,
+        "wordIncorrect": wordIncorrect,
       });
     } catch (e) {
       print(e.toString());

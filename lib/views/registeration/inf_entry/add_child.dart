@@ -52,6 +52,8 @@ class _AddChildState extends State<AddChild> {
       'https://pbs.twimg.com/media/FjnKO8KX0AApv2_?format=jpg&name=small';
 
   var index;
+  int correctWord = 0;
+  int incorrectWord = 0;
 
   addnewChild() async {
     // Object of DatabaseServices class
@@ -62,6 +64,12 @@ class _AddChildState extends State<AddChild> {
         selectedAvatar, level_1, level_2, level_3);
 
     setState(() {});
+  }
+
+  addWordStatistics() async {
+    DatabaseServices db = DatabaseServices();
+
+    db.setChildWordStatistics(correctWord, incorrectWord);
   }
 
   @override
@@ -1204,6 +1212,7 @@ class _AddChildState extends State<AddChild> {
                                     onPressed: () async {
                                       if (formKey.currentState!.validate()) {
                                         addnewChild();
+                                        addWordStatistics();
                                         Navigator.pop(
                                           context,
                                         );
