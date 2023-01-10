@@ -90,7 +90,7 @@ class _SignInState extends State<SignIn> {
                                       left: 40, right: 40),
                                   child: TextFormField(
                                     style:
-                                        TextStyle(fontSize: currentHeight / 32),
+                                        TextStyle(fontSize: currentHeight / 42),
                                     decoration: InputDecoration(
                                       enabledBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -155,7 +155,7 @@ class _SignInState extends State<SignIn> {
                                       left: 40, right: 40),
                                   child: TextFormField(
                                     style:
-                                        TextStyle(fontSize: currentHeight / 32),
+                                        TextStyle(fontSize: currentHeight / 42),
                                     decoration: InputDecoration(
                                         enabledBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(

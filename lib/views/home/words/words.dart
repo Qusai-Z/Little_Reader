@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:little_reader/services/database.dart';
 import 'package:little_reader/views/home/home.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_speech/flutter_speech.dart';
@@ -28,7 +29,6 @@ class Language {
 enum TtsState { playing, stopped, paused, continued }
 
 class WordsPage extends StatefulWidget {
-  static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
@@ -67,6 +67,8 @@ class _WordsPageState extends State<WordsPage> {
   bool isCurrentLanguageInstalled = false;
 
   String? word = 'أَسَدْ';
+  int correctWord = 0;
+  int incorrectWord = 0;
 
   TtsState ttsState = TtsState.stopped;
 
@@ -85,7 +87,9 @@ class _WordsPageState extends State<WordsPage> {
     super.initState();
   }
 
-  void uploadWord() async {}
+  void uploadWord() async {
+    DatabaseServices db = DatabaseServices();
+  }
 
   // Platform messages are asynchronous, so we initialize in an async method.
   void activateSpeechRecognizer() {
@@ -276,99 +280,102 @@ class _WordsPageState extends State<WordsPage> {
                         child: Container(
                           color: Colors.white,
                           margin: const EdgeInsets.all(16),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Image.asset(
-                                'imgs/Lion.jpg',
-                                height: currentHeight / 2.3,
-                                width: currentWidht / 1,
-                              ),
-                              Text(
-                                'أسد',
-                                style: TextStyle(
-                                    fontFamily: 'Lalezar',
-                                    fontSize: currentHeight / 10),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  MaterialButton(
-                                    onPressed: () {
-                                      if (_speechRecognitionAvailable &&
-                                          !_isListening) {
-                                        start();
-                                      }
-                                      null;
-                                    },
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(60),
-                                    ),
-                                    splashColor: Colors.amber,
-                                    child: CircleAvatar(
-                                      backgroundColor:
-                                          const Color.fromRGBO(245, 171, 0, 1),
-                                      radius: currentHeight / 16,
-                                      child: Icon(
-                                        _isListening
-                                            ? Icons.mic
-                                            : Icons.mic_off,
-                                        color: Colors.white,
-                                        size: currentHeight / 14,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Image.asset(
+                                  'imgs/Lion.jpg',
+                                  height: currentHeight / 2.3,
+                                  width: currentWidht / 1,
+                                ),
+                                Text(
+                                  'أسد',
+                                  style: TextStyle(
+                                      fontFamily: 'Lalezar',
+                                      fontSize: currentHeight / 10),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    MaterialButton(
+                                      onPressed: () {
+                                        if (_speechRecognitionAvailable &&
+                                            !_isListening) {
+                                          start();
+                                        }
+                                        null;
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          _isListening
+                                              ? Icons.mic
+                                              : Icons.mic_off,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: currentWidht / 8,
-                                  ),
-                                  MaterialButton(
-                                    onPressed: () {
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Home(
-                                                    childID: widget.childID,
-                                                    currentAvatar:
-                                                        widget.currentAvatar,
-                                                    currentName:
-                                                        widget.currentName,
-                                                  )),
-                                          (Route<dynamic> route) => false);
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor:
-                                          const Color.fromRGBO(245, 171, 0, 1),
-                                      radius: currentHeight / 16,
-                                      child: Icon(
-                                        Icons.home,
-                                        color: Colors.white,
-                                        size: currentHeight / 14,
+                                    SizedBox(
+                                      width: currentWidht / 8,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Home(
+                                                      childID: widget.childID,
+                                                      currentAvatar:
+                                                          widget.currentAvatar,
+                                                      currentName:
+                                                          widget.currentName,
+                                                    )),
+                                            (Route<dynamic> route) => false);
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          Icons.home,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: currentWidht / 8,
-                                  ),
-                                  MaterialButton(
-                                    onPressed: () => _speak(),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(60),
+                                    SizedBox(
+                                      width: currentWidht / 8,
                                     ),
-                                    splashColor: Colors.amber,
-                                    child: CircleAvatar(
-                                      radius: currentHeight / 16,
-                                      backgroundColor:
-                                          const Color.fromRGBO(245, 171, 0, 1),
-                                      child: Icon(
-                                        Icons.volume_up,
-                                        color: Colors.white,
-                                        size: currentHeight / 14,
+                                    MaterialButton(
+                                      onPressed: () => _speak(),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        radius: currentHeight / 16,
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        child: Icon(
+                                          Icons.volume_up,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -415,22 +422,28 @@ class _WordsPageState extends State<WordsPage> {
   }
 
   void onRecognitionResult(String text) async {
-    String? complete;
     print('_TestSpeechState.onRecognitionResult... $text');
 
     setState(() {
       transcription = text;
     });
 
-    if (transcription == 'الف') {
+    if (transcription == 'اسد') {
       isMatched = true;
       correct = true;
       print('MM:$isMatched');
+
+      DatabaseServices db = DatabaseServices();
+
+      db.updateWordsStatistics(correctWord = 2, incorrectWord);
     } else {
       isMatched = false;
       wrong = true;
 
       print('MM:$isMatched');
+      DatabaseServices db = DatabaseServices();
+
+      db.updateWordsStatistics(correctWord, incorrectWord = 2);
     }
   }
 

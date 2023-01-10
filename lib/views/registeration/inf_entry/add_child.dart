@@ -95,7 +95,10 @@ class _AddChildState extends State<AddChild> {
           appBar: AppBar(
             actions: [
               IconButton(
-                icon: const Icon(Icons.settings),
+                icon: Icon(
+                  Icons.settings,
+                  size: currentHeight / 18,
+                ),
                 onPressed: () {
                   //push to UserInformationPage
                   Navigator.push(
@@ -113,7 +116,7 @@ class _AddChildState extends State<AddChild> {
               icon: Icon(
                 Icons.logout,
                 color: Colors.red,
-                size: currentHeight / 23,
+                size: currentHeight / 20,
               ),
               onPressed: () {
                 //when press on log-out button; Show dialog that asks the user Yes or No ?.
@@ -180,7 +183,7 @@ class _AddChildState extends State<AddChild> {
                 //////////////
               },
             ),
-            backgroundColor: Color.fromARGB(255, 249, 249, 249),
+            backgroundColor: const Color.fromARGB(255, 249, 249, 249),
             elevation: 0,
           ),
 
@@ -742,9 +745,9 @@ class _AddChildState extends State<AddChild> {
                                                           },
 
                                                           elevation: 10,
-                                                          fillColor:
-                                                              Color.fromRGBO(7,
-                                                                  205, 219, 1),
+                                                          fillColor: const Color
+                                                                  .fromRGBO(
+                                                              7, 205, 219, 1),
                                                           // ignore: sort_child_properties_last
                                                           child: const Text(
                                                             'حفظ',
@@ -1231,7 +1234,8 @@ class _AddChildState extends State<AddChild> {
                                     },
 
                                     elevation: 10,
-                                    fillColor: Color.fromRGBO(7, 205, 219, 1),
+                                    fillColor:
+                                        const Color.fromRGBO(7, 205, 219, 1),
                                     // ignore: sort_child_properties_last
                                     child: const Text(
                                       'حفظ',
@@ -1253,11 +1257,11 @@ class _AddChildState extends State<AddChild> {
                     }),
                   );
                 },
-                backgroundColor: Color.fromRGBO(245, 171, 0, 1),
+                backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
                 elevation: 10,
-                child: const Icon(
+                child: Icon(
                   Icons.add,
-                  size: 50,
+                  size: currentHeight / 22,
                 ),
               ),
               RawMaterialButton(
@@ -1276,13 +1280,13 @@ class _AddChildState extends State<AddChild> {
                   //}
                 },
                 elevation: 10,
-                fillColor: Color.fromRGBO(7, 205, 219, 1),
+                fillColor: const Color.fromRGBO(7, 205, 219, 1),
                 // ignore: sort_child_properties_last
-                child: const Text(
+                child: Text(
                   'ابدأ اللعب',
                   style: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 30,
+                    fontSize: currentwidth / 11,
                     fontFamily: 'Lalezar',
                   ),
                   maxLines: 1,

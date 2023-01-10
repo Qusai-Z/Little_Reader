@@ -26,7 +26,6 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     final currentHeight = MediaQuery.of(context).size.height;
-    final currentwidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: ModalProgressHUD(
         inAsyncCall: isLoading,
@@ -80,7 +79,7 @@ class _SignUpState extends State<SignUp> {
                                     const EdgeInsets.only(left: 40, right: 40),
                                 child: TextFormField(
                                   style:
-                                      TextStyle(fontSize: currentHeight / 32),
+                                      TextStyle(fontSize: currentHeight / 42),
                                   decoration: InputDecoration(
                                     enabledBorder: const OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -146,7 +145,7 @@ class _SignUpState extends State<SignUp> {
                                     const EdgeInsets.only(left: 40, right: 40),
                                 child: TextFormField(
                                   style:
-                                      TextStyle(fontSize: currentHeight / 32),
+                                      TextStyle(fontSize: currentHeight / 42),
                                   decoration: InputDecoration(
                                       enabledBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -205,7 +204,7 @@ class _SignUpState extends State<SignUp> {
                                     const EdgeInsets.only(left: 40, right: 40),
                                 child: TextFormField(
                                   style:
-                                      TextStyle(fontSize: currentHeight / 32),
+                                      TextStyle(fontSize: currentHeight / 42),
                                   decoration: InputDecoration(
                                       enabledBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -388,7 +387,7 @@ class _SignUpState extends State<SignUp> {
                       Text(
                         'بتسجيلك أنت توافق على',
                         style: TextStyle(
-                          fontSize: currentHeight / 38,
+                          fontSize: currentHeight / 48,
                           fontFamily: 'Lalezar',
                           color: const Color.fromRGBO(245, 171, 0, 1),
                         ),
@@ -398,7 +397,7 @@ class _SignUpState extends State<SignUp> {
                         child: Text(
                           ' الأحكام والشروط',
                           style: TextStyle(
-                            fontSize: currentHeight / 38,
+                            fontSize: currentHeight / 48,
                             fontFamily: 'Lalezar',
                             color: const Color.fromRGBO(99, 149, 255, 1),
                           ),
@@ -407,7 +406,7 @@ class _SignUpState extends State<SignUp> {
                       Text(
                         ' و ',
                         style: TextStyle(
-                          fontSize: currentHeight / 38,
+                          fontSize: currentHeight / 48,
                           fontFamily: 'Lalezar',
                           color: const Color.fromRGBO(245, 171, 0, 1),
                         ),
@@ -417,7 +416,7 @@ class _SignUpState extends State<SignUp> {
                         child: Text(
                           'سياسة الخصوصية',
                           style: TextStyle(
-                            fontSize: currentHeight / 38,
+                            fontSize: currentHeight / 48,
                             fontFamily: 'Lalezar',
                             color: Color.fromRGBO(99, 149, 255, 1),
                           ),

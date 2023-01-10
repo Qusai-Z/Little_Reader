@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:little_reader/views/home/letters/letters.dart';
+import 'package:little_reader/views/home/words/words.dart';
 import '../registeration/inf_entry/first_page.dart';
 import 'stories/stories.dart';
 
@@ -152,21 +153,24 @@ class _HomeState extends State<Home> {
                             color: const Color.fromRGBO(255, 166, 0, 1),
                             splashColor: const Color.fromRGBO(149, 22, 224, 1),
                             onPressed: () {
-                              // Navigator.pushAndRemoveUntil(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => WordsPage(),
-                              //   ),
-                              //   ModalRoute.withName('words_page'),
-                              //);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => WordsPage(
+                                    currentAvatar: widget.currentAvatar,
+                                    childID: widget.childID,
+                                    currentName: widget.currentName,
+                                  ),
+                                ),
+                              );
                             },
-                            child: const Text(
+                            child: Text(
                               'كلمات',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Lalezar',
                                   fontStyle: FontStyle.italic,
-                                  fontSize: 40),
+                                  fontSize: currentwidth / 18),
                             ),
                           ),
                         ),
@@ -193,13 +197,13 @@ class _HomeState extends State<Home> {
                                 ),
                               );
                             },
-                            child: const Text(
+                            child: Text(
                               'قصص',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Lalezar',
                                   fontStyle: FontStyle.italic,
-                                  fontSize: 40),
+                                  fontSize: currentwidth / 18),
                             ),
                           ),
                         ),
@@ -227,13 +231,13 @@ class _HomeState extends State<Home> {
                                 ),
                               );
                             },
-                            child: const Text(
+                            child: Text(
                               'حروف',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Lalezar',
                                   fontStyle: FontStyle.italic,
-                                  fontSize: 40),
+                                  fontSize: currentwidth / 18),
                             ),
                           ),
                         ),

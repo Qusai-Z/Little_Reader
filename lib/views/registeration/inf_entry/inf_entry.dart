@@ -35,6 +35,8 @@ class _InfEntryState extends State<InfEntry> {
 
   @override
   Widget build(BuildContext context) {
+    final currentHeight = MediaQuery.of(context).size.height;
+    final currentwidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Directionality(
         textDirection: TextDirection.rtl,
@@ -42,13 +44,14 @@ class _InfEntryState extends State<InfEntry> {
           inAsyncCall: isLoading,
           child: Scaffold(
             appBar: AppBar(
-              title: const Center(
+              title: Center(
                 child: Text(
                   'املاء البيانات',
-                  style: TextStyle(fontFamily: 'Lalezar', fontSize: 25),
+                  style: TextStyle(
+                      fontFamily: 'Lalezar', fontSize: currentHeight / 24),
                 ),
               ),
-              backgroundColor: Color.fromRGBO(7, 205, 219, 1),
+              backgroundColor: const Color.fromRGBO(7, 205, 219, 1),
               elevation: 10,
             ),
             body: Directionality(
@@ -75,12 +78,12 @@ class _InfEntryState extends State<InfEntry> {
                                 borderRadius: BorderRadius.circular(20),
                                 color: isMale ? Colors.grey[300] : Colors.white,
                               ),
-                              child: const CircleAvatar(
-                                backgroundImage: NetworkImage(
+                              child: CircleAvatar(
+                                backgroundImage: const NetworkImage(
                                     'https://pbs.twimg.com/media/Ff60Jb9WAAQ-0PD?format=png&name=small'),
                                 backgroundColor:
-                                    Color.fromARGB(255, 255, 178, 71),
-                                radius: 60,
+                                    const Color.fromARGB(255, 255, 178, 71),
+                                radius: currentwidth / 6,
                               ),
                             ),
                           ),
@@ -103,11 +106,11 @@ class _InfEntryState extends State<InfEntry> {
                                 color:
                                     !isMale ? Colors.grey[300] : Colors.white,
                               ),
-                              child: const CircleAvatar(
-                                backgroundImage: NetworkImage(
+                              child: CircleAvatar(
+                                backgroundImage: const NetworkImage(
                                     'https://pbs.twimg.com/media/Ff60L0aXwAkKQXN?format=png&name=small'),
                                 backgroundColor: Colors.green,
-                                radius: 60,
+                                radius: currentwidth / 6,
                               ),
                             ),
                           ),
@@ -117,7 +120,7 @@ class _InfEntryState extends State<InfEntry> {
                   ),
                   // ignore: sized_box_for_whitespace
                   Container(
-                    width: 350,
+                    margin: const EdgeInsets.only(left: 15, right: 15),
                     child: Form(
                       key: formKey,
                       child: TextFormField(
@@ -135,15 +138,17 @@ class _InfEntryState extends State<InfEntry> {
                                 color: Color.fromRGBO(255, 166, 0, 1),
                               ),
                             ),
-                            suffixIcon: const Icon(
+                            suffixIcon: Icon(
                               Icons.person,
-                              color: Color.fromARGB(255, 201, 201, 201),
+                              color: const Color.fromARGB(255, 201, 201, 201),
+                              size: currentwidth / 12,
                             ),
                             border: const OutlineInputBorder(),
                             filled: true,
                             labelStyle: TextStyle(
                               color: Colors.grey[400],
                               fontFamily: 'Lalezar',
+                              fontSize: currentwidth / 16,
                             ),
                             labelText: "الاسم",
                             fillColor: Colors.white70),
@@ -163,7 +168,7 @@ class _InfEntryState extends State<InfEntry> {
                   ),
                   // ignore: sized_box_for_whitespace
                   Container(
-                    width: 300,
+                    width: currentHeight / 2.2,
                     child: RawMaterialButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -184,7 +189,7 @@ class _InfEntryState extends State<InfEntry> {
                         });
                       },
                       elevation: 10,
-                      fillColor: Color.fromRGBO(255, 166, 0, 1),
+                      fillColor: const Color.fromRGBO(255, 166, 0, 1),
                       // ignore: sort_child_properties_last
                       child: const Text(
                         'التالي',
