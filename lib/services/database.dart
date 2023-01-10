@@ -55,7 +55,7 @@ class DatabaseServices {
 
     try {
       await db
-          .collection('words')
+          .collection('words_statistics')
           .doc(email)
           .collection('children')
           .doc(childID)
@@ -73,7 +73,7 @@ class DatabaseServices {
 
     try {
       db
-          .collection('parents')
+          .collection('words_statistics')
           .doc("${_auth.currentUser!.email}")
           .collection('children')
           .doc(childID)
