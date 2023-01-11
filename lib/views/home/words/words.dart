@@ -41,7 +41,6 @@ class WordsPage extends StatefulWidget {
 }
 
 class _WordsPageState extends State<WordsPage> {
-  bool play = false;
   bool correct = false;
   bool wrong = false;
   bool? isMatched;
@@ -79,9 +78,7 @@ class _WordsPageState extends State<WordsPage> {
 
   @override
   initState() {
-    setState(() {
-      play = true;
-    });
+    setState(() {});
     activateSpeechRecognizer();
     initTts();
     super.initState();
@@ -292,7 +289,6 @@ class _WordsPageState extends State<WordsPage> {
                                 Text(
                                   'أسد',
                                   style: TextStyle(
-                                      fontFamily: 'Lalezar',
                                       fontSize: currentHeight / 10,
                                       color: isMatched == true
                                           ? colorGreen
@@ -427,7 +423,7 @@ class _WordsPageState extends State<WordsPage> {
 
   void onRecognitionResult(String text) async {
     print('_TestSpeechState.onRecognitionResult... $text');
-
+    DatabaseServices db = DatabaseServices();
     setState(() {
       transcription = text;
     });
@@ -437,17 +433,14 @@ class _WordsPageState extends State<WordsPage> {
       correct = true;
       print('MM:$isMatched');
 
-      DatabaseServices db = DatabaseServices();
+      correctWord = correctWord + 1;
 
-      db.updateWordsStatistics(correctWord++, incorrectWord);
+      db.updateWordsStatistics(correctWord);
     } else {
       isMatched = false;
       wrong = true;
 
       print('MM:$isMatched');
-      DatabaseServices db = DatabaseServices();
-
-      db.updateWordsStatistics(correctWord, incorrectWord++);
     }
   }
 
@@ -825,7 +818,19 @@ class _WordsPageState2 extends State<WordsPage2> {
                       backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
                       radius: currentHeight / 20,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WordsPage(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
                         icon: Icon(
                           Icons.arrow_forward,
                           color: Colors.white,
@@ -864,6 +869,7 @@ class _WordsPageState2 extends State<WordsPage2> {
 
   void onRecognitionResult(String text) async {
     print('_TestSpeechState.onRecognitionResult... $text');
+    DatabaseServices db = DatabaseServices();
 
     setState(() {
       transcription = text;
@@ -873,18 +879,13 @@ class _WordsPageState2 extends State<WordsPage2> {
       isMatched = true;
       correct = true;
       print('MM:$isMatched');
-
-      DatabaseServices db = DatabaseServices();
-
-      db.updateWordsStatistics(correctWord++, incorrectWord);
+      correctWord = correctWord + 1;
+      db.updateWordsStatistics(correctWord);
     } else {
       isMatched = false;
       wrong = true;
 
       print('MM:$isMatched');
-      DatabaseServices db = DatabaseServices();
-
-      db.updateWordsStatistics(correctWord, incorrectWord++);
     }
   }
 
@@ -1263,7 +1264,19 @@ class _WordsPageState3 extends State<WordsPage3> {
                       backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
                       radius: currentHeight / 20,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WordsPage2(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
                         icon: Icon(
                           Icons.arrow_forward,
                           color: Colors.white,
@@ -1302,6 +1315,7 @@ class _WordsPageState3 extends State<WordsPage3> {
 
   void onRecognitionResult(String text) async {
     print('_TestSpeechState.onRecognitionResult... $text');
+    DatabaseServices db = DatabaseServices();
 
     setState(() {
       transcription = text;
@@ -1312,17 +1326,13 @@ class _WordsPageState3 extends State<WordsPage3> {
       correct = true;
       print('MM:$isMatched');
 
-      DatabaseServices db = DatabaseServices();
-
-      db.updateWordsStatistics(correctWord++, incorrectWord);
+      correctWord = correctWord + 1;
+      db.updateWordsStatistics(correctWord);
     } else {
       isMatched = false;
       wrong = true;
 
       print('MM:$isMatched');
-      DatabaseServices db = DatabaseServices();
-
-      db.updateWordsStatistics(correctWord, incorrectWord++);
     }
   }
 

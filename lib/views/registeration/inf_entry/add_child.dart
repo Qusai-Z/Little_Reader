@@ -15,6 +15,17 @@ final _auth = FirebaseAuth.instance;
 class AddChild extends StatefulWidget {
   // ignore: constant_identifier_names
   static const String ScreenRoute = 'add_child';
+    final String? childID;
+  final String? currentAvatar;
+  final String? currentName;
+
+  const AddChild({
+    Key? key,
+    this.childID,
+    this.currentAvatar,
+    this.currentName,
+  }) : super(key: key);
+
 
   @override
   State<AddChild> createState() => _AddChildState();
@@ -69,7 +80,7 @@ class _AddChildState extends State<AddChild> {
   addWordStatistics() async {
     DatabaseServices db = DatabaseServices();
 
-    db.setChildWordStatistics(correctWord, incorrectWord);
+    db.setChildWordStatistics(correctWord, child_name);
   }
 
   @override

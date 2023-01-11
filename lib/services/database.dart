@@ -50,7 +50,7 @@ class DatabaseServices {
     }
   }
 
-  setChildWordStatistics(correctWord, incorrectWord) async {
+  setChildWordStatistics(correctWord, name) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     try {
@@ -60,15 +60,15 @@ class DatabaseServices {
           .collection('children')
           .doc(childID)
           .set({
+        "name": name,
         "correct_word": correctWord,
-        "incorrect_word": incorrectWord,
       });
     } catch (e) {
       print(e.toString());
     }
   }
 
-  void updateWordsStatistics(wordCorrect, wordIncorrect) async {
+  void updateWordsStatistics(wordCorrect) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     try {
@@ -79,7 +79,6 @@ class DatabaseServices {
           .doc(childID)
           .update({
         "wordCorrect": wordCorrect,
-        "wordIncorrect": wordIncorrect,
       });
     } catch (e) {
       print(e.toString());

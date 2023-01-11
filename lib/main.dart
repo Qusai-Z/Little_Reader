@@ -38,14 +38,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: isLoggedIn == true ? Accounts() : const FirstPage(),
+      home: TTS(), //isLoggedIn == true ? const Accounts() : const FirstPage(),
       routes: {
         FirstPage.ScreenRoute: (context) => const FirstPage(),
         SignIn.ScreenRoute: (context) => const SignIn(),
         SignUp.ScreenRoute: (context) => const SignUp(),
         ForgetPass.ScreenRoute: (context) => const ForgetPass(),
         InfEntry.ScreenRoute: (context) => const InfEntry(email: ''),
-        AddChild.ScreenRoute: (context) => AddChild(),
+        AddChild.ScreenRoute: (context) => const AddChild(),
 
         LettersPage.ScreenRoute: (context) => const LettersPage(),
 

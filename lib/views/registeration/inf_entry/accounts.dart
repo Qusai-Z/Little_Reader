@@ -10,7 +10,16 @@ final _auth = FirebaseAuth.instance;
 String? email = _auth.currentUser!.email;
 
 class Accounts extends StatefulWidget {
-  Accounts({Key? key}) : super(key: key);
+  final String? childID;
+  final String? currentAvatar;
+  final String? currentName;
+
+  const Accounts({
+    Key? key,
+    this.childID,
+    this.currentAvatar,
+    this.currentName,
+  }) : super(key: key);
 
   @override
   State<Accounts> createState() => _AccountsState();
@@ -63,7 +72,17 @@ class _AccountsState extends State<Accounts> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, AddChild.ScreenRoute);
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddChild(
+                      childID: widget.childID,
+                      currentAvatar: widget.currentAvatar,
+                      currentName: widget.currentName,
+                    ),
+                  ),
+                  (Route<dynamic> route) => false,
+                );
               },
               iconSize: currentHeight / 14,
             ),

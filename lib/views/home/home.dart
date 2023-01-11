@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:little_reader/views/home/letters/letters.dart';
 import 'package:little_reader/views/home/words/words.dart';
+import 'package:little_reader/views/registeration/inf_entry/accounts.dart';
 import '../registeration/inf_entry/first_page.dart';
 import 'stories/stories.dart';
 
@@ -82,7 +83,17 @@ class _HomeState extends State<Home> {
               IconButton(
                 onPressed: () {
                   if (widget.childID!.isNotEmpty) {
-                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Accounts(
+                          childID: widget.childID,
+                          currentAvatar: widget.currentAvatar,
+                          currentName: widget.currentName,
+                        ),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
                   } else {
                     Navigator.pushAndRemoveUntil(
                         context,
