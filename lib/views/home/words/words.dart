@@ -11064,17 +11064,17 @@ class _WordsPageState25 extends State<WordsPage25> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // Navigator.pushAndRemoveUntil(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => WordsPage25(
-                        //       childID: widget.childID,
-                        //       currentAvatar: widget.currentAvatar,
-                        //       currentName: widget.currentName,
-                        //     ),
-                        //   ),
-                        //   (Route<dynamic> route) => false,
-                        // );
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WordsPage26(
+                              childID: widget.childID,
+                              currentAvatar: widget.currentAvatar,
+                              currentName: widget.currentName,
+                            ),
+                          ),
+                          (Route<dynamic> route) => false,
+                        );
                       },
                       child: CircleAvatar(
                         backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
@@ -11266,7 +11266,2267 @@ class _WordsPageState25 extends State<WordsPage25> {
       isMatched = true;
       correct = true;
       print('MM:$isMatched');
-      // _Next();
+      _Next();
+    } else {
+      isMatched = false;
+      wrong = true;
+
+      print('MM:$isMatched');
+    }
+  }
+
+  void onRecognitionComplete(String text) {
+    print('_TestSpeechState.onRecognitionComplete... $text');
+    setState(() => _isListening = false);
+  }
+
+  void errorHandler() => activateSpeechRecognizer();
+
+  void stop() => _speech.stop().then((_) {
+        setState(() => _isListening = false);
+      });
+
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WordsPage26(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      });
+}
+
+class WordsPage26 extends StatefulWidget {
+  final String? childID;
+  final String? currentAvatar;
+  final String? currentName;
+  const WordsPage26(
+      {Key? key, this.childID, this.currentAvatar, this.currentName})
+      : super(key: key);
+
+  @override
+  State<WordsPage26> createState() => _WordsPageState26();
+}
+
+class _WordsPageState26 extends State<WordsPage26> {
+  bool play = false;
+  bool correct = false;
+  bool wrong = false;
+  bool? isMatched;
+  Color colorGreen = Colors.green;
+  Color colorRed = Colors.red;
+
+  late SpeechRecognition _speech;
+
+  bool _speechRecognitionAvailable = false;
+  bool _isListening = false;
+  var transcription = '';
+
+  // String _currentLocale = 'en_US';
+  Language selectedLang = languages.first;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  late FlutterTts flutterTts;
+  String? language;
+  String? engine;
+  double volume = 1.5;
+  double pitch = 1.0;
+  double rate = 0.5;
+  bool isCurrentLanguageInstalled = false;
+
+  String? word = 'ذَهَبْ';
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+  get isStopped => ttsState == TtsState.stopped;
+  get isContinued => ttsState == TtsState.continued;
+  bool get isAndroid => !kIsWeb && Platform.isAndroid;
+
+  @override
+  initState() {
+    setState(() {
+      play = true;
+    });
+    activateSpeechRecognizer();
+    initTts();
+    super.initState();
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  void activateSpeechRecognizer() {
+    print('_TestSpeechState.activateSpeechRecognizer... ');
+    _speech = SpeechRecognition();
+    _speech.setRecognitionStartedHandler(onRecognitionStarted);
+    _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
+    _speech.setErrorHandler(errorHandler);
+
+    _speech.activate('ar_Ar').then((res) {
+      setState(() => _speechRecognitionAvailable = res);
+    });
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    _setAwaitOptions();
+
+    if (isAndroid) {
+      _getDefaultVoice();
+    }
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("Playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    if (isAndroid) {
+      flutterTts.setInitHandler(() {
+        setState(() {
+          print("TTS Initialized");
+        });
+      });
+    }
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setContinueHandler(() {
+      setState(() {
+        print("Continued");
+        ttsState = TtsState.continued;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future<dynamic> _getLanguages() async => await flutterTts.getLanguages;
+
+  Future _getDefaultVoice() async {
+    var voice = await flutterTts.getDefaultVoice;
+    if (voice != null) {
+      print(voice);
+    }
+  }
+
+  Future _speak() async {
+    await flutterTts.setVolume(volume = 1.5);
+    await flutterTts.setSpeechRate(rate = 0.4);
+    await flutterTts.setPitch(pitch = 1);
+    await flutterTts.setLanguage('ar');
+
+    if (word != null) {
+      if (word!.isNotEmpty) {
+        await flutterTts.speak(word!);
+      }
+    }
+  }
+
+  Future _setAwaitOptions() async {
+    await flutterTts.awaitSpeakCompletion(true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    flutterTts.stop();
+  }
+
+  List<DropdownMenuItem<String>> getEnginesDropDownMenuItems(dynamic engines) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in engines) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  List<DropdownMenuItem<String>> getLanguageDropDownMenuItems(
+      dynamic languages) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in languages) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  void changedLanguageDropDownItem(String? selectedType) {
+    setState(() {
+      language = 'name: ar-xa-x-arz-local, locale: ar';
+      flutterTts.setLanguage('ar');
+      if (isAndroid) {
+        flutterTts
+            .isLanguageInstalled(language!)
+            .then((value) => isCurrentLanguageInstalled = (value as bool));
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    //these lines of code to make the screen in horizontal state
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+
+    final double currentHeight = MediaQuery.of(context).size.height;
+    final double currentWidht = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Scaffold(
+        body: AudioWidget.assets(
+          path: 'audios/CORRECT.mp3',
+          play: correct,
+          child: Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('imgs/guarden.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: double.infinity,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WordsPage27(
+                              childID: widget.childID,
+                              currentAvatar: widget.currentAvatar,
+                              currentName: widget.currentName,
+                            ),
+                          ),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                        radius: currentHeight / 20,
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: currentHeight / 22,
+                        ),
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Container(
+                        color: Colors.brown,
+                        height: currentHeight / 1.2,
+                        width: currentWidht / 0.8,
+                        margin: const EdgeInsets.all(30),
+                        child: Container(
+                          color: Colors.white,
+                          margin: const EdgeInsets.all(16),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Image.asset(
+                                  'imgs/Gold.jpeg',
+                                  height: currentHeight / 2.4,
+                                  width: currentWidht / 1,
+                                ),
+                                Text(
+                                  'ذهب',
+                                  style: TextStyle(
+                                      fontSize: currentHeight / 11,
+                                      color: isMatched == true
+                                          ? colorGreen
+                                          : isMatched == false
+                                              ? colorRed
+                                              : Colors.black),
+                                ),
+                                SizedBox(
+                                  height: currentHeight / 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    MaterialButton(
+                                      onPressed: () {
+                                        if (_speechRecognitionAvailable &&
+                                            !_isListening) {
+                                          start();
+                                        }
+                                        null;
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          _isListening
+                                              ? Icons.mic
+                                              : Icons.mic_off,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: currentWidht / 8,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Home(
+                                                      childID: widget.childID,
+                                                      currentAvatar:
+                                                          widget.currentAvatar,
+                                                      currentName:
+                                                          widget.currentName,
+                                                    )),
+                                            (Route<dynamic> route) => false);
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          Icons.home,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: currentWidht / 8,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () => _speak(),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        radius: currentHeight / 16,
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        child: Icon(
+                                          Icons.volume_up,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                      radius: currentHeight / 20,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WordsPage25(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: currentHeight / 22,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void start() => _speech.activate(selectedLang.code).then((_) {
+        return _speech.listen().then((result) {
+          print('_TestSpeechState.start => result $result');
+          setState(() {
+            _isListening = result;
+          });
+        });
+      });
+
+  void onCurrentLocale(String locale) {
+    print('_TestSpeechState.onCurrentLocale... $locale');
+    setState(
+        () => selectedLang = languages.firstWhere((l) => l.code == locale));
+  }
+
+  void onRecognitionStarted() {
+    setState(() => _isListening = true);
+  }
+
+  void onRecognitionResult(String text) async {
+    print('_TestSpeechState.onRecognitionResult... $text');
+
+    setState(() {
+      transcription = text;
+    });
+
+    if (transcription == 'ذهب') {
+      isMatched = true;
+      correct = true;
+      print('MM:$isMatched');
+      _Next();
+    } else {
+      isMatched = false;
+      wrong = true;
+
+      print('MM:$isMatched');
+    }
+  }
+
+  void onRecognitionComplete(String text) {
+    print('_TestSpeechState.onRecognitionComplete... $text');
+    setState(() => _isListening = false);
+  }
+
+  void errorHandler() => activateSpeechRecognizer();
+
+  void stop() => _speech.stop().then((_) {
+        setState(() => _isListening = false);
+      });
+
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WordsPage27(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      });
+}
+
+class WordsPage27 extends StatefulWidget {
+  final String? childID;
+  final String? currentAvatar;
+  final String? currentName;
+  const WordsPage27(
+      {Key? key, this.childID, this.currentAvatar, this.currentName})
+      : super(key: key);
+
+  @override
+  State<WordsPage27> createState() => _WordsPageState27();
+}
+
+class _WordsPageState27 extends State<WordsPage27> {
+  bool play = false;
+  bool correct = false;
+  bool wrong = false;
+  bool? isMatched;
+  Color colorGreen = Colors.green;
+  Color colorRed = Colors.red;
+
+  late SpeechRecognition _speech;
+
+  bool _speechRecognitionAvailable = false;
+  bool _isListening = false;
+  var transcription = '';
+
+  // String _currentLocale = 'en_US';
+  Language selectedLang = languages.first;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  late FlutterTts flutterTts;
+  String? language;
+  String? engine;
+  double volume = 1.5;
+  double pitch = 1.0;
+  double rate = 0.5;
+  bool isCurrentLanguageInstalled = false;
+
+  String? word = 'ذُباباه';
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+  get isStopped => ttsState == TtsState.stopped;
+  get isContinued => ttsState == TtsState.continued;
+  bool get isAndroid => !kIsWeb && Platform.isAndroid;
+
+  @override
+  initState() {
+    setState(() {
+      play = true;
+    });
+    activateSpeechRecognizer();
+    initTts();
+    super.initState();
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  void activateSpeechRecognizer() {
+    print('_TestSpeechState.activateSpeechRecognizer... ');
+    _speech = SpeechRecognition();
+    _speech.setRecognitionStartedHandler(onRecognitionStarted);
+    _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
+    _speech.setErrorHandler(errorHandler);
+
+    _speech.activate('ar_Ar').then((res) {
+      setState(() => _speechRecognitionAvailable = res);
+    });
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    _setAwaitOptions();
+
+    if (isAndroid) {
+      _getDefaultVoice();
+    }
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("Playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    if (isAndroid) {
+      flutterTts.setInitHandler(() {
+        setState(() {
+          print("TTS Initialized");
+        });
+      });
+    }
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setContinueHandler(() {
+      setState(() {
+        print("Continued");
+        ttsState = TtsState.continued;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future<dynamic> _getLanguages() async => await flutterTts.getLanguages;
+
+  Future _getDefaultVoice() async {
+    var voice = await flutterTts.getDefaultVoice;
+    if (voice != null) {
+      print(voice);
+    }
+  }
+
+  Future _speak() async {
+    await flutterTts.setVolume(volume = 1.5);
+    await flutterTts.setSpeechRate(rate = 0.4);
+    await flutterTts.setPitch(pitch = 1);
+    await flutterTts.setLanguage('ar');
+
+    if (word != null) {
+      if (word!.isNotEmpty) {
+        await flutterTts.speak(word!);
+      }
+    }
+  }
+
+  Future _setAwaitOptions() async {
+    await flutterTts.awaitSpeakCompletion(true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    flutterTts.stop();
+  }
+
+  List<DropdownMenuItem<String>> getEnginesDropDownMenuItems(dynamic engines) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in engines) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  List<DropdownMenuItem<String>> getLanguageDropDownMenuItems(
+      dynamic languages) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in languages) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  void changedLanguageDropDownItem(String? selectedType) {
+    setState(() {
+      language = 'name: ar-xa-x-arz-local, locale: ar';
+      flutterTts.setLanguage('ar');
+      if (isAndroid) {
+        flutterTts
+            .isLanguageInstalled(language!)
+            .then((value) => isCurrentLanguageInstalled = (value as bool));
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    //these lines of code to make the screen in horizontal state
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+
+    final double currentHeight = MediaQuery.of(context).size.height;
+    final double currentWidht = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Scaffold(
+        body: AudioWidget.assets(
+          path: 'audios/CORRECT.mp3',
+          play: correct,
+          child: Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('imgs/guarden.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: double.infinity,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.pushAndRemoveUntil(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => WordsPage28(
+                        //       childID: widget.childID,
+                        //       currentAvatar: widget.currentAvatar,
+                        //       currentName: widget.currentName,
+                        //     ),
+                        //   ),
+                        //   (Route<dynamic> route) => false,
+                        // );
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                        radius: currentHeight / 20,
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: currentHeight / 22,
+                        ),
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Container(
+                        color: Colors.brown,
+                        height: currentHeight / 1.2,
+                        width: currentWidht / 0.8,
+                        margin: const EdgeInsets.all(30),
+                        child: Container(
+                          color: Colors.white,
+                          margin: const EdgeInsets.all(16),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Image.asset(
+                                  'imgs/Fly.jpeg',
+                                  height: currentHeight / 2.4,
+                                  width: currentWidht / 1,
+                                ),
+                                Text(
+                                  'ذبابة',
+                                  style: TextStyle(
+                                      fontSize: currentHeight / 11,
+                                      color: isMatched == true
+                                          ? colorGreen
+                                          : isMatched == false
+                                              ? colorRed
+                                              : Colors.black),
+                                ),
+                                SizedBox(
+                                  height: currentHeight / 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    MaterialButton(
+                                      onPressed: () {
+                                        if (_speechRecognitionAvailable &&
+                                            !_isListening) {
+                                          start();
+                                        }
+                                        null;
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          _isListening
+                                              ? Icons.mic
+                                              : Icons.mic_off,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: currentWidht / 8,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Home(
+                                                      childID: widget.childID,
+                                                      currentAvatar:
+                                                          widget.currentAvatar,
+                                                      currentName:
+                                                          widget.currentName,
+                                                    )),
+                                            (Route<dynamic> route) => false);
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          Icons.home,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: currentWidht / 8,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () => _speak(),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        radius: currentHeight / 16,
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        child: Icon(
+                                          Icons.volume_up,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                      radius: currentHeight / 20,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WordsPage26(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: currentHeight / 22,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void start() => _speech.activate(selectedLang.code).then((_) {
+        return _speech.listen().then((result) {
+          print('_TestSpeechState.start => result $result');
+          setState(() {
+            _isListening = result;
+          });
+        });
+      });
+
+  void onCurrentLocale(String locale) {
+    print('_TestSpeechState.onCurrentLocale... $locale');
+    setState(
+        () => selectedLang = languages.firstWhere((l) => l.code == locale));
+  }
+
+  void onRecognitionStarted() {
+    setState(() => _isListening = true);
+  }
+
+  void onRecognitionResult(String text) async {
+    print('_TestSpeechState.onRecognitionResult... $text');
+
+    setState(() {
+      transcription = text;
+    });
+
+    if (transcription == 'ذبابه' || transcription == 'لبابه') {
+      isMatched = true;
+      correct = true;
+      print('MM:$isMatched');
+      _Next();
+    } else {
+      isMatched = false;
+      wrong = true;
+
+      print('MM:$isMatched');
+    }
+  }
+
+  void onRecognitionComplete(String text) {
+    print('_TestSpeechState.onRecognitionComplete... $text');
+    setState(() => _isListening = false);
+  }
+
+  void errorHandler() => activateSpeechRecognizer();
+
+  void stop() => _speech.stop().then((_) {
+        setState(() => _isListening = false);
+      });
+
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WordsPage28(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      });
+}
+
+class WordsPage28 extends StatefulWidget {
+  final String? childID;
+  final String? currentAvatar;
+  final String? currentName;
+  const WordsPage28(
+      {Key? key, this.childID, this.currentAvatar, this.currentName})
+      : super(key: key);
+
+  @override
+  State<WordsPage28> createState() => _WordsPageState28();
+}
+
+class _WordsPageState28 extends State<WordsPage28> {
+  bool play = false;
+  bool correct = false;
+  bool wrong = false;
+  bool? isMatched;
+  Color colorGreen = Colors.green;
+  Color colorRed = Colors.red;
+
+  late SpeechRecognition _speech;
+
+  bool _speechRecognitionAvailable = false;
+  bool _isListening = false;
+  var transcription = '';
+
+  // String _currentLocale = 'en_US';
+  Language selectedLang = languages.first;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  late FlutterTts flutterTts;
+  String? language;
+  String? engine;
+  double volume = 1.5;
+  double pitch = 1.0;
+  double rate = 0.5;
+  bool isCurrentLanguageInstalled = false;
+
+  String? word = 'رُمّانْ';
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+  get isStopped => ttsState == TtsState.stopped;
+  get isContinued => ttsState == TtsState.continued;
+  bool get isAndroid => !kIsWeb && Platform.isAndroid;
+
+  @override
+  initState() {
+    setState(() {
+      play = true;
+    });
+    activateSpeechRecognizer();
+    initTts();
+    super.initState();
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  void activateSpeechRecognizer() {
+    print('_TestSpeechState.activateSpeechRecognizer... ');
+    _speech = SpeechRecognition();
+    _speech.setRecognitionStartedHandler(onRecognitionStarted);
+    _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
+    _speech.setErrorHandler(errorHandler);
+
+    _speech.activate('ar_Ar').then((res) {
+      setState(() => _speechRecognitionAvailable = res);
+    });
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    _setAwaitOptions();
+
+    if (isAndroid) {
+      _getDefaultVoice();
+    }
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("Playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    if (isAndroid) {
+      flutterTts.setInitHandler(() {
+        setState(() {
+          print("TTS Initialized");
+        });
+      });
+    }
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setContinueHandler(() {
+      setState(() {
+        print("Continued");
+        ttsState = TtsState.continued;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future<dynamic> _getLanguages() async => await flutterTts.getLanguages;
+
+  Future _getDefaultVoice() async {
+    var voice = await flutterTts.getDefaultVoice;
+    if (voice != null) {
+      print(voice);
+    }
+  }
+
+  Future _speak() async {
+    await flutterTts.setVolume(volume = 1.5);
+    await flutterTts.setSpeechRate(rate = 0.4);
+    await flutterTts.setPitch(pitch = 1);
+    await flutterTts.setLanguage('ar');
+
+    if (word != null) {
+      if (word!.isNotEmpty) {
+        await flutterTts.speak(word!);
+      }
+    }
+  }
+
+  Future _setAwaitOptions() async {
+    await flutterTts.awaitSpeakCompletion(true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    flutterTts.stop();
+  }
+
+  List<DropdownMenuItem<String>> getEnginesDropDownMenuItems(dynamic engines) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in engines) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  List<DropdownMenuItem<String>> getLanguageDropDownMenuItems(
+      dynamic languages) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in languages) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  void changedLanguageDropDownItem(String? selectedType) {
+    setState(() {
+      language = 'name: ar-xa-x-arz-local, locale: ar';
+      flutterTts.setLanguage('ar');
+      if (isAndroid) {
+        flutterTts
+            .isLanguageInstalled(language!)
+            .then((value) => isCurrentLanguageInstalled = (value as bool));
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    //these lines of code to make the screen in horizontal state
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+
+    final double currentHeight = MediaQuery.of(context).size.height;
+    final double currentWidht = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Scaffold(
+        body: AudioWidget.assets(
+          path: 'audios/CORRECT.mp3',
+          play: correct,
+          child: Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('imgs/guarden.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: double.infinity,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WordsPage29(
+                              childID: widget.childID,
+                              currentAvatar: widget.currentAvatar,
+                              currentName: widget.currentName,
+                            ),
+                          ),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                        radius: currentHeight / 20,
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: currentHeight / 22,
+                        ),
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Container(
+                        color: Colors.brown,
+                        height: currentHeight / 1.2,
+                        width: currentWidht / 0.8,
+                        margin: const EdgeInsets.all(30),
+                        child: Container(
+                          color: Colors.white,
+                          margin: const EdgeInsets.all(16),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Image.asset(
+                                  'imgs/Pomegranate.jpeg',
+                                  height: currentHeight / 2.4,
+                                  width: currentWidht / 1,
+                                ),
+                                Text(
+                                  'رمان',
+                                  style: TextStyle(
+                                      fontSize: currentHeight / 11,
+                                      color: isMatched == true
+                                          ? colorGreen
+                                          : isMatched == false
+                                              ? colorRed
+                                              : Colors.black),
+                                ),
+                                SizedBox(
+                                  height: currentHeight / 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    MaterialButton(
+                                      onPressed: () {
+                                        if (_speechRecognitionAvailable &&
+                                            !_isListening) {
+                                          start();
+                                        }
+                                        null;
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          _isListening
+                                              ? Icons.mic
+                                              : Icons.mic_off,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: currentWidht / 8,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Home(
+                                                      childID: widget.childID,
+                                                      currentAvatar:
+                                                          widget.currentAvatar,
+                                                      currentName:
+                                                          widget.currentName,
+                                                    )),
+                                            (Route<dynamic> route) => false);
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          Icons.home,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: currentWidht / 8,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () => _speak(),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        radius: currentHeight / 16,
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        child: Icon(
+                                          Icons.volume_up,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                      radius: currentHeight / 20,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WordsPage26(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: currentHeight / 22,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void start() => _speech.activate(selectedLang.code).then((_) {
+        return _speech.listen().then((result) {
+          print('_TestSpeechState.start => result $result');
+          setState(() {
+            _isListening = result;
+          });
+        });
+      });
+
+  void onCurrentLocale(String locale) {
+    print('_TestSpeechState.onCurrentLocale... $locale');
+    setState(
+        () => selectedLang = languages.firstWhere((l) => l.code == locale));
+  }
+
+  void onRecognitionStarted() {
+    setState(() => _isListening = true);
+  }
+
+  void onRecognitionResult(String text) async {
+    print('_TestSpeechState.onRecognitionResult... $text');
+
+    setState(() {
+      transcription = text;
+    });
+
+    if (transcription == 'رمان') {
+      isMatched = true;
+      correct = true;
+      print('MM:$isMatched');
+      _Next();
+    } else {
+      isMatched = false;
+      wrong = true;
+
+      print('MM:$isMatched');
+    }
+  }
+
+  void onRecognitionComplete(String text) {
+    print('_TestSpeechState.onRecognitionComplete... $text');
+    setState(() => _isListening = false);
+  }
+
+  void errorHandler() => activateSpeechRecognizer();
+
+  void stop() => _speech.stop().then((_) {
+        setState(() => _isListening = false);
+      });
+
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WordsPage29(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      });
+}
+
+class WordsPage29 extends StatefulWidget {
+  final String? childID;
+  final String? currentAvatar;
+  final String? currentName;
+  const WordsPage29(
+      {Key? key, this.childID, this.currentAvatar, this.currentName})
+      : super(key: key);
+
+  @override
+  State<WordsPage29> createState() => _WordsPageState29();
+}
+
+class _WordsPageState29 extends State<WordsPage29> {
+  bool play = false;
+  bool correct = false;
+  bool wrong = false;
+  bool? isMatched;
+  Color colorGreen = Colors.green;
+  Color colorRed = Colors.red;
+
+  late SpeechRecognition _speech;
+
+  bool _speechRecognitionAvailable = false;
+  bool _isListening = false;
+  var transcription = '';
+
+  // String _currentLocale = 'en_US';
+  Language selectedLang = languages.first;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  late FlutterTts flutterTts;
+  String? language;
+  String? engine;
+  double volume = 1.5;
+  double pitch = 1.0;
+  double rate = 0.5;
+  bool isCurrentLanguageInstalled = false;
+
+  String? word = 'رِيشَهْ';
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+  get isStopped => ttsState == TtsState.stopped;
+  get isContinued => ttsState == TtsState.continued;
+  bool get isAndroid => !kIsWeb && Platform.isAndroid;
+
+  @override
+  initState() {
+    setState(() {
+      play = true;
+    });
+    activateSpeechRecognizer();
+    initTts();
+    super.initState();
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  void activateSpeechRecognizer() {
+    print('_TestSpeechState.activateSpeechRecognizer... ');
+    _speech = SpeechRecognition();
+    _speech.setRecognitionStartedHandler(onRecognitionStarted);
+    _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
+    _speech.setErrorHandler(errorHandler);
+
+    _speech.activate('ar_Ar').then((res) {
+      setState(() => _speechRecognitionAvailable = res);
+    });
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    _setAwaitOptions();
+
+    if (isAndroid) {
+      _getDefaultVoice();
+    }
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("Playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    if (isAndroid) {
+      flutterTts.setInitHandler(() {
+        setState(() {
+          print("TTS Initialized");
+        });
+      });
+    }
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setContinueHandler(() {
+      setState(() {
+        print("Continued");
+        ttsState = TtsState.continued;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future<dynamic> _getLanguages() async => await flutterTts.getLanguages;
+
+  Future _getDefaultVoice() async {
+    var voice = await flutterTts.getDefaultVoice;
+    if (voice != null) {
+      print(voice);
+    }
+  }
+
+  Future _speak() async {
+    await flutterTts.setVolume(volume = 1.5);
+    await flutterTts.setSpeechRate(rate = 0.4);
+    await flutterTts.setPitch(pitch = 1);
+    await flutterTts.setLanguage('ar');
+
+    if (word != null) {
+      if (word!.isNotEmpty) {
+        await flutterTts.speak(word!);
+      }
+    }
+  }
+
+  Future _setAwaitOptions() async {
+    await flutterTts.awaitSpeakCompletion(true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    flutterTts.stop();
+  }
+
+  List<DropdownMenuItem<String>> getEnginesDropDownMenuItems(dynamic engines) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in engines) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  List<DropdownMenuItem<String>> getLanguageDropDownMenuItems(
+      dynamic languages) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in languages) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  void changedLanguageDropDownItem(String? selectedType) {
+    setState(() {
+      language = 'name: ar-xa-x-arz-local, locale: ar';
+      flutterTts.setLanguage('ar');
+      if (isAndroid) {
+        flutterTts
+            .isLanguageInstalled(language!)
+            .then((value) => isCurrentLanguageInstalled = (value as bool));
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    //these lines of code to make the screen in horizontal state
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+
+    final double currentHeight = MediaQuery.of(context).size.height;
+    final double currentWidht = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Scaffold(
+        body: AudioWidget.assets(
+          path: 'audios/CORRECT.mp3',
+          play: correct,
+          child: Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('imgs/guarden.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: double.infinity,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WordsPage30(
+                              childID: widget.childID,
+                              currentAvatar: widget.currentAvatar,
+                              currentName: widget.currentName,
+                            ),
+                          ),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                        radius: currentHeight / 20,
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: currentHeight / 22,
+                        ),
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Container(
+                        color: Colors.brown,
+                        height: currentHeight / 1.2,
+                        width: currentWidht / 0.8,
+                        margin: const EdgeInsets.all(30),
+                        child: Container(
+                          color: Colors.white,
+                          margin: const EdgeInsets.all(16),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Image.asset(
+                                  'imgs/Feather.jpeg',
+                                  height: currentHeight / 2.4,
+                                  width: currentWidht / 1,
+                                ),
+                                Text(
+                                  'ريشة',
+                                  style: TextStyle(
+                                      fontSize: currentHeight / 11,
+                                      color: isMatched == true
+                                          ? colorGreen
+                                          : isMatched == false
+                                              ? colorRed
+                                              : Colors.black),
+                                ),
+                                SizedBox(
+                                  height: currentHeight / 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    MaterialButton(
+                                      onPressed: () {
+                                        if (_speechRecognitionAvailable &&
+                                            !_isListening) {
+                                          start();
+                                        }
+                                        null;
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          _isListening
+                                              ? Icons.mic
+                                              : Icons.mic_off,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: currentWidht / 8,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Home(
+                                                      childID: widget.childID,
+                                                      currentAvatar:
+                                                          widget.currentAvatar,
+                                                      currentName:
+                                                          widget.currentName,
+                                                    )),
+                                            (Route<dynamic> route) => false);
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          Icons.home,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: currentWidht / 8,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () => _speak(),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        radius: currentHeight / 16,
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        child: Icon(
+                                          Icons.volume_up,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                      radius: currentHeight / 20,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WordsPage28(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: currentHeight / 22,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void start() => _speech.activate(selectedLang.code).then((_) {
+        return _speech.listen().then((result) {
+          print('_TestSpeechState.start => result $result');
+          setState(() {
+            _isListening = result;
+          });
+        });
+      });
+
+  void onCurrentLocale(String locale) {
+    print('_TestSpeechState.onCurrentLocale... $locale');
+    setState(
+        () => selectedLang = languages.firstWhere((l) => l.code == locale));
+  }
+
+  void onRecognitionStarted() {
+    setState(() => _isListening = true);
+  }
+
+  void onRecognitionResult(String text) async {
+    print('_TestSpeechState.onRecognitionResult... $text');
+
+    setState(() {
+      transcription = text;
+    });
+
+    if (transcription == 'ريشه') {
+      isMatched = true;
+      correct = true;
+      print('MM:$isMatched');
+      _Next();
+    } else {
+      isMatched = false;
+      wrong = true;
+
+      print('MM:$isMatched');
+    }
+  }
+
+  void onRecognitionComplete(String text) {
+    print('_TestSpeechState.onRecognitionComplete... $text');
+    setState(() => _isListening = false);
+  }
+
+  void errorHandler() => activateSpeechRecognizer();
+
+  void stop() => _speech.stop().then((_) {
+        setState(() => _isListening = false);
+      });
+
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WordsPage30(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      });
+}
+
+class WordsPage30 extends StatefulWidget {
+  final String? childID;
+  final String? currentAvatar;
+  final String? currentName;
+  const WordsPage30(
+      {Key? key, this.childID, this.currentAvatar, this.currentName})
+      : super(key: key);
+
+  @override
+  State<WordsPage30> createState() => _WordsPageState30();
+}
+
+class _WordsPageState30 extends State<WordsPage30> {
+  bool play = false;
+  bool correct = false;
+  bool wrong = false;
+  bool? isMatched;
+  Color colorGreen = Colors.green;
+  Color colorRed = Colors.red;
+
+  late SpeechRecognition _speech;
+
+  bool _speechRecognitionAvailable = false;
+  bool _isListening = false;
+  var transcription = '';
+
+  // String _currentLocale = 'en_US';
+  Language selectedLang = languages.first;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  late FlutterTts flutterTts;
+  String? language;
+  String? engine;
+  double volume = 1.5;
+  double pitch = 1.0;
+  double rate = 0.5;
+  bool isCurrentLanguageInstalled = false;
+
+  String? word = 'رَجُلْ';
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+  get isStopped => ttsState == TtsState.stopped;
+  get isContinued => ttsState == TtsState.continued;
+  bool get isAndroid => !kIsWeb && Platform.isAndroid;
+
+  @override
+  initState() {
+    setState(() {
+      play = true;
+    });
+    activateSpeechRecognizer();
+    initTts();
+    super.initState();
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  void activateSpeechRecognizer() {
+    print('_TestSpeechState.activateSpeechRecognizer... ');
+    _speech = SpeechRecognition();
+    _speech.setRecognitionStartedHandler(onRecognitionStarted);
+    _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
+    _speech.setErrorHandler(errorHandler);
+
+    _speech.activate('ar_Ar').then((res) {
+      setState(() => _speechRecognitionAvailable = res);
+    });
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    _setAwaitOptions();
+
+    if (isAndroid) {
+      _getDefaultVoice();
+    }
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("Playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    if (isAndroid) {
+      flutterTts.setInitHandler(() {
+        setState(() {
+          print("TTS Initialized");
+        });
+      });
+    }
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setContinueHandler(() {
+      setState(() {
+        print("Continued");
+        ttsState = TtsState.continued;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future<dynamic> _getLanguages() async => await flutterTts.getLanguages;
+
+  Future _getDefaultVoice() async {
+    var voice = await flutterTts.getDefaultVoice;
+    if (voice != null) {
+      print(voice);
+    }
+  }
+
+  Future _speak() async {
+    await flutterTts.setVolume(volume = 1.5);
+    await flutterTts.setSpeechRate(rate = 0.4);
+    await flutterTts.setPitch(pitch = 1);
+    await flutterTts.setLanguage('ar');
+
+    if (word != null) {
+      if (word!.isNotEmpty) {
+        await flutterTts.speak(word!);
+      }
+    }
+  }
+
+  Future _setAwaitOptions() async {
+    await flutterTts.awaitSpeakCompletion(true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    flutterTts.stop();
+  }
+
+  List<DropdownMenuItem<String>> getEnginesDropDownMenuItems(dynamic engines) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in engines) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  List<DropdownMenuItem<String>> getLanguageDropDownMenuItems(
+      dynamic languages) {
+    var items = <DropdownMenuItem<String>>[];
+    for (dynamic type in languages) {
+      items.add(DropdownMenuItem(
+          value: type as String?, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  void changedLanguageDropDownItem(String? selectedType) {
+    setState(() {
+      language = 'name: ar-xa-x-arz-local, locale: ar';
+      flutterTts.setLanguage('ar');
+      if (isAndroid) {
+        flutterTts
+            .isLanguageInstalled(language!)
+            .then((value) => isCurrentLanguageInstalled = (value as bool));
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    //these lines of code to make the screen in horizontal state
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+
+    final double currentHeight = MediaQuery.of(context).size.height;
+    final double currentWidht = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Scaffold(
+        body: AudioWidget.assets(
+          path: 'audios/CORRECT.mp3',
+          play: correct,
+          child: Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('imgs/guarden.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: double.infinity,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.pushAndRemoveUntil(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => WordsPage31(
+                        //       childID: widget.childID,
+                        //       currentAvatar: widget.currentAvatar,
+                        //       currentName: widget.currentName,
+                        //     ),
+                        //   ),
+                        //   (Route<dynamic> route) => false,
+                        // );
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                        radius: currentHeight / 20,
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: currentHeight / 22,
+                        ),
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Container(
+                        color: Colors.brown,
+                        height: currentHeight / 1.2,
+                        width: currentWidht / 0.8,
+                        margin: const EdgeInsets.all(30),
+                        child: Container(
+                          color: Colors.white,
+                          margin: const EdgeInsets.all(16),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Image.asset(
+                                  'imgs/Man.jpeg',
+                                  height: currentHeight / 2.4,
+                                  width: currentWidht / 1,
+                                ),
+                                Text(
+                                  'رجل',
+                                  style: TextStyle(
+                                      fontSize: currentHeight / 11,
+                                      color: isMatched == true
+                                          ? colorGreen
+                                          : isMatched == false
+                                              ? colorRed
+                                              : Colors.black),
+                                ),
+                                SizedBox(
+                                  height: currentHeight / 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    MaterialButton(
+                                      onPressed: () {
+                                        if (_speechRecognitionAvailable &&
+                                            !_isListening) {
+                                          start();
+                                        }
+                                        null;
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          _isListening
+                                              ? Icons.mic
+                                              : Icons.mic_off,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: currentWidht / 8,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Home(
+                                                      childID: widget.childID,
+                                                      currentAvatar:
+                                                          widget.currentAvatar,
+                                                      currentName:
+                                                          widget.currentName,
+                                                    )),
+                                            (Route<dynamic> route) => false);
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        radius: currentHeight / 16,
+                                        child: Icon(
+                                          Icons.home,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: currentWidht / 8,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () => _speak(),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                      splashColor: Colors.amber,
+                                      child: CircleAvatar(
+                                        radius: currentHeight / 16,
+                                        backgroundColor: const Color.fromRGBO(
+                                            245, 171, 0, 1),
+                                        child: Icon(
+                                          Icons.volume_up,
+                                          color: Colors.white,
+                                          size: currentHeight / 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                      radius: currentHeight / 20,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WordsPage29(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: currentHeight / 22,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void start() => _speech.activate(selectedLang.code).then((_) {
+        return _speech.listen().then((result) {
+          print('_TestSpeechState.start => result $result');
+          setState(() {
+            _isListening = result;
+          });
+        });
+      });
+
+  void onCurrentLocale(String locale) {
+    print('_TestSpeechState.onCurrentLocale... $locale');
+    setState(
+        () => selectedLang = languages.firstWhere((l) => l.code == locale));
+  }
+
+  void onRecognitionStarted() {
+    setState(() => _isListening = true);
+  }
+
+  void onRecognitionResult(String text) async {
+    print('_TestSpeechState.onRecognitionResult... $text');
+
+    setState(() {
+      transcription = text;
+    });
+
+    if (transcription == 'رجل') {
+      isMatched = true;
+      correct = true;
+      print('MM:$isMatched');
+      //_Next();
     } else {
       isMatched = false;
       wrong = true;
@@ -11290,7 +13550,7 @@ class _WordsPageState25 extends State<WordsPage25> {
   //       Navigator.pushAndRemoveUntil(
   //         context,
   //         MaterialPageRoute(
-  //           builder: (context) => WordsPage25(
+  //           builder: (context) => WordsPage31(
   //             childID: widget.childID,
   //             currentAvatar: widget.currentAvatar,
   //             currentName: widget.currentName,
