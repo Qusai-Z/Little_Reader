@@ -20,12 +20,12 @@ class _TTSState extends State<TTS> {
   late FlutterTts flutterTts;
   String? language;
   String? engine;
-  double volume = 0.5;
-  double pitch = 1.0;
-  double rate = 0.5;
+  late double volume;
+  late double pitch;
+  late double rate;
   bool isCurrentLanguageInstalled = false;
 
-  String? word = 'أَسَدْ';
+  String word = 'أَسَدْ';
 
   TtsState ttsState = TtsState.stopped;
 
@@ -96,15 +96,11 @@ class _TTSState extends State<TTS> {
   }
 
   Future _speak() async {
-    await flutterTts.setVolume(volume);
-    await flutterTts.setSpeechRate(rate);
-    await flutterTts.setPitch(pitch);
+    await flutterTts.setVolume(volume = 1);
+    await flutterTts.setSpeechRate(rate = 0.5);
+    await flutterTts.setPitch(pitch = 0.5);
 
-    if (word != null) {
-      if (word!.isNotEmpty) {
-        await flutterTts.speak(word!);
-      }
-    }
+    await flutterTts.speak(word);
   }
 
   Future _setAwaitOptions() async {
@@ -168,7 +164,7 @@ class _TTSState extends State<TTS> {
   Widget Word() => Container(
       alignment: Alignment.topCenter,
       padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-      child: Text(word!));
+      child: Text(word));
 
   Widget _btnSection() {
     return Container(

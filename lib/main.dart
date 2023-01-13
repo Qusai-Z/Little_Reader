@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: TTS(), //isLoggedIn == true ? const Accounts() : const FirstPage(),
+      home: isLoggedIn == true ? const Accounts() : const FirstPage(),
       routes: {
         FirstPage.ScreenRoute: (context) => const FirstPage(),
         SignIn.ScreenRoute: (context) => const SignIn(),
@@ -46,11 +46,7 @@ class MyApp extends StatelessWidget {
         ForgetPass.ScreenRoute: (context) => const ForgetPass(),
         InfEntry.ScreenRoute: (context) => const InfEntry(email: ''),
         AddChild.ScreenRoute: (context) => const AddChild(),
-
         LettersPage.ScreenRoute: (context) => const LettersPage(),
-
-        // WordsPage.ScreenRoute: (context) => WordsPage(),
-
         LettersPage2.ScreenRoute: (context) => const LettersPage2(),
       },
     );
