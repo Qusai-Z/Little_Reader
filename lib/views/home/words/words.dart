@@ -6367,7 +6367,7 @@ class _WordsPageState15 extends State<WordsPage15> {
   double rate = 0.5;
   bool isCurrentLanguageInstalled = false;
 
-  String? word = 'جَرَسْ';
+  String? word = 'جَوافهْ';
 
   TtsState ttsState = TtsState.stopped;
 
@@ -6581,12 +6581,12 @@ class _WordsPageState15 extends State<WordsPage15> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Image.asset(
-                                  'imgs/Bell.jpeg',
+                                  'imgs/Guava.jpeg',
                                   height: currentHeight / 2.4,
                                   width: currentWidht / 1,
                                 ),
                                 Text(
-                                  'جرس',
+                                  'جوافة',
                                   style: TextStyle(
                                       fontSize: currentHeight / 11,
                                       color: isMatched == true
@@ -6742,7 +6742,7 @@ class _WordsPageState15 extends State<WordsPage15> {
       transcription = text;
     });
 
-    if (transcription == 'جرس') {
+    if (transcription == 'جوافه') {
       isMatched = true;
       correct = true;
       print('MM:$isMatched');
