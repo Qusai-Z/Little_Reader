@@ -15,7 +15,7 @@ final _auth = FirebaseAuth.instance;
 class AddChild extends StatefulWidget {
   // ignore: constant_identifier_names
   static const String ScreenRoute = 'add_child';
-    final String? childID;
+  final String? childID;
   final String? currentAvatar;
   final String? currentName;
 
@@ -25,7 +25,6 @@ class AddChild extends StatefulWidget {
     this.currentAvatar,
     this.currentName,
   }) : super(key: key);
-
 
   @override
   State<AddChild> createState() => _AddChildState();
@@ -267,6 +266,9 @@ class _AddChildState extends State<AddChild> {
                                                         const EdgeInsets.all(
                                                             20.0),
                                                     child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
                                                       children: [
                                                         Row(
                                                           mainAxisAlignment:
@@ -1323,7 +1325,6 @@ class ChildrenList extends StatelessWidget {
   ///////////////////////////////////////////////
   ///
   ///
-
   ChildrenList(
       {Key? key,
       required this.childName,
