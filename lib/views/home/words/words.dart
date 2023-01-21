@@ -29816,7 +29816,7 @@ class _WordsPageState66 extends State<WordsPage66> {
             builder: (context) => Congrats(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
-              currentName: widget.currentName,
+              currentName: widget.currentName,         
             ),
           ),
           (Route<dynamic> route) => false,
