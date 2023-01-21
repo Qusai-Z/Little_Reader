@@ -15,6 +15,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
+import '../letters/letters.dart';
+
 const languages = const [
   const Language('Arabic', 'ar-Ar'),
 ];
@@ -29787,6 +29789,7 @@ class _WordsPageState66 extends State<WordsPage66> {
     if (transcription == 'يقطين') {
       isMatched = true;
       correct = true;
+      _Next();
       print('MM:$isMatched');
     } else {
       isMatched = false;
@@ -29805,5 +29808,18 @@ class _WordsPageState66 extends State<WordsPage66> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Congrats(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }

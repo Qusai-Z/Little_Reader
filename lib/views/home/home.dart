@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -111,25 +112,31 @@ class _HomeState extends State<Home> {
               const SizedBox(
                 width: 50,
               ),
-              IconButton(
-                onPressed: () {
-                  setState(
-                    () {
-                      if (_play == true) {
-                        _play = false;
-                      } else {
-                        if (_play == false) {
-                          _play = true;
+              AudioWidget.assets(
+                loopMode: LoopMode.playlist,
+                path: "audios/ONSHOODA.mp3",
+                volume: 0.7,
+                play: _play,
+                child: IconButton(
+                  onPressed: () {
+                    setState(
+                      () {
+                        if (_play == true) {
+                          _play = false;
+                        } else {
+                          if (_play == false) {
+                            _play = true;
+                          }
                         }
-                      }
-                    },
-                  );
-                },
-                icon: Icon(
-                  _play == true ? Icons.music_note : Icons.music_off,
-                  color: const Color.fromRGBO(7, 205, 219, 1),
+                      },
+                    );
+                  },
+                  icon: Icon(
+                    _play == true ? Icons.music_note : Icons.music_off,
+                    color: const Color.fromRGBO(7, 205, 219, 1),
+                  ),
+                  iconSize: currentHeight / 16,
                 ),
-                iconSize: currentHeight / 16,
               ),
             ],
           ),

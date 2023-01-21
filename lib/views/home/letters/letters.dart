@@ -306,6 +306,7 @@ class _LettersPageState extends State<LettersPage> {
     if (transcription == 'الف') {
       isMatched = true;
       correct = true;
+      _Next();
       print('MM:$isMatched');
     } else {
       isMatched = false;
@@ -324,6 +325,19 @@ class _LettersPageState extends State<LettersPage> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage2(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -642,6 +656,7 @@ class _LettersPageState2 extends State<LettersPage2> {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -663,6 +678,19 @@ class _LettersPageState2 extends State<LettersPage2> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage3(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -940,6 +968,9 @@ class _LettersPageState3 extends State<LettersPage3> {
           print('_TestSpeechState.start => result $result');
           setState(() {
             _isListening = result;
+            isMatched = true;
+            correct = true;
+            _Next();
           });
         });
       });
@@ -960,21 +991,6 @@ class _LettersPageState3 extends State<LettersPage3> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription.trim() == 'تاء' || transcription.trim() == 'ت') {
-      setState(() {
-        isMatched = true;
-        correct = true;
-        print('MM:$isMatched');
-      });
-    } else {
-      setState(() {
-        isMatched = false;
-        wrong = true;
-
-        print('MM:$isMatched');
-      });
-    }
   }
 
   void onRecognitionComplete(String text) {
@@ -986,6 +1002,19 @@ class _LettersPageState3 extends State<LettersPage3> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage4(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -1273,6 +1302,9 @@ class _LettersPageState4 extends State<LettersPage4> {
           print('_TestSpeechState.start => result $result');
           setState(() {
             _isListening = result;
+            isMatched = true;
+            correct = true;
+            _Next();
           });
         });
       });
@@ -1293,21 +1325,6 @@ class _LettersPageState4 extends State<LettersPage4> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription.trim() != 'ث') {
-      setState(() {
-        isMatched = true;
-        correct = true;
-        print('MM:$isMatched');
-      });
-    } else {
-      setState(() {
-        isMatched = false;
-        wrong = true;
-
-        print('MM:$isMatched');
-      });
-    }
   }
 
   void onRecognitionComplete(String text) {
@@ -1319,6 +1336,19 @@ class _LettersPageState4 extends State<LettersPage4> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage5(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -1631,6 +1661,7 @@ class _LettersPageState5 extends State<LettersPage5> {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -1652,6 +1683,19 @@ class _LettersPageState5 extends State<LettersPage5> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage6(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -1969,6 +2013,7 @@ class _LettersPageState6 extends State<LettersPage6> {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -1990,6 +2035,19 @@ class _LettersPageState6 extends State<LettersPage6> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage7(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -2302,6 +2360,7 @@ class _LettersPageState7 extends State<LettersPage7> {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -2323,6 +2382,19 @@ class _LettersPageState7 extends State<LettersPage7> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage8(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -2638,6 +2710,7 @@ class _LettersPageState8 extends State<LettersPage8> {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -2659,6 +2732,19 @@ class _LettersPageState8 extends State<LettersPage8> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage9(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -2974,6 +3060,7 @@ class _LettersPageState9 extends State<LettersPage9> {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -2995,6 +3082,19 @@ class _LettersPageState9 extends State<LettersPage9> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage10(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -3307,6 +3407,7 @@ class _LettersPageState10 extends State<LettersPage10> {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -3328,6 +3429,19 @@ class _LettersPageState10 extends State<LettersPage10> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage11(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -3637,12 +3751,14 @@ class _LettersPageState11 extends State<LettersPage11> {
     });
 
     if (transcription.trim() == 'زاي' ||
+        transcription.trim() == 'زايد' ||
         transcription.trim() == 'جاي' ||
         transcription.trim() == 'زي' ||
         transcription.trim() == 'زين') {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -3664,6 +3780,19 @@ class _LettersPageState11 extends State<LettersPage11> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage12(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -3973,11 +4102,13 @@ class _LettersPageState12 extends State<LettersPage12> {
     });
 
     if (transcription.trim() == 'سين' ||
+        transcription.trim() == 'فين' ||
         transcription.trim() == 'حسين' ||
         transcription.trim() == 'س') {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -3999,6 +4130,19 @@ class _LettersPageState12 extends State<LettersPage12> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage13(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -4313,6 +4457,7 @@ class _LettersPageState13 extends State<LettersPage13> {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -4334,6 +4479,19 @@ class _LettersPageState13 extends State<LettersPage13> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage14(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -4646,6 +4804,7 @@ class _LettersPageState14 extends State<LettersPage14> {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -4667,6 +4826,19 @@ class _LettersPageState14 extends State<LettersPage14> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage15(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -4981,6 +5153,7 @@ class _LettersPageState15 extends State<LettersPage15> {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -5002,6 +5175,19 @@ class _LettersPageState15 extends State<LettersPage15> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage16(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -5295,6 +5481,9 @@ class _LettersPageState16 extends State<LettersPage16> {
           print('_TestSpeechState.start => result $result');
           setState(() {
             _isListening = result;
+            isMatched = true;
+            correct = true;
+            _Next();
 
             print('MM:$isMatched');
           });
@@ -5317,20 +5506,6 @@ class _LettersPageState16 extends State<LettersPage16> {
     setState(() {
       transcription = text;
     });
-    if (transcription.trim() == 'ط' || transcription.trim() == 'طاء') {
-      setState(() {
-        isMatched = true;
-        correct = true;
-        print('MM:$isMatched');
-      });
-    } else {
-      setState(() {
-        isMatched = false;
-        wrong = true;
-
-        print('MM:$isMatched');
-      });
-    }
   }
 
   void onRecognitionComplete(String text) {
@@ -5342,6 +5517,19 @@ class _LettersPageState16 extends State<LettersPage16> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage17(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -5631,6 +5819,7 @@ class _LettersPageState17 extends State<LettersPage17> {
 
             isMatched = true;
             correct = true;
+            _Next();
             print('MM:$isMatched');
           });
         });
@@ -5663,6 +5852,19 @@ class _LettersPageState17 extends State<LettersPage17> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage18(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -5976,6 +6178,7 @@ class _LettersPageState18 extends State<LettersPage18> {
         isMatched = true;
         correct = true;
         print('MM:$isMatched');
+        _Next();
       });
     } else {
       setState(() {
@@ -5996,6 +6199,19 @@ class _LettersPageState18 extends State<LettersPage18> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage19(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -6312,6 +6528,7 @@ class _LettersPageState19 extends State<LettersPage19> {
         isMatched = true;
         correct = true;
         print('MM:$isMatched');
+        _Next();
       });
     } else {
       setState(() {
@@ -6332,6 +6549,19 @@ class _LettersPageState19 extends State<LettersPage19> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage20(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -6620,6 +6850,7 @@ class _LettersPageState20 extends State<LettersPage20> {
 
             isMatched = true;
             correct = true;
+            _Next();
             print('MM:$isMatched');
           });
         });
@@ -6652,6 +6883,19 @@ class _LettersPageState20 extends State<LettersPage20> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage21(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -6857,7 +7101,7 @@ class _LettersPageState21 extends State<LettersPage21> {
                                         width: currentWidht / 8,
                                       ),
                                       AudioWidget.assets(
-                                        path: 'audios/QA2.mp3',
+                                        path: 'audios/QAF.mp3',
                                         play: play,
                                         child: MaterialButton(
                                           onPressed: () {
@@ -6965,6 +7209,7 @@ class _LettersPageState21 extends State<LettersPage21> {
         isMatched = true;
         correct = true;
         print('MM:$isMatched');
+        _Next();
       });
     } else {
       setState(() {
@@ -6985,6 +7230,19 @@ class _LettersPageState21 extends State<LettersPage21> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage22(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -7295,6 +7553,7 @@ class _LettersPageState22 extends State<LettersPage22> {
       setState(() {
         isMatched = true;
         correct = true;
+        _Next();
         print('MM:$isMatched');
       });
     } else {
@@ -7316,6 +7575,19 @@ class _LettersPageState22 extends State<LettersPage22> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage23(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -7627,6 +7899,7 @@ class _LettersPageState23 extends State<LettersPage23> {
         isMatched = true;
         correct = true;
         print('MM:$isMatched');
+        _Next();
       });
     } else {
       setState(() {
@@ -7647,6 +7920,19 @@ class _LettersPageState23 extends State<LettersPage23> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage24(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -7955,6 +8241,7 @@ class _LettersPageState24 extends State<LettersPage24> {
     if (transcription.trim() == 'ميم' || transcription.trim() == 'م') {
       isMatched = true;
       correct = true;
+      _Next();
     } else {
       isMatched = false;
       wrong = true;
@@ -7970,6 +8257,19 @@ class _LettersPageState24 extends State<LettersPage24> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage25(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -8279,6 +8579,7 @@ class _LettersPageState25 extends State<LettersPage25> {
     if (transcription.trim() == 'نون' || transcription.trim() == 'ن') {
       isMatched = true;
       correct = true;
+      _Next();
     } else {
       isMatched = false;
       wrong = true;
@@ -8294,6 +8595,19 @@ class _LettersPageState25 extends State<LettersPage25> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage26(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -8605,6 +8919,7 @@ class _LettersPageState26 extends State<LettersPage26> {
         transcription.trim() == 'ه') {
       isMatched = true;
       correct = true;
+      _Next();
     } else {
       isMatched = false;
       wrong = true;
@@ -8620,6 +8935,19 @@ class _LettersPageState26 extends State<LettersPage26> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage27(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -8929,6 +9257,7 @@ class _LettersPageState27 extends State<LettersPage27> {
     if (transcription.trim() == 'واو' || transcription.trim() == 'و') {
       isMatched = true;
       correct = true;
+      _Next();
     } else {
       isMatched = false;
       wrong = true;
@@ -8944,6 +9273,19 @@ class _LettersPageState27 extends State<LettersPage27> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LettersPage28(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -9241,6 +9583,7 @@ class _LettersPageState28 extends State<LettersPage28> {
     if (transcription.trim() == 'يا') {
       isMatched = true;
       correct = true;
+      _Next();
     } else {
       isMatched = false;
       wrong = true;
@@ -9257,4 +9600,129 @@ class _LettersPageState28 extends State<LettersPage28> {
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
       });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Congrats(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      });
+}
+
+class Congrats extends StatefulWidget {
+  final String? childID;
+  final String? currentAvatar;
+  final String? currentName;
+  const Congrats({Key? key, this.childID, this.currentAvatar, this.currentName})
+      : super(key: key);
+
+  @override
+  State<Congrats> createState() => _Congrats();
+}
+
+class _Congrats extends State<Congrats> {
+  bool _play = false;
+
+  @override
+  initState() {
+    setState(() {
+      _play = true;
+    });
+    super.initState();
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    //these lines of code to make the screen in horizontal state
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+
+    final double currentHeight = MediaQuery.of(context).size.height;
+    final double currentWidht = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Scaffold(
+        body: AudioWidget.assets(
+          loopMode: LoopMode.none,
+          path: "audios/Cong.mp3",
+          play: _play,
+          child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('imgs/Cong.jpeg'),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: double.infinity,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    SizedBox(height: currentHeight / 6),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'أحسنت',
+                          style: TextStyle(
+                              fontSize: currentHeight / 4, color: Colors.green),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MaterialButton(
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Home(
+                                    childID: widget.childID,
+                                    currentAvatar: widget.currentAvatar,
+                                    currentName: widget.currentName,
+                                  ),
+                                ),
+                                (Route<dynamic> route) => false);
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          splashColor: Colors.amber,
+                          child: CircleAvatar(
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            radius: currentHeight / 16,
+                            child: Icon(
+                              Icons.home,
+                              color: Colors.white,
+                              size: currentHeight / 14,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
