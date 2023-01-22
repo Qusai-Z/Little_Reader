@@ -9657,6 +9657,7 @@ class _Congrats extends State<Congrats> {
           loopMode: LoopMode.none,
           path: "audios/Cong.mp3",
           play: _play,
+          volume: 0.5,
           child: Container(
             decoration: const BoxDecoration(
               image: DecorationImage(

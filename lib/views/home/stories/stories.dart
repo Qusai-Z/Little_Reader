@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:little_reader/views/home/stories/easy/rabbit.dart';
+
+import '../home.dart';
 
 class StoriesPage extends StatefulWidget {
-  final currentAvatar;
+  final String? childID;
+  final String? currentAvatar;
+  final String? currentName;
 
-  const StoriesPage({Key? key, this.currentAvatar}) : super(key: key);
+  const StoriesPage(
+      {Key? key, this.currentAvatar, this.childID, this.currentName})
+      : super(key: key);
 
   @override
   State<StoriesPage> createState() => _StoriesPageState();
@@ -35,7 +42,7 @@ class _StoriesPageState extends State<StoriesPage> {
           Container(
             color: Colors.white,
             child: CircleAvatar(
-              backgroundImage: NetworkImage(widget.currentAvatar),
+              backgroundImage: NetworkImage(widget.currentAvatar!),
               radius: currentHeight / 16,
             ),
           ),
@@ -73,12 +80,14 @@ class _StoriesPageState extends State<StoriesPage> {
                           elevation: 30,
                           splashColor: const Color.fromRGBO(149, 22, 224, 1),
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const storyTest(),
-                            //   ),
-                            // );
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TestSpeech(
+                                        childID: widget.childID,
+                                        currentAvatar: widget.currentAvatar,
+                                        currentName: widget.currentName)),
+                                (Route<dynamic> route) => false);
                           },
                           child: Container(
                             margin: const EdgeInsets.all(10),

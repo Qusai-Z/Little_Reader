@@ -1,163 +1,12 @@
-// import 'dart:convert';
-// import 'dart:ui';
-
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_sound/flutter_sound.dart';
-// import 'package:permission_handler/permission_handler.dart';
-// import 'package:http/http.dart' as http;
-
-// class WordsPage extends StatefulWidget {
-//   static const String ScreenRoute = 'words_page';
-//   WordsPage({Key? key}) : super(key: key);
-
-//   @override
-//   _WordsPageState createState() => _WordsPageState();
-// }
-
-// class _WordsPageState extends State<WordsPage> {
-//   var recorder = FlutterSoundRecorder();
-
-//   var reciever;
-//   String resultText = "";
-
-//   bool isReady = false;
-
-//   Future stop() async {
-//     if (!isReady) return;
-
-//     await recorder.stopRecorder();
-
-//     final url = Uri.parse('https://littlereader.azurewebsites.net/AI_System');
-
-//     final response =
-//         await http.post(url, body: json.encode({'Speech_AI': reciever}));
-//     print('path :   $recorder}');
-//     print('response: $response');
-//   }
-
-//   Future record() async {
-//     if (!isReady) return;
-//     await recorder.startRecorder(toFile: 'audio');
-
-//     setState(() {
-//       reciever = recorder;
-//     });
-//   }
-
-//   Future RecieveAction() async {
-//     final url = Uri.parse('https://littlereader.azurewebsites.net/AI_System');
-
-//     final response = await http.get(url);
-
-//     if (response.body.isNotEmpty) {
-//       final decoded = json.decode(response.body);
-
-//       setState(() {
-//         reciever = decoded['AI_System'];
-//         print('AI_RESPONSE: $reciever');
-//       });
-//     }
-//   }
-
-//   Future initRecorder() async {
-//     final status = await Permission.microphone.request();
-
-//     if (status != PermissionStatus.granted) {
-//       throw 'المايكروفون غير مفعل';
-//     }
-
-//     await recorder.openRecorder();
-
-//     isReady = true;
-
-//     recorder.setSubscriptionDuration(const Duration(milliseconds: 500));
-//   }
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     initRecorder();
-//   }
-
-//   @override
-//   void dispose() {
-//     recorder.closeRecorder();
-
-//     super.dispose();
-//   }
-
-//   /// This has to happen only once per app
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Speech Demo'),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Text(
-//               resultText,
-//               style: const TextStyle(fontSize: 20, color: Colors.black),
-//             ),
-//             StreamBuilder<RecordingDisposition>(
-//               stream: recorder.onProgress,
-//               builder: (context, snapshot) {
-//                 final duration =
-//                     snapshot.hasData ? snapshot.data!.duration : Duration.zero;
-
-//                 return Text('${duration.inSeconds} s');
-//               },
-//             ),
-//             const SizedBox(
-//               height: 40,
-//             ),
-//             ElevatedButton(
-//               onPressed: () async {
-//                 if (recorder.isRecording) {
-//                   await stop();
-//                 } else {
-//                   await record();
-//                 }
-//                 RecieveAction();
-
-//                 setState(() {});
-//               },
-//               child: Icon(recorder.isRecording ? Icons.stop : Icons.mic),
-//             ),
-//             ElevatedButton(
-//               onPressed: () {
-//                 RecieveAction();
-//               },
-//               child: const Text('GET'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// ignore_for_file: unrelated_type_equality_checks
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speech/flutter_speech.dart';
 
-List<String> list = [];
+import '../../home.dart';
 
-void main() {
-  debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-  runApp(TestSpeech());
-}
+List<String> list = [];
 
 const languages = const [
   const Language('Arabic', 'ar-Ar'),
@@ -171,6 +20,10 @@ class Language {
 }
 
 class TestSpeech extends StatefulWidget {
+  final String? childID;
+  final String? currentAvatar;
+  final String? currentName;
+
   bool? correct;
   bool? correct1;
   bool? correct2;
@@ -224,6 +77,13 @@ class TestSpeech extends StatefulWidget {
   bool? isMatched14;
   bool? isMatched15;
   bool? isMatched16;
+
+  TestSpeech(
+      {Key? key,
+      required this.childID,
+      required this.currentAvatar,
+      required this.currentName})
+      : super(key: key);
   @override
   _TestSpeechState createState() => _TestSpeechState();
 }
@@ -252,10 +112,8 @@ class _TestSpeechState extends State<TestSpeech> {
   void activateSpeechRecognizer() {
     print('_TestSpeechState.activateSpeechRecognizer... ');
     _speech = SpeechRecognition();
-    _speech.setAvailabilityHandler(onSpeechAvailability);
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
-    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
     _speech.setErrorHandler(errorHandler);
 
     _speech.activate('ar_Ar').then((res) {
@@ -380,32 +238,22 @@ class _TestSpeechState extends State<TestSpeech> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                    radius: currentHeight / 28,
-                    child: IconButton(
-                      onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   PageTransition(
-                        //       child: const LettersPage2(),
-                        //       duration: const Duration(milliseconds: 120),
-                        //       type: PageTransitionType.leftToRight),
-                        // );
-                      },
-                      icon: Icon(
+                  GestureDetector(
+                    child: CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                      radius: currentHeight / 28,
+                      child: Icon(
                         Icons.arrow_back,
                         color: Colors.white,
                         size: currentHeight / 28,
                       ),
                     ),
                   ),
-                  CircleAvatar(
-                    backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                    radius: currentHeight / 28,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
+                  GestureDetector(
+                    child: CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                      radius: currentHeight / 28,
+                      child: Icon(
                         Icons.arrow_forward,
                         color: Colors.white,
                         size: currentHeight / 28,
@@ -413,6 +261,9 @@ class _TestSpeechState extends State<TestSpeech> {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: currentHeight / 18,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -435,7 +286,7 @@ class _TestSpeechState extends State<TestSpeech> {
                     width: 30,
                   ),
                   GestureDetector(
-                    onTap: _isListening ? () => stop() : null,
+                    onTap: () => stop(),
                     child: CircleAvatar(
                       backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
                       radius: currentHeight / 16,
@@ -450,6 +301,18 @@ class _TestSpeechState extends State<TestSpeech> {
                     width: 30,
                   ),
                   GestureDetector(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Home(
+                              childID: widget.childID,
+                              currentAvatar: widget.currentAvatar,
+                              currentName: widget.currentName,
+                            ),
+                          ),
+                          (Route<dynamic> route) => false);
+                    },
                     child: CircleAvatar(
                       backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
                       radius: currentHeight / 16,
@@ -497,9 +360,6 @@ class _TestSpeechState extends State<TestSpeech> {
     );
   }
 
-  void cancel() =>
-      _speech.cancel().then((_) => setState(() => _isListening = false));
-
   void start() => _speech.activate(selectedLang.code).then((_) {
         return _speech.listen().then((result) {
           print('_TestSpeechState.start => result $result');
@@ -515,16 +375,8 @@ class _TestSpeechState extends State<TestSpeech> {
         () => selectedLang = languages.firstWhere((l) => l.code == locale));
   }
 
-  void onSpeechAvailability(bool result) =>
-      setState(() => _speechRecognitionAvailable = result);
-
   void onRecognitionStarted() {
     setState(() => _isListening = true);
-  }
-
-  void onRecognitionComplete(String text) {
-    print('_MyAppState.onRecognitionComplete... $text');
-    setState(() => _isListening = false);
   }
 
   void onRecognitionResult(String text) async {
@@ -999,6 +851,9 @@ class Content_1 extends StatelessWidget {
               child: Row(
                 textDirection: TextDirection.rtl,
                 children: [
+                  SizedBox(
+                    width: currentHeight / 9,
+                  ),
                   Text(
                     colored_text[13],
                     style: TextStyle(
