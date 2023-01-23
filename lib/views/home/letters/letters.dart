@@ -2,12 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:little_reader/views/home/home.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:flutter_speech/flutter_speech.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 
-const languages = const [
-  const Language('Arabic', 'ar-Ar'),
+const languages = [
+  Language('Arabic', 'ar-Ar'),
 ];
 
 class Language {

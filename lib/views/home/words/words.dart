@@ -5,16 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:little_reader/services/database.dart';
 import 'package:little_reader/views/home/home.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:flutter_speech/flutter_speech.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'dart:async';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
-
-import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-
 import '../letters/letters.dart';
 
 const languages = const [
@@ -29816,7 +29812,7 @@ class _WordsPageState66 extends State<WordsPage66> {
             builder: (context) => Congrats(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
-              currentName: widget.currentName,         
+              currentName: widget.currentName,
             ),
           ),
           (Route<dynamic> route) => false,

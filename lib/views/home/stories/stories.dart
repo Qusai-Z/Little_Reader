@@ -1,11 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:little_reader/views/home/stories/easy/rabbit.dart';
-
-import '../home.dart';
 
 class StoriesPage extends StatefulWidget {
   final String? childID;
@@ -65,7 +60,7 @@ class _StoriesPageState extends State<StoriesPage> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        color: Color.fromARGB(255, 255, 236, 192),
+        color: const Color.fromARGB(255, 255, 236, 192),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -83,7 +78,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => TestSpeech(
+                                    builder: (context) => TandH(
                                         childID: widget.childID,
                                         currentAvatar: widget.currentAvatar,
                                         currentName: widget.currentName)),
@@ -94,7 +89,8 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: NetworkImage(
+                                    'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F1.jpeg?alt=media'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),

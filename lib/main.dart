@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:little_reader/views/home/letters/letters.dart';
-import 'package:little_reader/views/home/stories/easy/rabbit.dart';
 import 'package:little_reader/views/registeration/inf_entry/add_child.dart';
 import 'package:little_reader/views/registeration/inf_entry/inf_entry.dart';
 import 'views/home/stories/hard/test2.dart';
@@ -36,7 +35,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: isLoggedIn == true ? const Accounts() : const FirstPage(),
+      home:
+          const VoiceSearchingDemo(), //isLoggedIn == true ? const Accounts() : const FirstPage(),
       routes: {
         FirstPage.ScreenRoute: (context) => const FirstPage(),
         SignIn.ScreenRoute: (context) => const SignIn(),
