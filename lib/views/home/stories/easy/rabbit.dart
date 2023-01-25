@@ -113,6 +113,7 @@ class _TandHState extends State<TandH> {
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
     _speech.setErrorHandler(errorHandler);
 
     _speech.activate('ar_Ar').then((res) {
@@ -281,29 +282,17 @@ class _TandHState extends State<TandH> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: _speechRecognitionAvailable && !_isListening
-                        ? () => start()
-                        : null,
+                    onTap: () {
+                      if (_speechRecognitionAvailable && !_isListening) {
+                        start();
+                      }
+                      null;
+                    },
                     child: CircleAvatar(
                       backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
                       radius: currentHeight / 16,
                       child: Icon(
                         _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () => stop(),
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.square,
                         color: Colors.white,
                         size: currentHeight / 14,
                       ),
@@ -534,28 +523,35 @@ class _TandHState extends State<TandH> {
     if (my_words[16] != 'والقفز') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
+      _Next();
     } else {
       print('Finished');
-      Future _Next() => Future.delayed(const Duration(seconds: 1), () {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => TandH2(
-                  childID: widget.childID,
-                  currentAvatar: widget.currentAvatar,
-                  currentName: widget.currentName,
-                ),
-              ),
-              (Route<dynamic> route) => false,
-            );
-          });
     }
+  }
+
+  void onRecognitionComplete(String text) {
+    print('_TestSpeechState.onRecognitionComplete... $text');
+    setState(() => _isListening = false);
   }
 
   void errorHandler() => activateSpeechRecognizer();
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TandH2(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -1030,6 +1026,7 @@ class _TandH2State extends State<TandH2> {
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
     _speech.setErrorHandler(errorHandler);
 
     _speech.activate('ar_Ar').then((res) {
@@ -1155,12 +1152,25 @@ class _TandH2State extends State<TandH2> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TandH3(
+                            childID: widget.childID,
+                            currentAvatar: widget.currentAvatar,
+                            currentName: widget.currentName,
+                          ),
+                        ),
+                        (Route<dynamic> route) => false,
+                      );
+                    },
                     child: CircleAvatar(
                       backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
                       radius: currentHeight / 28,
                       child: Icon(
                         Icons.arrow_back,
-                        color: Colors.white,
+                        color: Colors.black,
                         size: currentHeight / 28,
                       ),
                     ),
@@ -1206,21 +1216,6 @@ class _TandH2State extends State<TandH2> {
                       radius: currentHeight / 16,
                       child: Icon(
                         _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () => stop(),
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.square,
                         color: Colors.white,
                         size: currentHeight / 14,
                       ),
@@ -1316,150 +1311,170 @@ class _TandH2State extends State<TandH2> {
     });
     dynamic my_words = text.toString().split(" ");
 
-    if (my_words[0] == 'في') {
+    if (my_words[0] == 'قالت') {
       widget.isMatched = true;
       widget.correct = true;
     }
-    if (my_words[0] != 'في') {
+    if (my_words[0] != 'قالت') {
       widget.isMatched = false;
       widget.wrong = true;
     }
-    if (my_words[1] == 'الغابه') {
+    if (my_words[1] == 'السلحفاه') {
       widget.isMatched1 = true;
       widget.correct1 = true;
     }
-    if (my_words[1] != 'الغابه') {
+    if (my_words[1] != 'السلحفاه') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
     }
-    if (my_words[2] == 'راى') {
+    if (my_words[2] == 'للارنب') {
       widget.isMatched2 = true;
       widget.correct2 = true;
     }
-    if (my_words[2] != 'راى') {
+    if (my_words[2] != 'للارنب') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
     }
-    if (my_words[3] == 'الارنب') {
+    if (my_words[3] == 'المغرور') {
       widget.isMatched3 = true;
       widget.correct3 = true;
     }
-    if (my_words[3] != 'الارنب') {
+    if (my_words[3] != 'المغرور') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
     }
-    if (my_words[4] == 'المغرور') {
+    if (my_words[4] == 'انا') {
       widget.isMatched4 = true;
       widget.correct4 = true;
     }
-    if (my_words[4] != 'المغرور') {
+    if (my_words[4] != 'انا') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
     }
-    if (my_words[5] == 'السلحفاه') {
+    if (my_words[5] == 'بطيئه') {
       widget.isMatched5 = true;
       widget.correct5 = true;
     }
-    if (my_words[5] != 'السلحفاه') {
+    if (my_words[5] != 'بطيئه') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
     }
-    if (my_words[6] == 'فتعجب') {
+    if (my_words[6] == 'المشي') {
       widget.isMatched6 = true;
       widget.correct16 = true;
     }
-    if (my_words[6] != 'فتعجب') {
+    if (my_words[6] != 'المشي') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
     }
-    if (my_words[7] == 'من') {
+    if (my_words[7] == 'ولكني') {
       widget.isMatched7 = true;
       widget.correct7 = true;
     }
-    if (my_words[7] != 'من') {
+    if (my_words[7] != 'ولكني') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
     }
-    if (my_words[8] == 'مشيها') {
+    if (my_words[8] == 'نشيطه') {
       widget.isMatched8 = true;
       widget.correct8 = true;
     }
-    if (my_words[8] != 'مشيها') {
+    if (my_words[8] != 'نشيطه') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
     }
-    if (my_words[9] == 'البطيء') {
+    if (my_words[9] == 'واستطيع') {
       widget.isMatched9 = true;
       widget.correct9 = true;
     }
-    if (my_words[9] != 'البطيء') {
+    if (my_words[9] != 'واستطيع') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
     }
-    if (my_words[10] == 'فهو') {
+    if (my_words[10] == 'انهاء') {
       widget.isMatched10 = true;
       widget.correct10 = true;
     }
-    if (my_words[10] != 'فهو') {
+    if (my_words[10] != 'انهاء') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
     }
-    if (my_words[11] == 'كما') {
+    if (my_words[11] == 'كل') {
       widget.isMatched11 = true;
       widget.correct11 = true;
     }
-    if (my_words[11] != 'كما') {
+    if (my_words[11] != 'كل') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
     }
-    if (my_words[12] == 'نعرف') {
+    if (my_words[12] == 'اعمالي') {
       widget.isMatched12 = true;
       widget.correct12 = true;
     }
-    if (my_words[12] != 'نعرف') {
+    if (my_words[12] != 'اعمالي') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
     }
-    if (my_words[13] == 'سريع') {
+    if (my_words[13] == 'بجد') {
       widget.isMatched13 = true;
       widget.correct13 = true;
     }
-    if (my_words[13] != 'سريع') {
+    if (my_words[13] != 'بجد') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
     }
-    if (my_words[14] == 'الحركه') {
+    if (my_words[14] == 'ونشاط') {
       widget.isMatched14 = true;
       widget.correct14 = true;
     }
-    if (my_words[14] != 'الحركه') {
+    if (my_words[14] != 'ونشاط') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
     }
-    if (my_words[15] == 'والجري') {
+    if (my_words[15] == 'فضحك') {
       widget.isMatched15 = true;
       widget.correct15 = true;
     }
-    if (my_words[15] != 'والجري') {
+    if (my_words[15] != 'فضحك') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
     }
-    if (my_words[16] == 'والقفز') {
+    if (my_words[16] == 'الارنب') {
       widget.isMatched16 = true;
       widget.correct16 = true;
+      _Next();
     }
-    if (my_words[16] != 'والقفز') {
+    if (my_words[16] != 'الارنب') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
+      _Next();
     } else {
       print('Finished');
     }
+  }
+
+  void onRecognitionComplete(String text) {
+    print('_TestSpeechState.onRecognitionComplete... $text');
+    setState(() => _isListening = false);
   }
 
   void errorHandler() => activateSpeechRecognizer();
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
+      });
+  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TandH3(
+              childID: widget.childID,
+              currentAvatar: widget.currentAvatar,
+              currentName: widget.currentName,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       });
 }
 
@@ -2119,21 +2134,6 @@ class _TandH3State extends State<TandH3> {
                     width: 30,
                   ),
                   GestureDetector(
-                    onTap: () => stop(),
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.square,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
                     onTap: () {
                       Navigator.pushAndRemoveUntil(
                           context,
@@ -2220,131 +2220,131 @@ class _TandH3State extends State<TandH3> {
     });
     dynamic my_words = text.toString().split(" ");
 
-    if (my_words[0] == 'في') {
+    if (my_words[0] == 'فكر') {
       widget.isMatched = true;
       widget.correct = true;
     }
-    if (my_words[0] != 'في') {
+    if (my_words[0] != 'فكر') {
       widget.isMatched = false;
       widget.wrong = true;
     }
-    if (my_words[1] == 'الغابه') {
+    if (my_words[1] == 'الارنب') {
       widget.isMatched1 = true;
       widget.correct1 = true;
     }
-    if (my_words[1] != 'الغابه') {
+    if (my_words[1] != 'الارنب') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
     }
-    if (my_words[2] == 'راى') {
+    if (my_words[2] == 'قليلا') {
       widget.isMatched2 = true;
       widget.correct2 = true;
     }
-    if (my_words[2] != 'راى') {
+    if (my_words[2] != 'قليلا') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
     }
-    if (my_words[3] == 'الارنب') {
+    if (my_words[3] == 'ثم') {
       widget.isMatched3 = true;
       widget.correct3 = true;
     }
-    if (my_words[3] != 'الارنب') {
+    if (my_words[3] != 'ثم') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
     }
-    if (my_words[4] == 'المغرور') {
+    if (my_words[4] == 'قال') {
       widget.isMatched4 = true;
       widget.correct4 = true;
     }
-    if (my_words[4] != 'المغرور') {
+    if (my_words[4] != 'قال') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
     }
-    if (my_words[5] == 'السلحفاه') {
+    if (my_words[5] == 'للسلحفاه') {
       widget.isMatched5 = true;
       widget.correct5 = true;
     }
-    if (my_words[5] != 'السلحفاه') {
+    if (my_words[5] != 'للسلحفاه') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
     }
-    if (my_words[6] == 'فتعجب') {
+    if (my_words[6] == 'هبا') {
       widget.isMatched6 = true;
       widget.correct16 = true;
     }
-    if (my_words[6] != 'فتعجب') {
+    if (my_words[6] != 'هبا') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
     }
-    if (my_words[7] == 'من') {
+    if (my_words[7] == 'نقوم') {
       widget.isMatched7 = true;
       widget.correct7 = true;
     }
-    if (my_words[7] != 'من') {
+    if (my_words[7] != 'نقوم') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
     }
-    if (my_words[8] == 'مشيها') {
+    if (my_words[8] == 'بمسابقة') {
       widget.isMatched8 = true;
       widget.correct8 = true;
     }
-    if (my_words[8] != 'مشيها') {
+    if (my_words[8] != 'بمسابقة') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
     }
-    if (my_words[9] == 'البطيء') {
+    if (my_words[9] == 'في') {
       widget.isMatched9 = true;
       widget.correct9 = true;
     }
-    if (my_words[9] != 'البطيء') {
+    if (my_words[9] != 'في') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
     }
-    if (my_words[10] == 'فهو') {
+    if (my_words[10] == 'الجري') {
       widget.isMatched10 = true;
       widget.correct10 = true;
     }
-    if (my_words[10] != 'فهو') {
+    if (my_words[10] != 'الجري') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
     }
-    if (my_words[11] == 'كما') {
+    if (my_words[11] == 'حتى') {
       widget.isMatched11 = true;
       widget.correct11 = true;
     }
-    if (my_words[11] != 'كما') {
+    if (my_words[11] != 'حتى') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
     }
-    if (my_words[12] == 'نعرف') {
+    if (my_words[12] == 'تعرف') {
       widget.isMatched12 = true;
       widget.correct12 = true;
     }
-    if (my_words[12] != 'نعرف') {
+    if (my_words[12] != 'تعرف') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
     }
-    if (my_words[13] == 'سريع') {
+    if (my_words[13] == 'جميع') {
       widget.isMatched13 = true;
       widget.correct13 = true;
     }
-    if (my_words[13] != 'سريع') {
+    if (my_words[13] != 'جميع') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
     }
-    if (my_words[14] == 'الحركه') {
+    if (my_words[14] == 'حيوانات') {
       widget.isMatched14 = true;
       widget.correct14 = true;
     }
-    if (my_words[14] != 'الحركه') {
+    if (my_words[14] != 'حيوانات') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
     }
-    if (my_words[15] == 'والجري') {
+    if (my_words[15] == 'الغابة') {
       widget.isMatched15 = true;
       widget.correct15 = true;
     }
-    if (my_words[15] != 'والجري') {
+    if (my_words[15] != 'الغابة') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
     }
@@ -3014,21 +3014,6 @@ class _TandH4State extends State<TandH4> {
                       radius: currentHeight / 16,
                       child: Icon(
                         _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () => stop(),
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.square,
                         color: Colors.white,
                         size: currentHeight / 14,
                       ),
@@ -3918,21 +3903,6 @@ class _TandH5State extends State<TandH5> {
                       radius: currentHeight / 16,
                       child: Icon(
                         _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () => stop(),
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.square,
                         color: Colors.white,
                         size: currentHeight / 14,
                       ),

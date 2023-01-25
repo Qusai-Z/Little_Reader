@@ -209,9 +209,6 @@ class _HomeState extends State<Home> {
                             color: const Color.fromRGBO(255, 166, 0, 1),
                             splashColor: const Color.fromRGBO(149, 22, 224, 1),
                             onPressed: () {
-                              setState(() {
-                                _play = false;
-                              });
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
