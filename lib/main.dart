@@ -35,8 +35,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:
-          VoiceSearchingDemo(), //isLoggedIn == true ? const Accounts() : const FirstPage(),
+      home: isLoggedIn == true ? const Accounts() : const FirstPage(),
       routes: {
         FirstPage.ScreenRoute: (context) => const FirstPage(),
         SignIn.ScreenRoute: (context) => const SignIn(),

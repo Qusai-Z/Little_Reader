@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:little_reader/views/home/stories/easy/rabbit.dart';
+import 'package:little_reader/views/home/stories/easy/Tortoise_And_Hare.dart';
 
 class StoriesPage extends StatefulWidget {
   final String? childID;
@@ -378,12 +378,13 @@ class _StoriesPageState extends State<StoriesPage> {
                           ),
                           height: currentHeight / 18,
                           width: currentWidth / 18,
-                          child: const Center(
+                          child: Center(
                             child: Text(
                               'متوسط',
                               style: TextStyle(
                                 color: Colors.white,
-                                shadows: <Shadow>[
+                                fontSize: currentHeight / 38,
+                                shadows: const <Shadow>[
                                   Shadow(
                                     offset: Offset(2.0, 2.0),
                                     blurRadius: 3.0,
@@ -444,12 +445,13 @@ class _StoriesPageState extends State<StoriesPage> {
                           ),
                           height: currentHeight / 18,
                           width: currentWidth / 18,
-                          child: const Center(
+                          child: Center(
                             child: Text(
                               'متوسط',
                               style: TextStyle(
                                 color: Colors.white,
-                                shadows: <Shadow>[
+                                fontSize: currentHeight / 38,
+                                shadows: const <Shadow>[
                                   Shadow(
                                     offset: Offset(2.0, 2.0),
                                     blurRadius: 3.0,
@@ -510,12 +512,13 @@ class _StoriesPageState extends State<StoriesPage> {
                           ),
                           height: currentHeight / 18,
                           width: currentWidth / 18,
-                          child: const Center(
+                          child: Center(
                             child: Text(
                               'متوسط',
                               style: TextStyle(
                                 color: Colors.white,
-                                shadows: <Shadow>[
+                                fontSize: currentHeight / 38,
+                                shadows: const <Shadow>[
                                   Shadow(
                                     offset: Offset(2.0, 2.0),
                                     blurRadius: 3.0,
@@ -576,12 +579,13 @@ class _StoriesPageState extends State<StoriesPage> {
                           ),
                           height: currentHeight / 18,
                           width: currentWidth / 18,
-                          child: const Center(
+                          child: Center(
                             child: Text(
                               'متوسط',
                               style: TextStyle(
                                 color: Colors.white,
-                                shadows: <Shadow>[
+                                fontSize: currentHeight / 38,
+                                shadows: const <Shadow>[
                                   Shadow(
                                     offset: Offset(2.0, 2.0),
                                     blurRadius: 3.0,

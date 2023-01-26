@@ -13,8 +13,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_tts/flutter_tts.dart';
 import '../letters/letters.dart';
 
-const languages = const [
-  const Language('Arabic', 'ar-Ar'),
+const languages = [
+  Language('Arabic', 'ar-Ar'),
 ];
 
 class Language {
@@ -423,13 +423,10 @@ class _WordsPageState extends State<WordsPage> {
     if (transcription == 'اسد') {
       isMatched = true;
       correct = true;
-      print('MM:$isMatched');
-      await _Next();
+      _Next();
     } else {
       isMatched = false;
       wrong = true;
-
-      print('MM:$isMatched');
     }
   }
 
