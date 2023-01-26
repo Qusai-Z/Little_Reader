@@ -523,6 +523,7 @@ class _TandHState extends State<TandH> {
     if (my_words[16] == 'والقفز') {
       widget.isMatched16 = true;
       widget.correct16 = true;
+      _Next();
     }
     if (my_words[16] != 'والقفز') {
       widget.isMatched16 = false;
@@ -698,7 +699,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched == true
                               ? Colors.green
-                              : isMatched == false
+                              : wrong == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -711,7 +712,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched1 == true
                               ? Colors.green
-                              : isMatched1 == false
+                              : wrong1 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -724,7 +725,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched2 == true
                               ? Colors.green
-                              : isMatched2 == false
+                              : wrong2 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -737,7 +738,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched3 == true
                               ? Colors.green
-                              : isMatched3 == false
+                              : wrong3 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -750,7 +751,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched4 == true
                               ? Colors.green
-                              : isMatched4 == false
+                              : wrong4 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -763,7 +764,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched5 == true
                               ? Colors.green
-                              : isMatched5 == false
+                              : wrong5 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -784,7 +785,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched6 == true
                               ? Colors.green
-                              : isMatched6 == false
+                              : wrong6 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -797,7 +798,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched7 == true
                               ? Colors.green
-                              : isMatched7 == false
+                              : wrong7 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -810,7 +811,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched8 == true
                               ? Colors.green
-                              : isMatched8 == false
+                              : wrong8 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -823,7 +824,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched9 == true
                               ? Colors.green
-                              : isMatched9 == false
+                              : wrong9 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -836,7 +837,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched10 == true
                               ? Colors.green
-                              : isMatched10 == false
+                              : wrong10 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -849,7 +850,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched11 == true
                               ? Colors.green
-                              : isMatched11 == false
+                              : wrong11 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -862,7 +863,7 @@ class Content_1 extends StatelessWidget {
                       style: TextStyle(
                           color: isMatched12 == true
                               ? Colors.green
-                              : isMatched12 == false
+                              : wrong12 == true
                                   ? Colors.red
                                   : Colors.black,
                           fontSize: currentHeight / 22),
@@ -884,7 +885,7 @@ class Content_1 extends StatelessWidget {
                     style: TextStyle(
                         color: isMatched13 == true
                             ? Colors.green
-                            : isMatched13 == false
+                            : wrong13 == true
                                 ? Colors.red
                                 : Colors.black,
                         fontSize: currentHeight / 22),
@@ -897,7 +898,7 @@ class Content_1 extends StatelessWidget {
                     style: TextStyle(
                         color: isMatched14 == true
                             ? Colors.green
-                            : isMatched14 == false
+                            : wrong14 == true
                                 ? Colors.red
                                 : Colors.black,
                         fontSize: currentHeight / 22),
@@ -910,7 +911,7 @@ class Content_1 extends StatelessWidget {
                     style: TextStyle(
                         color: isMatched15 == true
                             ? Colors.green
-                            : isMatched15 == false
+                            : wrong15 == true
                                 ? Colors.red
                                 : Colors.black,
                         fontSize: currentHeight / 22),
@@ -920,7 +921,7 @@ class Content_1 extends StatelessWidget {
                     style: TextStyle(
                         color: isMatched15 == true
                             ? Colors.green
-                            : isMatched15 == false
+                            : wrong15 == true
                                 ? Colors.red
                                 : Colors.black,
                         fontSize: currentHeight / 22),
@@ -1477,12 +1478,10 @@ class _TandH2State extends State<TandH2> {
     if (my_words[16] == 'الارنب') {
       widget.isMatched16 = true;
       widget.correct16 = true;
-      _Next();
     }
     if (my_words[16] != 'الارنب') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      _Next();
     }
     if (my_words[17] == 'من') {
       widget.isMatched17 = true;
@@ -2075,6 +2074,7 @@ class _TandH3State extends State<TandH3> {
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
     _speech.setErrorHandler(errorHandler);
 
     _speech.activate('ar_Ar').then((res) {
@@ -2423,11 +2423,11 @@ class _TandH3State extends State<TandH3> {
       widget.isMatched5 = false;
       widget.wrong5 = true;
     }
-    if (my_words[6] == 'هبا') {
+    if (my_words[6] == 'هيا') {
       widget.isMatched6 = true;
       widget.correct6 = true;
     }
-    if (my_words[6] != 'هبا') {
+    if (my_words[6] != 'هيا') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
     }
@@ -2439,11 +2439,11 @@ class _TandH3State extends State<TandH3> {
       widget.isMatched7 = false;
       widget.wrong7 = true;
     }
-    if (my_words[8] == 'بمسابقة') {
+    if (my_words[8] == 'بمسابقه') {
       widget.isMatched8 = true;
       widget.correct8 = true;
     }
-    if (my_words[8] != 'بمسابقة') {
+    if (my_words[8] != 'بمسابقه') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
     }
@@ -2495,11 +2495,11 @@ class _TandH3State extends State<TandH3> {
       widget.isMatched14 = false;
       widget.wrong14 = true;
     }
-    if (my_words[15] == 'الغابة') {
+    if (my_words[15] == 'الغابه') {
       widget.isMatched15 = true;
       widget.correct15 = true;
     }
-    if (my_words[15] != 'الغابة') {
+    if (my_words[15] != 'الغابه') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
     }
@@ -2511,11 +2511,11 @@ class _TandH3State extends State<TandH3> {
       widget.isMatched16 = false;
       widget.wrong16 = true;
     }
-    if (my_words[17] == 'منا') {
+    if (my_words[17] == 'من') {
       widget.isMatched17 = true;
       widget.correct17 = true;
     }
-    if (my_words[17] != 'منا') {
+    if (my_words[17] != 'من') {
       widget.isMatched17 = false;
       widget.wrong17 = true;
     }
@@ -2546,6 +2546,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[21] == 'السلحفاه') {
       widget.isMatched21 = true;
       widget.correct21 = true;
+      _Next();
     }
     if (my_words[21] != 'السلحفاه') {
       widget.isMatched21 = false;
@@ -2554,6 +2555,11 @@ class _TandH3State extends State<TandH3> {
     } else {
       print('Finished');
     }
+  }
+
+  void onRecognitionComplete(String text) {
+    print('_TestSpeechState.onRecognitionComplete... $text');
+    setState(() => _isListening = false);
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -3134,6 +3140,7 @@ class _TandH4State extends State<TandH4> {
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
     _speech.setErrorHandler(errorHandler);
 
     _speech.activate('ar_Ar').then((res) {
@@ -3484,6 +3491,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[10] == 'النشيطه') {
       widget.isMatched10 = true;
       widget.correct10 = true;
+      _Next();
     }
     if (my_words[10] != 'النشيطه') {
       widget.isMatched10 = false;
@@ -3492,6 +3500,11 @@ class _TandH4State extends State<TandH4> {
     } else {
       print('Finished');
     }
+  }
+
+  void onRecognitionComplete(String text) {
+    print('_TestSpeechState.onRecognitionComplete... $text');
+    setState(() => _isListening = false);
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -3873,6 +3886,7 @@ class _TandH5State extends State<TandH5> {
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
     _speech.setErrorHandler(errorHandler);
 
     _speech.activate('ar_Ar').then((res) {
@@ -4150,6 +4164,11 @@ class _TandH5State extends State<TandH5> {
     setState(() => _isListening = true);
   }
 
+  void onRecognitionComplete(String text) {
+    print('_TestSpeechState.onRecognitionComplete... $text');
+    setState(() => _isListening = false);
+  }
+
   void onRecognitionResult(String text) async {
     print('_TandH2State.onRecognitionResult... $text');
 
@@ -4289,6 +4308,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[16] == 'الارنب') {
       widget.isMatched16 = true;
       widget.correct16 = true;
+      _Next();
     }
     if (my_words[16] != 'الارنب') {
       widget.isMatched16 = false;
@@ -4303,7 +4323,7 @@ class _TandH5State extends State<TandH5> {
 
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
-      }); //t3al
+      });
   Future _Next() => Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushAndRemoveUntil(
           context,
@@ -5237,12 +5257,10 @@ class _TandH6State extends State<TandH6> {
     if (my_words[16] == 'تحت') {
       widget.isMatched16 = true;
       widget.correct16 = true;
-      _Next();
     }
     if (my_words[16] != 'تحت') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      _Next();
     }
     if (my_words[17] == 'شجره') {
       widget.isMatched17 = true;
@@ -5255,16 +5273,14 @@ class _TandH6State extends State<TandH6> {
     if (my_words[18] == 'ياكل') {
       widget.isMatched18 = true;
       widget.correct18 = true;
-      _Next();
     }
     if (my_words[18] != 'ياكل') {
       widget.isMatched18 = false;
       widget.wrong18 = true;
-      _Next();
     }
     if (my_words[19] == 'جزره') {
-      widget.isMatched19 = false;
-      widget.wrong19 = true;
+      widget.isMatched19 = true;
+      widget.correct = true;
       _Next();
     }
     if (my_words[19] != 'جزره') {
@@ -6244,6 +6260,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[14] == 'وسبقته') {
       widget.isMatched14 = true;
       widget.correct14 = true;
+      _Next();
     }
     if (my_words[14] != 'وسبقته') {
       widget.isMatched14 = false;
@@ -7174,7 +7191,6 @@ class _TandH8State extends State<TandH8> {
     if (my_words[16] != 'السلحفاه') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      _Next();
     }
     if (my_words[17] == 'النشيطه') {
       widget.isMatched17 = true;
@@ -7183,7 +7199,6 @@ class _TandH8State extends State<TandH8> {
     if (my_words[17] != 'النشيطه') {
       widget.isMatched17 = false;
       widget.wrong17 = true;
-      _Next();
     }
     if (my_words[18] == 'قد') {
       widget.isMatched18 = true;
@@ -7192,7 +7207,6 @@ class _TandH8State extends State<TandH8> {
     if (my_words[18] != 'قد') {
       widget.isMatched18 = false;
       widget.wrong18 = true;
-      _Next();
     }
     if (my_words[19] == 'فازت') {
       widget.isMatched19 = true;
@@ -7201,11 +7215,11 @@ class _TandH8State extends State<TandH8> {
     if (my_words[19] != 'فازت') {
       widget.isMatched19 = false;
       widget.wrong19 = true;
-      _Next();
     }
     if (my_words[20] == 'بالسباق') {
       widget.isMatched20 = true;
       widget.correct20 = true;
+      _Next();
     }
     if (my_words[20] != 'بالسباق') {
       widget.isMatched20 = false;
