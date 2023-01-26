@@ -156,7 +156,8 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: NetworkImage(
+                                    'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Fox_And_Goat%2FImages%2F3.jpg?alt=media'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -222,7 +223,8 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: NetworkImage(
+                                    'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Three_Bears_And_Girl%2FImages%2F6.jpg?alt=media'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -276,19 +278,22 @@ class _StoriesPageState extends State<StoriesPage> {
                           elevation: 30,
                           splashColor: const Color.fromRGBO(149, 22, 224, 1),
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const storyTest(),
-                            //   ),
-                            // );
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TandH(
+                                        childID: widget.childID,
+                                        currentAvatar: widget.currentAvatar,
+                                        currentName: widget.currentName)),
+                                (Route<dynamic> route) => false);
                           },
                           child: Container(
                             margin: const EdgeInsets.all(10),
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: NetworkImage(
+                                    'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F4.jpeg?alt=media'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
