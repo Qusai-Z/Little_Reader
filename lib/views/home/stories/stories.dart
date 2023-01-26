@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:little_reader/views/home/stories/easy/Three_Bears_And_Girl.dart';
 import 'package:little_reader/views/home/stories/easy/Tortoise_And_Hare.dart';
 
 class StoriesPage extends StatefulWidget {
@@ -89,8 +90,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: NetworkImage(
-                                    'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F1.jpeg?alt=media'),
+                                image: AssetImage('imgs/white.png'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -211,12 +211,14 @@ class _StoriesPageState extends State<StoriesPage> {
                           elevation: 30,
                           splashColor: const Color.fromRGBO(149, 22, 224, 1),
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const storyTest(),
-                            //   ),
-                            // );
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BandG(
+                                        childID: widget.childID,
+                                        currentAvatar: widget.currentAvatar,
+                                        currentName: widget.currentName)),
+                                (Route<dynamic> route) => false);
                           },
                           child: Container(
                             margin: const EdgeInsets.all(10),
@@ -363,7 +365,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: AssetImage('imgs/white.png'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -430,7 +432,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: AssetImage('imgs/white.png'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -497,7 +499,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: AssetImage('imgs/white.png'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -564,7 +566,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: AssetImage('imgs/white.png'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -635,7 +637,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: AssetImage('imgs/white.png'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -701,7 +703,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: AssetImage('imgs/white.png'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -767,7 +769,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: AssetImage('imgs/white.png'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -833,7 +835,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: AssetImage('imgs/guarden.jpg'),
+                                image: AssetImage('imgs/white.png'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
