@@ -115,7 +115,7 @@ class _HomeState extends State<Home> {
               AudioWidget.assets(
                 loopMode: LoopMode.playlist,
                 path: "audios/ONSHOODA.mp3",
-                volume: 0.7,
+                volume: 0.4,
                 play: _play,
                 child: IconButton(
                   onPressed: () {

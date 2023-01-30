@@ -67,74 +67,74 @@ class _StoriesPageState extends State<StoriesPage> {
             children: [
               Row(
                 children: [
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        MaterialButton(
-                          shape: const RoundedRectangleBorder(),
-                          elevation: 30,
-                          splashColor: const Color.fromRGBO(149, 22, 224, 1),
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TandH(
-                                        childID: widget.childID,
-                                        currentAvatar: widget.currentAvatar,
-                                        currentName: widget.currentName)),
-                                (Route<dynamic> route) => false);
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            height: currentHeight / 3,
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                image: AssetImage('imgs/white.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                            ),
-                            color: Colors.green,
-                          ),
-                          height: currentHeight / 18,
-                          width: currentWidth / 18,
-                          child: const Center(
-                            child: Text(
-                              'سهل',
-                              style: TextStyle(
-                                color: Colors.white,
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 3.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(6.0, 6.0),
-                                    blurRadius: 8.0,
-                                    color: Color.fromARGB(124, 0, 0, 0),
-                                  ),
-                                ],
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: Stack(
+                  //     alignment: Alignment.topRight,
+                  //     children: [
+                  //       MaterialButton(
+                  //         shape: const RoundedRectangleBorder(),
+                  //         elevation: 30,
+                  //         splashColor: const Color.fromRGBO(149, 22, 224, 1),
+                  //         onPressed: () {
+                  //           Navigator.pushAndRemoveUntil(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                   builder: (context) => TandH(
+                  //                       childID: widget.childID,
+                  //                       currentAvatar: widget.currentAvatar,
+                  //                       currentName: widget.currentName)),
+                  //               (Route<dynamic> route) => false);
+                  //         },
+                  //         child: Container(
+                  //           margin: const EdgeInsets.all(10),
+                  //           height: currentHeight / 3,
+                  //           decoration: BoxDecoration(
+                  //             image: const DecorationImage(
+                  //               image: AssetImage('imgs/white.png'),
+                  //               fit: BoxFit.cover,
+                  //             ),
+                  //             borderRadius: BorderRadius.circular(10),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       Container(
+                  //         margin: const EdgeInsets.only(right: 25, top: 10),
+                  //         decoration: const BoxDecoration(
+                  //           borderRadius: BorderRadius.only(
+                  //             bottomLeft: Radius.circular(20),
+                  //             bottomRight: Radius.circular(5),
+                  //             topLeft: Radius.circular(5),
+                  //             topRight: Radius.circular(5),
+                  //           ),
+                  //           color: Colors.green,
+                  //         ),
+                  //         height: currentHeight / 18,
+                  //         width: currentWidth / 18,
+                  //         child: const Center(
+                  //           child: Text(
+                  //             'سهل',
+                  //             style: TextStyle(
+                  //               color: Colors.white,
+                  //               shadows: <Shadow>[
+                  //                 Shadow(
+                  //                   offset: Offset(2.0, 2.0),
+                  //                   blurRadius: 3.0,
+                  //                   color: Color.fromARGB(255, 0, 0, 0),
+                  //                 ),
+                  //                 Shadow(
+                  //                   offset: Offset(6.0, 6.0),
+                  //                   blurRadius: 8.0,
+                  //                   color: Color.fromARGB(124, 0, 0, 0),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //             maxLines: 1,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Expanded(
                     child: Stack(
                       alignment: Alignment.topRight,
@@ -342,546 +342,546 @@ class _StoriesPageState extends State<StoriesPage> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        MaterialButton(
-                          shape: const RoundedRectangleBorder(),
-                          elevation: 30,
-                          splashColor: const Color.fromRGBO(149, 22, 224, 1),
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const storyTest(),
-                            //   ),
-                            // );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            height: currentHeight / 3,
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                image: AssetImage('imgs/white.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                            ),
-                            color: Colors.orange,
-                          ),
-                          height: currentHeight / 18,
-                          width: currentWidth / 18,
-                          child: Center(
-                            child: Text(
-                              'متوسط',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: currentHeight / 38,
-                                shadows: const <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 3.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(6.0, 6.0),
-                                    blurRadius: 8.0,
-                                    color: Color.fromARGB(124, 0, 0, 0),
-                                  ),
-                                ],
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        MaterialButton(
-                          shape: const RoundedRectangleBorder(),
-                          elevation: 30,
-                          splashColor: const Color.fromRGBO(149, 22, 224, 1),
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const storyTest(),
-                            //   ),
-                            // );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            height: currentHeight / 3,
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                image: AssetImage('imgs/white.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                            ),
-                            color: Colors.orange,
-                          ),
-                          height: currentHeight / 18,
-                          width: currentWidth / 18,
-                          child: Center(
-                            child: Text(
-                              'متوسط',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: currentHeight / 38,
-                                shadows: const <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 3.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(6.0, 6.0),
-                                    blurRadius: 8.0,
-                                    color: Color.fromARGB(124, 0, 0, 0),
-                                  ),
-                                ],
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        MaterialButton(
-                          shape: const RoundedRectangleBorder(),
-                          elevation: 30,
-                          splashColor: const Color.fromRGBO(149, 22, 224, 1),
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const storyTest(),
-                            //   ),
-                            // );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            height: currentHeight / 3,
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                image: AssetImage('imgs/white.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                            ),
-                            color: Colors.orange,
-                          ),
-                          height: currentHeight / 18,
-                          width: currentWidth / 18,
-                          child: Center(
-                            child: Text(
-                              'متوسط',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: currentHeight / 38,
-                                shadows: const <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 3.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(6.0, 6.0),
-                                    blurRadius: 8.0,
-                                    color: Color.fromARGB(124, 0, 0, 0),
-                                  ),
-                                ],
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        MaterialButton(
-                          shape: const RoundedRectangleBorder(),
-                          elevation: 30,
-                          splashColor: const Color.fromRGBO(149, 22, 224, 1),
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const storyTest(),
-                            //   ),
-                            // );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            height: currentHeight / 3,
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                image: AssetImage('imgs/white.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                            ),
-                            color: Colors.orange,
-                          ),
-                          height: currentHeight / 18,
-                          width: currentWidth / 18,
-                          child: Center(
-                            child: Text(
-                              'متوسط',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: currentHeight / 38,
-                                shadows: const <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 3.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(6.0, 6.0),
-                                    blurRadius: 8.0,
-                                    color: Color.fromARGB(124, 0, 0, 0),
-                                  ),
-                                ],
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        MaterialButton(
-                          shape: const RoundedRectangleBorder(),
-                          elevation: 30,
-                          splashColor: const Color.fromRGBO(149, 22, 224, 1),
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const storyTest(),
-                            //   ),
-                            // );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            height: currentHeight / 3,
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                image: AssetImage('imgs/white.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                            ),
-                            color: Colors.red,
-                          ),
-                          height: currentHeight / 18,
-                          width: currentWidth / 18,
-                          child: const Center(
-                            child: Text(
-                              'صعب',
-                              style: TextStyle(
-                                color: Colors.white,
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 3.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(6.0, 6.0),
-                                    blurRadius: 8.0,
-                                    color: Color.fromARGB(124, 0, 0, 0),
-                                  ),
-                                ],
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        MaterialButton(
-                          shape: const RoundedRectangleBorder(),
-                          elevation: 30,
-                          splashColor: const Color.fromRGBO(149, 22, 224, 1),
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const storyTest(),
-                            //   ),
-                            // );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            height: currentHeight / 3,
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                image: AssetImage('imgs/white.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                            ),
-                            color: Colors.red,
-                          ),
-                          height: currentHeight / 18,
-                          width: currentWidth / 18,
-                          child: const Center(
-                            child: Text(
-                              'صعب',
-                              style: TextStyle(
-                                color: Colors.white,
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 3.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(6.0, 6.0),
-                                    blurRadius: 8.0,
-                                    color: Color.fromARGB(124, 0, 0, 0),
-                                  ),
-                                ],
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        MaterialButton(
-                          shape: const RoundedRectangleBorder(),
-                          elevation: 30,
-                          splashColor: const Color.fromRGBO(149, 22, 224, 1),
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const storyTest(),
-                            //   ),
-                            // );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            height: currentHeight / 3,
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                image: AssetImage('imgs/white.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                            ),
-                            color: Colors.red,
-                          ),
-                          height: currentHeight / 18,
-                          width: currentWidth / 18,
-                          child: const Center(
-                            child: Text(
-                              'صعب',
-                              style: TextStyle(
-                                color: Colors.white,
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 3.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(6.0, 6.0),
-                                    blurRadius: 8.0,
-                                    color: Color.fromARGB(124, 0, 0, 0),
-                                  ),
-                                ],
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        MaterialButton(
-                          shape: const RoundedRectangleBorder(),
-                          elevation: 30,
-                          splashColor: const Color.fromRGBO(149, 22, 224, 1),
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const storyTest(),
-                            //   ),
-                            // );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            height: currentHeight / 3,
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                image: AssetImage('imgs/white.png'),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                            ),
-                            color: Colors.red,
-                          ),
-                          height: currentHeight / 18,
-                          width: currentWidth / 18,
-                          child: const Center(
-                            child: Text(
-                              'صعب',
-                              style: TextStyle(
-                                color: Colors.white,
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 3.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(6.0, 6.0),
-                                    blurRadius: 8.0,
-                                    color: Color.fromARGB(124, 0, 0, 0),
-                                  ),
-                                ],
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: Stack(
+              //         alignment: Alignment.topRight,
+              //         children: [
+              //           MaterialButton(
+              //             shape: const RoundedRectangleBorder(),
+              //             elevation: 30,
+              //             splashColor: const Color.fromRGBO(149, 22, 224, 1),
+              //             onPressed: () {
+              //               // Navigator.push(
+              //               //   context,
+              //               //   MaterialPageRoute(
+              //               //     builder: (context) => const storyTest(),
+              //               //   ),
+              //               // );
+              //             },
+              //             child: Container(
+              //               margin: const EdgeInsets.all(10),
+              //               height: currentHeight / 3,
+              //               decoration: BoxDecoration(
+              //                 image: const DecorationImage(
+              //                   image: AssetImage('imgs/white.png'),
+              //                   fit: BoxFit.cover,
+              //                 ),
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //             ),
+              //           ),
+              //           Container(
+              //             margin: const EdgeInsets.only(right: 25, top: 10),
+              //             decoration: const BoxDecoration(
+              //               borderRadius: BorderRadius.only(
+              //                 bottomLeft: Radius.circular(20),
+              //                 bottomRight: Radius.circular(5),
+              //                 topLeft: Radius.circular(5),
+              //                 topRight: Radius.circular(5),
+              //               ),
+              //               color: Colors.orange,
+              //             ),
+              //             height: currentHeight / 18,
+              //             width: currentWidth / 18,
+              //             child: Center(
+              //               child: Text(
+              //                 'متوسط',
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: currentHeight / 38,
+              //                   shadows: const <Shadow>[
+              //                     Shadow(
+              //                       offset: Offset(2.0, 2.0),
+              //                       blurRadius: 3.0,
+              //                       color: Color.fromARGB(255, 0, 0, 0),
+              //                     ),
+              //                     Shadow(
+              //                       offset: Offset(6.0, 6.0),
+              //                       blurRadius: 8.0,
+              //                       color: Color.fromARGB(124, 0, 0, 0),
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 maxLines: 1,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Stack(
+              //         alignment: Alignment.topRight,
+              //         children: [
+              //           MaterialButton(
+              //             shape: const RoundedRectangleBorder(),
+              //             elevation: 30,
+              //             splashColor: const Color.fromRGBO(149, 22, 224, 1),
+              //             onPressed: () {
+              //               // Navigator.push(
+              //               //   context,
+              //               //   MaterialPageRoute(
+              //               //     builder: (context) => const storyTest(),
+              //               //   ),
+              //               // );
+              //             },
+              //             child: Container(
+              //               margin: const EdgeInsets.all(10),
+              //               height: currentHeight / 3,
+              //               decoration: BoxDecoration(
+              //                 image: const DecorationImage(
+              //                   image: AssetImage('imgs/white.png'),
+              //                   fit: BoxFit.cover,
+              //                 ),
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //             ),
+              //           ),
+              //           Container(
+              //             margin: const EdgeInsets.only(right: 25, top: 10),
+              //             decoration: const BoxDecoration(
+              //               borderRadius: BorderRadius.only(
+              //                 bottomLeft: Radius.circular(20),
+              //                 bottomRight: Radius.circular(5),
+              //                 topLeft: Radius.circular(5),
+              //                 topRight: Radius.circular(5),
+              //               ),
+              //               color: Colors.orange,
+              //             ),
+              //             height: currentHeight / 18,
+              //             width: currentWidth / 18,
+              //             child: Center(
+              //               child: Text(
+              //                 'متوسط',
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: currentHeight / 38,
+              //                   shadows: const <Shadow>[
+              //                     Shadow(
+              //                       offset: Offset(2.0, 2.0),
+              //                       blurRadius: 3.0,
+              //                       color: Color.fromARGB(255, 0, 0, 0),
+              //                     ),
+              //                     Shadow(
+              //                       offset: Offset(6.0, 6.0),
+              //                       blurRadius: 8.0,
+              //                       color: Color.fromARGB(124, 0, 0, 0),
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 maxLines: 1,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Stack(
+              //         alignment: Alignment.topRight,
+              //         children: [
+              //           MaterialButton(
+              //             shape: const RoundedRectangleBorder(),
+              //             elevation: 30,
+              //             splashColor: const Color.fromRGBO(149, 22, 224, 1),
+              //             onPressed: () {
+              //               // Navigator.push(
+              //               //   context,
+              //               //   MaterialPageRoute(
+              //               //     builder: (context) => const storyTest(),
+              //               //   ),
+              //               // );
+              //             },
+              //             child: Container(
+              //               margin: const EdgeInsets.all(10),
+              //               height: currentHeight / 3,
+              //               decoration: BoxDecoration(
+              //                 image: const DecorationImage(
+              //                   image: AssetImage('imgs/white.png'),
+              //                   fit: BoxFit.cover,
+              //                 ),
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //             ),
+              //           ),
+              //           Container(
+              //             margin: const EdgeInsets.only(right: 25, top: 10),
+              //             decoration: const BoxDecoration(
+              //               borderRadius: BorderRadius.only(
+              //                 bottomLeft: Radius.circular(20),
+              //                 bottomRight: Radius.circular(5),
+              //                 topLeft: Radius.circular(5),
+              //                 topRight: Radius.circular(5),
+              //               ),
+              //               color: Colors.orange,
+              //             ),
+              //             height: currentHeight / 18,
+              //             width: currentWidth / 18,
+              //             child: Center(
+              //               child: Text(
+              //                 'متوسط',
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: currentHeight / 38,
+              //                   shadows: const <Shadow>[
+              //                     Shadow(
+              //                       offset: Offset(2.0, 2.0),
+              //                       blurRadius: 3.0,
+              //                       color: Color.fromARGB(255, 0, 0, 0),
+              //                     ),
+              //                     Shadow(
+              //                       offset: Offset(6.0, 6.0),
+              //                       blurRadius: 8.0,
+              //                       color: Color.fromARGB(124, 0, 0, 0),
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 maxLines: 1,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Stack(
+              //         alignment: Alignment.topRight,
+              //         children: [
+              //           MaterialButton(
+              //             shape: const RoundedRectangleBorder(),
+              //             elevation: 30,
+              //             splashColor: const Color.fromRGBO(149, 22, 224, 1),
+              //             onPressed: () {
+              //               // Navigator.push(
+              //               //   context,
+              //               //   MaterialPageRoute(
+              //               //     builder: (context) => const storyTest(),
+              //               //   ),
+              //               // );
+              //             },
+              //             child: Container(
+              //               margin: const EdgeInsets.all(10),
+              //               height: currentHeight / 3,
+              //               decoration: BoxDecoration(
+              //                 image: const DecorationImage(
+              //                   image: AssetImage('imgs/white.png'),
+              //                   fit: BoxFit.cover,
+              //                 ),
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //             ),
+              //           ),
+              //           Container(
+              //             margin: const EdgeInsets.only(right: 25, top: 10),
+              //             decoration: const BoxDecoration(
+              //               borderRadius: BorderRadius.only(
+              //                 bottomLeft: Radius.circular(20),
+              //                 bottomRight: Radius.circular(5),
+              //                 topLeft: Radius.circular(5),
+              //                 topRight: Radius.circular(5),
+              //               ),
+              //               color: Colors.orange,
+              //             ),
+              //             height: currentHeight / 18,
+              //             width: currentWidth / 18,
+              //             child: Center(
+              //               child: Text(
+              //                 'متوسط',
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: currentHeight / 38,
+              //                   shadows: const <Shadow>[
+              //                     Shadow(
+              //                       offset: Offset(2.0, 2.0),
+              //                       blurRadius: 3.0,
+              //                       color: Color.fromARGB(255, 0, 0, 0),
+              //                     ),
+              //                     Shadow(
+              //                       offset: Offset(6.0, 6.0),
+              //                       blurRadius: 8.0,
+              //                       color: Color.fromARGB(124, 0, 0, 0),
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 maxLines: 1,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: Stack(
+              //         alignment: Alignment.topRight,
+              //         children: [
+              //           MaterialButton(
+              //             shape: const RoundedRectangleBorder(),
+              //             elevation: 30,
+              //             splashColor: const Color.fromRGBO(149, 22, 224, 1),
+              //             onPressed: () {
+              //               // Navigator.push(
+              //               //   context,
+              //               //   MaterialPageRoute(
+              //               //     builder: (context) => const storyTest(),
+              //               //   ),
+              //               // );
+              //             },
+              //             child: Container(
+              //               margin: const EdgeInsets.all(10),
+              //               height: currentHeight / 3,
+              //               decoration: BoxDecoration(
+              //                 image: const DecorationImage(
+              //                   image: AssetImage('imgs/white.png'),
+              //                   fit: BoxFit.cover,
+              //                 ),
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //             ),
+              //           ),
+              //           Container(
+              //             margin: const EdgeInsets.only(right: 25, top: 10),
+              //             decoration: const BoxDecoration(
+              //               borderRadius: BorderRadius.only(
+              //                 bottomLeft: Radius.circular(20),
+              //                 bottomRight: Radius.circular(5),
+              //                 topLeft: Radius.circular(5),
+              //                 topRight: Radius.circular(5),
+              //               ),
+              //               color: Colors.red,
+              //             ),
+              //             height: currentHeight / 18,
+              //             width: currentWidth / 18,
+              //             child: const Center(
+              //               child: Text(
+              //                 'صعب',
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   shadows: <Shadow>[
+              //                     Shadow(
+              //                       offset: Offset(2.0, 2.0),
+              //                       blurRadius: 3.0,
+              //                       color: Color.fromARGB(255, 0, 0, 0),
+              //                     ),
+              //                     Shadow(
+              //                       offset: Offset(6.0, 6.0),
+              //                       blurRadius: 8.0,
+              //                       color: Color.fromARGB(124, 0, 0, 0),
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 maxLines: 1,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Stack(
+              //         alignment: Alignment.topRight,
+              //         children: [
+              //           MaterialButton(
+              //             shape: const RoundedRectangleBorder(),
+              //             elevation: 30,
+              //             splashColor: const Color.fromRGBO(149, 22, 224, 1),
+              //             onPressed: () {
+              //               // Navigator.push(
+              //               //   context,
+              //               //   MaterialPageRoute(
+              //               //     builder: (context) => const storyTest(),
+              //               //   ),
+              //               // );
+              //             },
+              //             child: Container(
+              //               margin: const EdgeInsets.all(10),
+              //               height: currentHeight / 3,
+              //               decoration: BoxDecoration(
+              //                 image: const DecorationImage(
+              //                   image: AssetImage('imgs/white.png'),
+              //                   fit: BoxFit.cover,
+              //                 ),
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //             ),
+              //           ),
+              //           Container(
+              //             margin: const EdgeInsets.only(right: 25, top: 10),
+              //             decoration: const BoxDecoration(
+              //               borderRadius: BorderRadius.only(
+              //                 bottomLeft: Radius.circular(20),
+              //                 bottomRight: Radius.circular(5),
+              //                 topLeft: Radius.circular(5),
+              //                 topRight: Radius.circular(5),
+              //               ),
+              //               color: Colors.red,
+              //             ),
+              //             height: currentHeight / 18,
+              //             width: currentWidth / 18,
+              //             child: const Center(
+              //               child: Text(
+              //                 'صعب',
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   shadows: <Shadow>[
+              //                     Shadow(
+              //                       offset: Offset(2.0, 2.0),
+              //                       blurRadius: 3.0,
+              //                       color: Color.fromARGB(255, 0, 0, 0),
+              //                     ),
+              //                     Shadow(
+              //                       offset: Offset(6.0, 6.0),
+              //                       blurRadius: 8.0,
+              //                       color: Color.fromARGB(124, 0, 0, 0),
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 maxLines: 1,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Stack(
+              //         alignment: Alignment.topRight,
+              //         children: [
+              //           MaterialButton(
+              //             shape: const RoundedRectangleBorder(),
+              //             elevation: 30,
+              //             splashColor: const Color.fromRGBO(149, 22, 224, 1),
+              //             onPressed: () {
+              //               // Navigator.push(
+              //               //   context,
+              //               //   MaterialPageRoute(
+              //               //     builder: (context) => const storyTest(),
+              //               //   ),
+              //               // );
+              //             },
+              //             child: Container(
+              //               margin: const EdgeInsets.all(10),
+              //               height: currentHeight / 3,
+              //               decoration: BoxDecoration(
+              //                 image: const DecorationImage(
+              //                   image: AssetImage('imgs/white.png'),
+              //                   fit: BoxFit.cover,
+              //                 ),
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //             ),
+              //           ),
+              //           Container(
+              //             margin: const EdgeInsets.only(right: 25, top: 10),
+              //             decoration: const BoxDecoration(
+              //               borderRadius: BorderRadius.only(
+              //                 bottomLeft: Radius.circular(20),
+              //                 bottomRight: Radius.circular(5),
+              //                 topLeft: Radius.circular(5),
+              //                 topRight: Radius.circular(5),
+              //               ),
+              //               color: Colors.red,
+              //             ),
+              //             height: currentHeight / 18,
+              //             width: currentWidth / 18,
+              //             child: const Center(
+              //               child: Text(
+              //                 'صعب',
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   shadows: <Shadow>[
+              //                     Shadow(
+              //                       offset: Offset(2.0, 2.0),
+              //                       blurRadius: 3.0,
+              //                       color: Color.fromARGB(255, 0, 0, 0),
+              //                     ),
+              //                     Shadow(
+              //                       offset: Offset(6.0, 6.0),
+              //                       blurRadius: 8.0,
+              //                       color: Color.fromARGB(124, 0, 0, 0),
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 maxLines: 1,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Stack(
+              //         alignment: Alignment.topRight,
+              //         children: [
+              //           MaterialButton(
+              //             shape: const RoundedRectangleBorder(),
+              //             elevation: 30,
+              //             splashColor: const Color.fromRGBO(149, 22, 224, 1),
+              //             onPressed: () {
+              //               // Navigator.push(
+              //               //   context,
+              //               //   MaterialPageRoute(
+              //               //     builder: (context) => const storyTest(),
+              //               //   ),
+              //               // );
+              //             },
+              //             child: Container(
+              //               margin: const EdgeInsets.all(10),
+              //               height: currentHeight / 3,
+              //               decoration: BoxDecoration(
+              //                 image: const DecorationImage(
+              //                   image: AssetImage('imgs/white.png'),
+              //                   fit: BoxFit.cover,
+              //                 ),
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //             ),
+              //           ),
+              //           Container(
+              //             margin: const EdgeInsets.only(right: 25, top: 10),
+              //             decoration: const BoxDecoration(
+              //               borderRadius: BorderRadius.only(
+              //                 bottomLeft: Radius.circular(20),
+              //                 bottomRight: Radius.circular(5),
+              //                 topLeft: Radius.circular(5),
+              //                 topRight: Radius.circular(5),
+              //               ),
+              //               color: Colors.red,
+              //             ),
+              //             height: currentHeight / 18,
+              //             width: currentWidth / 18,
+              //             child: const Center(
+              //               child: Text(
+              //                 'صعب',
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   shadows: <Shadow>[
+              //                     Shadow(
+              //                       offset: Offset(2.0, 2.0),
+              //                       blurRadius: 3.0,
+              //                       color: Color.fromARGB(255, 0, 0, 0),
+              //                     ),
+              //                     Shadow(
+              //                       offset: Offset(6.0, 6.0),
+              //                       blurRadius: 8.0,
+              //                       color: Color.fromARGB(124, 0, 0, 0),
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 maxLines: 1,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),
