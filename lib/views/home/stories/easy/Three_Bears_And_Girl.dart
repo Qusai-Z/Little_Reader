@@ -8,13 +8,6 @@ import '../../home.dart';
 
 List<String> list = [];
 
-var list_2 = [
-  [
-    "ﺍﺳﺘﻴﻘﻈﺖ ﺍﻟﺪﺑﺔ ﺍﻷﻡ ﻣﺒﻜﺮﺍ، ﻭﺃﻋﺪﺕ ﺍﻟﻄﻌﺎﻡ، ﺛﻢ ﻭﺿﻌﺘﻪ ﻓﻲ ﺛﻼﺛﺔ ﺃﻃﺒﺎﻕ، ﻃﺒﻖ ﻟﻬﺎ، ﻭﻃﺒﻖ ﻟﺰﻭﺟﻬﺎ ﺍﻟﺪﺏ، ﻭﻃﺒﻖ ﻻﺑﻨﻬﺎ ﺍﻟﺪﺏ ﺍﻟﺼﻐﻴﺮ"
-  ],
-  []
-];
-
 Color colorGreen = Colors.green;
 Color colorRed = Colors.red;
 Color colorBlack = Colors.black;
@@ -413,166 +406,147 @@ class _BandGState extends State<BandG> {
     });
     dynamic my_words = text.toString().split(" ");
 
-    //  // var rr = list_2.split(" ");
+    if (my_words[0] == 'استيقظت') {
+      widget.isMatched = true;
+      widget.correct = true;
+    }
+    if (my_words[0] != 'استيقظت') {
+      widget.isMatched = false;
+      widget.wrong = true;
+    }
 
-    //   for (int i = 0; i < rr.length;) {
-    //     print('List_words:${list_2[i]}');
-    //     print('List_word:${Trre}');
-
-    //     i++;
-    //     if (my_words[i] == list_2[i]) {
-    //       list[i] = colorGreen.toString();
-    //       print('List_word_T:${Trre[i]}');
-    //     }
-    //     if (my_words[i] != list_2[i]) {
-    //       print('List_word_r:${Trre[i]}');
-    //       i++;
-    //       list[i] = colorRed.toString();
-    //     } else {
-    //       list[i] = colorBlack.toString();
-    //     }
-    //   }
-
-    // if (my_words[0] == 'استيقظت') {
-    //   widget.isMatched = true;
-    //   widget.correct = true;
-    // }
-    // if (my_words[0] != 'استيقظت') {
-    //   widget.isMatched = false;
-    //   widget.wrong = true;
-    // }
-    // if (my_words[1] == 'الدبه') {
-    //   widget.isMatched1 = true;
-    //   widget.correct1 = true;
-    // }
-    // if (my_words[1] != 'الدبه') {
-    //   widget.isMatched1 = false;
-    //   widget.wrong1 = true;
-    // }
-    // if (my_words[2] == 'الام') {
-    //   widget.isMatched2 = true;
-    //   widget.correct2 = true;
-    // }
-    // if (my_words[2] != 'الام') {
-    //   widget.isMatched2 = false;
-    //   widget.wrong2 = true;
-    // }
-    // if (my_words[3] == 'مبكرا') {
-    //   widget.isMatched3 = true;
-    //   widget.correct3 = true;
-    // }
-    // if (my_words[3] != 'مبكرا') {
-    //   widget.isMatched3 = false;
-    //   widget.wrong3 = true;
-    // }
-    // if (my_words[4] == 'واعدت') {
-    //   widget.isMatched4 = true;
-    //   widget.correct4 = true;
-    // }
-    // if (my_words[4] != 'واعدت') {
-    //   widget.isMatched4 = false;
-    //   widget.wrong4 = true;
-    // }
-    // if (my_words[5] == 'الطعام') {
-    //   widget.isMatched5 = true;
-    //   widget.correct5 = true;
-    // }
-    // if (my_words[5] != 'الطعام') {
-    //   widget.isMatched5 = false;
-    //   widget.wrong5 = true;
-    // }
-    // if (my_words[6] == 'ثم') {
-    //   widget.isMatched6 = true;
-    //   widget.correct6 = true;
-    // }
-    // if (my_words[6] != 'ثم') {
-    //   widget.isMatched6 = false;
-    //   widget.wrong6 = true;
-    // }
-    // if (my_words[7] == 'وضعته') {
-    //   widget.isMatched7 = true;
-    //   widget.correct7 = true;
-    // }
-    // if (my_words[7] != 'وضعته') {
-    //   widget.isMatched7 = false;
-    //   widget.wrong7 = true;
-    // }
-    // if (my_words[8] == 'في') {
-    //   widget.isMatched8 = true;
-    //   widget.correct8 = true;
-    // }
-    // if (my_words[8] != 'في') {
-    //   widget.isMatched8 = false;
-    //   widget.wrong8 = true;
-    // }
-    // if (my_words[9] == 'ثلاثة') {
-    //   widget.isMatched9 = true;
-    //   widget.correct9 = true;
-    // }
-    // if (my_words[9] != 'اطباق') {
-    //   widget.isMatched9 = false;
-    //   widget.wrong9 = true;
-    // }
-    // if (my_words[10] == 'اطباق') {
-    //   widget.isMatched10 = true;
-    //   widget.correct10 = true;
-    // }
-    // if (my_words[10] != 'طبق') {
-    //   widget.isMatched10 = false;
-    //   widget.wrong10 = true;
-    // }
-    // if (my_words[11] == 'طبق') {
-    //   widget.isMatched11 = true;
-    //   widget.correct11 = true;
-    // }
-    // if (my_words[11] != 'كما') {
-    //   widget.isMatched11 = false;
-    //   widget.wrong11 = true;
-    // }
-    // if (my_words[12] == 'نعرف') {
-    //   widget.isMatched12 = true;
-    //   widget.correct12 = true;
-    // }
-    // if (my_words[12] != 'نعرف') {
-    //   widget.isMatched12 = false;
-    //   widget.wrong12 = true;
-    // }
-    // if (my_words[13] == 'سريع') {
-    //   widget.isMatched13 = true;
-    //   widget.correct13 = true;
-    // }
-    // if (my_words[13] != 'سريع') {
-    //   widget.isMatched13 = false;
-    //   widget.wrong13 = true;
-    // }
-    // if (my_words[14] == 'الحركه') {
-    //   widget.isMatched14 = true;
-    //   widget.correct14 = true;
-    // }
-    // if (my_words[14] != 'الحركه') {
-    //   widget.isMatched14 = false;
-    //   widget.wrong14 = true;
-    // }
-    // if (my_words[15] == 'والجري') {
-    //   widget.isMatched15 = true;
-    //   widget.correct15 = true;
-    // }
-    // if (my_words[15] != 'والجري') {
-    //   widget.isMatched15 = false;
-    //   widget.wrong15 = true;
-    // }
-    // if (my_words[16] == 'والقفز') {
-    //   widget.isMatched16 = true;
-    //   widget.correct16 = true;
-    //   _Next();
-    // }
-    // if (my_words[16] != 'والقفز') {
-    //   widget.isMatched16 = false;
-    //   widget.wrong16 = true;
-    //   _Next();
-    // } else {
-    //   print('Finished');
-    // }
+    if (my_words[1] == 'الدب') {
+      widget.isMatched1 = true;
+      widget.correct1 = true;
+    }
+    if (my_words[1] != 'الدب') {
+      widget.isMatched1 = false;
+      widget.wrong1 = true;
+    }
+    if (my_words[2] == 'الام') {
+      widget.isMatched2 = true;
+      widget.correct2 = true;
+    }
+    if (my_words[2] != 'الام') {
+      widget.isMatched2 = false;
+      widget.wrong2 = true;
+    }
+    if (my_words[3] == 'مبكرا') {
+      widget.isMatched3 = true;
+      widget.correct3 = true;
+    }
+    if (my_words[3] != 'مبكرا') {
+      widget.isMatched3 = false;
+      widget.wrong3 = true;
+    }
+    if (my_words[4] == 'واعدت') {
+      widget.isMatched4 = true;
+      widget.correct4 = true;
+    }
+    if (my_words[4] != 'واعدت') {
+      widget.isMatched4 = false;
+      widget.wrong4 = true;
+    }
+    if (my_words[5] == 'الطعام') {
+      widget.isMatched5 = true;
+      widget.correct5 = true;
+    }
+    if (my_words[5] != 'الطعام') {
+      widget.isMatched5 = false;
+      widget.wrong5 = true;
+    }
+    if (my_words[6] == 'ثم') {
+      widget.isMatched6 = true;
+      widget.correct6 = true;
+    }
+    if (my_words[6] != 'ثم') {
+      widget.isMatched6 = false;
+      widget.wrong6 = true;
+    }
+    if (my_words[7] == 'وضعته') {
+      widget.isMatched7 = true;
+      widget.correct7 = true;
+    }
+    if (my_words[7] != 'وضعته') {
+      widget.isMatched7 = false;
+      widget.wrong7 = true;
+    }
+    if (my_words[8] == 'في') {
+      widget.isMatched8 = true;
+      widget.correct8 = true;
+    }
+    if (my_words[8] != 'في') {
+      widget.isMatched8 = false;
+      widget.wrong8 = true;
+    }
+    if (my_words[9] == 'ثلاثة') {
+      widget.isMatched9 = true;
+      widget.correct9 = true;
+    }
+    if (my_words[9] != 'ثلاثه') {
+      widget.isMatched9 = false;
+      widget.wrong9 = true;
+    }
+    if (my_words[10] == 'اطباق') {
+      widget.isMatched10 = true;
+      widget.correct10 = true;
+    }
+    if (my_words[10] != 'اطباق') {
+      widget.isMatched10 = false;
+      widget.wrong10 = true;
+    }
+    if (my_words[11] == 'طبق') {
+      widget.isMatched11 = true;
+      widget.correct11 = true;
+    }
+    if (my_words[11] != 'طبق') {
+      widget.isMatched11 = false;
+      widget.wrong11 = true;
+    }
+    if (my_words[12] == 'لها') {
+      widget.isMatched12 = true;
+      widget.correct12 = true;
+    }
+    if (my_words[12] != 'لها') {
+      widget.isMatched12 = false;
+      widget.wrong12 = true;
+    }
+    if (my_words[13] == 'وطبق') {
+      widget.isMatched13 = true;
+      widget.correct13 = true;
+    }
+    if (my_words[13] != 'وطبق') {
+      widget.isMatched13 = false;
+      widget.wrong13 = true;
+    }
+    if (my_words[14] == 'لزوجها') {
+      widget.isMatched14 = true;
+      widget.correct14 = true;
+    }
+    if (my_words[14] != 'لزوجها') {
+      widget.isMatched14 = false;
+      widget.wrong14 = true;
+    }
+    if (my_words[15] == 'الدب') {
+      widget.isMatched15 = true;
+      widget.correct15 = true;
+    }
+    if (my_words[15] != 'الدب') {
+      widget.isMatched15 = false;
+      widget.wrong15 = true;
+    }
+    if (my_words[16] == 'وطبق') {
+      widget.isMatched16 = true;
+      widget.correct16 = true;
+      _Next();
+    }
+    if (my_words[16] != 'وطبق') {
+      widget.isMatched16 = false;
+      widget.wrong16 = true;
+      _Next();
+    } else {
+      print('Finished');
+    }
   }
 
   void onRecognitionComplete(String text) {

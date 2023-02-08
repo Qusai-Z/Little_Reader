@@ -137,7 +137,7 @@ class _StoriesPageState extends State<StoriesPage> {
                   // ),
                   Expanded(
                     child: Stack(
-                      alignment: Alignment.topRight,
+                      alignment: Alignment.topCenter,
                       children: [
                         MaterialButton(
                           shape: const RoundedRectangleBorder(),
@@ -165,7 +165,9 @@ class _StoriesPageState extends State<StoriesPage> {
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
+                          margin: EdgeInsets.only(
+                              left: currentWidth / 4.8,
+                              top: currentHeight / 40),
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(20),
@@ -199,12 +201,37 @@ class _StoriesPageState extends State<StoriesPage> {
                             ),
                           ),
                         ),
+                        Container(
+                          width: currentHeight / 3,
+                          height: currentHeight / 14,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.brown,
+                          ),
+                          margin: EdgeInsets.only(
+                              right: currentWidth / 10,
+                              top: currentHeight / 42),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                            ),
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.all(2),
+                            child: Text(
+                              'الماعز والثعلب',
+                              style: TextStyle(
+                                  fontSize: currentWidth / 66,
+                                  fontFamily: 'Lalezar'),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   Expanded(
                     child: Stack(
-                      alignment: Alignment.topRight,
+                      alignment: Alignment.topCenter,
                       children: [
                         MaterialButton(
                           shape: const RoundedRectangleBorder(),
@@ -234,7 +261,9 @@ class _StoriesPageState extends State<StoriesPage> {
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
+                          margin: EdgeInsets.only(
+                              left: currentWidth / 4.8,
+                              top: currentHeight / 40),
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(20),
@@ -268,12 +297,37 @@ class _StoriesPageState extends State<StoriesPage> {
                             ),
                           ),
                         ),
+                        Container(
+                          width: currentHeight / 3,
+                          height: currentHeight / 14,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.brown,
+                          ),
+                          margin: EdgeInsets.only(
+                              right: currentWidth / 10,
+                              top: currentHeight / 42),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                            ),
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.all(2),
+                            child: Text(
+                              'الفتاة والدببة',
+                              style: TextStyle(
+                                  fontSize: currentWidth / 66,
+                                  fontFamily: 'Lalezar'),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   Expanded(
                     child: Stack(
-                      alignment: Alignment.topRight,
+                      alignment: Alignment.topCenter,
                       children: [
                         MaterialButton(
                           shape: const RoundedRectangleBorder(),
@@ -303,7 +357,9 @@ class _StoriesPageState extends State<StoriesPage> {
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(right: 25, top: 10),
+                          margin: EdgeInsets.only(
+                              left: currentWidth / 4.8,
+                              top: currentHeight / 40),
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(20),
@@ -334,6 +390,31 @@ class _StoriesPageState extends State<StoriesPage> {
                                 ],
                               ),
                               maxLines: 1,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: currentHeight / 3,
+                          height: currentHeight / 14,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.brown,
+                          ),
+                          margin: EdgeInsets.only(
+                              right: currentWidth / 10,
+                              top: currentHeight / 42),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                            ),
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.all(2),
+                            child: Text(
+                              'الأرنب والسلحفاة',
+                              style: TextStyle(
+                                  fontSize: currentWidth / 66,
+                                  fontFamily: 'Lalezar'),
                             ),
                           ),
                         ),
