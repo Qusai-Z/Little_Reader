@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:little_reader/views/home/letters/letters.dart';
 import 'package:little_reader/views/registeration/inf_entry/add_child.dart';
 import 'package:little_reader/views/registeration/inf_entry/inf_entry.dart';
-import 'views/home/stories/hard/test2.dart';
 import 'views/registeration/inf_entry/accounts.dart';
 import 'views/registeration/inf_entry/first_page.dart';
 import 'views/registeration/inf_entry/forget_pass.dart';

@@ -156,8 +156,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: NetworkImage(
-                                    'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Fox_And_Goat%2FImages%2F3.jpg?alt=media'),
+                                image: AssetImage('imgs/story_3.jpg'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -252,8 +251,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: NetworkImage(
-                                    'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Three_Bears_And_Girl%2FImages%2F6.jpg?alt=media'),
+                                image: AssetImage('imgs/story_2.jpg'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -348,8 +346,7 @@ class _StoriesPageState extends State<StoriesPage> {
                             height: currentHeight / 3,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
-                                image: NetworkImage(
-                                    'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F4.jpeg?alt=media'),
+                                image: AssetImage('imgs/story_1.jpeg'),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(10),
