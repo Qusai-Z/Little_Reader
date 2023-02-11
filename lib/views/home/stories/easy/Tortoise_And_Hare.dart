@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +96,9 @@ class _TandHState extends State<TandH> {
 
   bool _speechRecognitionAvailable = false;
   bool _isListening = false;
+  bool play = false;
+  bool play_button = false;
+  bool play_bird_sound = true;
   var transcription = '';
 
   String _currentLocale = 'ar_Ar';
@@ -107,7 +111,9 @@ class _TandHState extends State<TandH> {
     super.initState();
     activateSpeechRecognizer();
 
-    // matchingWords();
+    setState(() {
+      play = true;
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -137,228 +143,249 @@ class _TandHState extends State<TandH> {
     final currentWidht = MediaQuery.of(context).size.height;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F1.jpeg?alt=media'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                    height: currentHeight / 2.5,
-                    width: currentWidht / 1.4,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: _firestore
-                          .collection('Stories')
-                          .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
-                          .snapshots(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, i) {
-                              var content =
-                                  snapshot.data!.docs[i].get('Text')[0];
-
-                              list.add(content);
-
-                              return Content_1(
-                                text1: content.toString(),
-                                correct: widget.correct,
-                                correct1: widget.correct1,
-                                correct2: widget.correct2,
-                                correct3: widget.correct3,
-                                correct4: widget.correct4,
-                                correct5: widget.correct5,
-                                correct6: widget.correct6,
-                                correct7: widget.correct7,
-                                correct8: widget.correct8,
-                                correct9: widget.correct9,
-                                correct10: widget.correct10,
-                                correct11: widget.correct11,
-                                correct12: widget.correct12,
-                                correct13: widget.correct13,
-                                correct14: widget.correct14,
-                                correct15: widget.correct15,
-                                correct16: widget.correct16,
-                                wrong: widget.wrong,
-                                wrong1: widget.wrong1,
-                                wrong2: widget.wrong2,
-                                wrong3: widget.wrong3,
-                                wrong4: widget.wrong4,
-                                wrong5: widget.wrong5,
-                                wrong6: widget.wrong6,
-                                wrong7: widget.wrong7,
-                                wrong8: widget.wrong8,
-                                wrong9: widget.wrong9,
-                                wrong10: widget.wrong10,
-                                wrong11: widget.wrong11,
-                                wrong12: widget.wrong12,
-                                wrong13: widget.wrong13,
-                                wrong14: widget.wrong14,
-                                wrong15: widget.wrong15,
-                                wrong16: widget.wrong16,
-                                isMatched: widget.isMatched,
-                                isMatched1: widget.isMatched1,
-                                isMatched2: widget.isMatched2,
-                                isMatched3: widget.isMatched3,
-                                isMatched4: widget.isMatched4,
-                                isMatched5: widget.isMatched5,
-                                isMatched6: widget.isMatched6,
-                                isMatched7: widget.isMatched7,
-                                isMatched8: widget.isMatched8,
-                                isMatched9: widget.isMatched9,
-                                isMatched10: widget.isMatched10,
-                                isMatched11: widget.isMatched11,
-                                isMatched12: widget.isMatched12,
-                                isMatched13: widget.isMatched13,
-                                isMatched14: widget.isMatched14,
-                                isMatched15: widget.isMatched15,
-                                isMatched16: widget.isMatched16,
-                              );
-                            },
-                          );
-                        }
-                        return const Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ),
-                ],
+      home: SafeArea(
+        child: Scaffold(
+          body: AudioWidget.assets(
+            path: 'audios/audio0.mp3',
+            play: play,
+            volume: 2,
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F1.jpeg?alt=media'),
+                  fit: BoxFit.cover,
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH2(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      AudioWidget.assets(
+                        path: 'audios/birds.mp3',
+                        play: play_bird_sound,
+                        volume: 0.1,
+                        loopMode: LoopMode.playlist,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                          height: currentHeight / 2.5,
+                          width: currentWidht / 1.4,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Stories')
+                                .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, i) {
+                                    var content =
+                                        snapshot.data!.docs[i].get('Text')[0];
+
+                                    list.add(content);
+
+                                    return Content_1(
+                                      text1: content.toString(),
+                                      correct: widget.correct,
+                                      correct1: widget.correct1,
+                                      correct2: widget.correct2,
+                                      correct3: widget.correct3,
+                                      correct4: widget.correct4,
+                                      correct5: widget.correct5,
+                                      correct6: widget.correct6,
+                                      correct7: widget.correct7,
+                                      correct8: widget.correct8,
+                                      correct9: widget.correct9,
+                                      correct10: widget.correct10,
+                                      correct11: widget.correct11,
+                                      correct12: widget.correct12,
+                                      correct13: widget.correct13,
+                                      correct14: widget.correct14,
+                                      correct15: widget.correct15,
+                                      correct16: widget.correct16,
+                                      wrong: widget.wrong,
+                                      wrong1: widget.wrong1,
+                                      wrong2: widget.wrong2,
+                                      wrong3: widget.wrong3,
+                                      wrong4: widget.wrong4,
+                                      wrong5: widget.wrong5,
+                                      wrong6: widget.wrong6,
+                                      wrong7: widget.wrong7,
+                                      wrong8: widget.wrong8,
+                                      wrong9: widget.wrong9,
+                                      wrong10: widget.wrong10,
+                                      wrong11: widget.wrong11,
+                                      wrong12: widget.wrong12,
+                                      wrong13: widget.wrong13,
+                                      wrong14: widget.wrong14,
+                                      wrong15: widget.wrong15,
+                                      wrong16: widget.wrong16,
+                                      isMatched: widget.isMatched,
+                                      isMatched1: widget.isMatched1,
+                                      isMatched2: widget.isMatched2,
+                                      isMatched3: widget.isMatched3,
+                                      isMatched4: widget.isMatched4,
+                                      isMatched5: widget.isMatched5,
+                                      isMatched6: widget.isMatched6,
+                                      isMatched7: widget.isMatched7,
+                                      isMatched8: widget.isMatched8,
+                                      isMatched9: widget.isMatched9,
+                                      isMatched10: widget.isMatched10,
+                                      isMatched11: widget.isMatched11,
+                                      isMatched12: widget.isMatched12,
+                                      isMatched13: widget.isMatched13,
+                                      isMatched14: widget.isMatched14,
+                                      isMatched15: widget.isMatched15,
+                                      isMatched16: widget.isMatched16,
+                                    );
+                                  },
+                                );
+                              }
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            },
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
+                    ],
                   ),
-                  GestureDetector(
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: currentHeight / 28,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH2(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: currentHeight / 28,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: currentHeight / 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (_speechRecognitionAvailable && !_isListening) {
-                        start();
-                      }
-                      null;
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                      GestureDetector(
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: currentHeight / 28,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(
-                    width: 30,
+                  SizedBox(
+                    height: currentHeight / 18,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(
-                              childID: widget.childID,
-                              currentAvatar: widget.currentAvatar,
-                              currentName: widget.currentName,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (_speechRecognitionAvailable && !_isListening) {
+                            start();
+                          }
+                          null;
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            _isListening ? Icons.mic : Icons.mic_off,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home(
+                                  childID: widget.childID,
+                                  currentAvatar: widget.currentAvatar,
+                                  currentName: widget.currentName,
+                                ),
+                              ),
+                              (Route<dynamic> route) => false);
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            Icons.home,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      AudioWidget.assets(
+                        path: 'audios/audio0.mp3',
+                        play: play_button,
+                        child: MaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              if (play == true) {
+                                play = false;
+                              } else {
+                                if (play == false) {
+                                  play = true;
+                                }
+                              }
+                            });
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(60),
+                          ),
+                          splashColor: Colors.amber,
+                          child: CircleAvatar(
+                            radius: currentHeight / 16,
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            child: Icon(
+                              Icons.volume_up,
+                              color: Colors.white,
+                              size: currentHeight / 14,
                             ),
                           ),
-                          (Route<dynamic> route) => false);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(
-                        () {
-                          print('tapped');
-                          // if (play == true) {
-                          //   play = false;
-                          // } else {
-                          //   if (play == false) {
-                          //     play = true;
-                          //   }
-                          // }
-                        },
-                      );
-                    },
-                    child: CircleAvatar(
-                      radius: currentHeight / 16,
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      child: Icon(
-                        Icons.volume_up,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -1025,6 +1052,9 @@ class _TandH2State extends State<TandH2> {
 
   bool _speechRecognitionAvailable = false;
   bool _isListening = false;
+  bool play = false;
+  bool play_button = false;
+  bool play_birds_sound = true;
   var transcription = '';
 
   String _currentLocale = 'ar_Ar';
@@ -1037,7 +1067,9 @@ class _TandH2State extends State<TandH2> {
     super.initState();
     activateSpeechRecognizer();
 
-    // matchingWords();
+    setState(() {
+      play = true;
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -1067,253 +1099,274 @@ class _TandH2State extends State<TandH2> {
     final currentWidht = MediaQuery.of(context).size.height;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F2.jpeg?alt=media'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+      home: AudioWidget.assets(
+        path: 'audios/audio1.mp3',
+        play: play,
+        volume: 2,
+        child: SafeArea(
+          child: Scaffold(
+            body: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F2.jpeg?alt=media'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                    height: currentHeight / 2.5,
-                    width: currentWidht / 1.4,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: _firestore
-                          .collection('Stories')
-                          .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
-                          .snapshots(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, i) {
-                              var content =
-                                  snapshot.data!.docs[i].get('Text')[1];
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      AudioWidget.assets(
+                        path: 'audios/birds.mp3',
+                        volume: 0.1,
+                        play: play_birds_sound,
+                        loopMode: LoopMode.playlist,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                          height: currentHeight / 2.5,
+                          width: currentWidht / 1.4,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Stories')
+                                .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, i) {
+                                    var content =
+                                        snapshot.data!.docs[i].get('Text')[1];
 
-                              list.add(content);
+                                    list.add(content);
 
-                              return Content_2(
-                                text1: content.toString(),
-                                correct: widget.correct,
-                                correct1: widget.correct1,
-                                correct2: widget.correct2,
-                                correct3: widget.correct3,
-                                correct4: widget.correct4,
-                                correct5: widget.correct5,
-                                correct6: widget.correct6,
-                                correct7: widget.correct7,
-                                correct8: widget.correct8,
-                                correct9: widget.correct9,
-                                correct10: widget.correct10,
-                                correct11: widget.correct11,
-                                correct12: widget.correct12,
-                                correct13: widget.correct13,
-                                correct14: widget.correct14,
-                                correct15: widget.correct15,
-                                correct16: widget.correct16,
-                                correct17: widget.correct17,
-                                correct18: widget.correct18,
-                                correct19: widget.correct19,
-                                correct20: widget.correct20,
-                                correct21: widget.correct21,
-                                wrong: widget.wrong,
-                                wrong1: widget.wrong1,
-                                wrong2: widget.wrong2,
-                                wrong3: widget.wrong3,
-                                wrong4: widget.wrong4,
-                                wrong5: widget.wrong5,
-                                wrong6: widget.wrong6,
-                                wrong7: widget.wrong7,
-                                wrong8: widget.wrong8,
-                                wrong9: widget.wrong9,
-                                wrong10: widget.wrong10,
-                                wrong11: widget.wrong11,
-                                wrong12: widget.wrong12,
-                                wrong13: widget.wrong13,
-                                wrong14: widget.wrong14,
-                                wrong15: widget.wrong15,
-                                wrong16: widget.wrong16,
-                                wrong17: widget.wrong17,
-                                wrong18: widget.wrong18,
-                                wrong19: widget.wrong19,
-                                wrong20: widget.wrong20,
-                                wrong21: widget.wrong21,
-                                isMatched: widget.isMatched,
-                                isMatched1: widget.isMatched1,
-                                isMatched2: widget.isMatched2,
-                                isMatched3: widget.isMatched3,
-                                isMatched4: widget.isMatched4,
-                                isMatched5: widget.isMatched5,
-                                isMatched6: widget.isMatched6,
-                                isMatched7: widget.isMatched7,
-                                isMatched8: widget.isMatched8,
-                                isMatched9: widget.isMatched9,
-                                isMatched10: widget.isMatched10,
-                                isMatched11: widget.isMatched11,
-                                isMatched12: widget.isMatched12,
-                                isMatched13: widget.isMatched13,
-                                isMatched14: widget.isMatched14,
-                                isMatched15: widget.isMatched15,
-                                isMatched16: widget.isMatched16,
-                                isMatched17: widget.isMatched17,
-                                isMatched18: widget.isMatched18,
-                                isMatched19: widget.isMatched19,
-                                isMatched20: widget.isMatched20,
-                                isMatched21: widget.isMatched21,
-                              );
+                                    return Content_2(
+                                      text1: content.toString(),
+                                      correct: widget.correct,
+                                      correct1: widget.correct1,
+                                      correct2: widget.correct2,
+                                      correct3: widget.correct3,
+                                      correct4: widget.correct4,
+                                      correct5: widget.correct5,
+                                      correct6: widget.correct6,
+                                      correct7: widget.correct7,
+                                      correct8: widget.correct8,
+                                      correct9: widget.correct9,
+                                      correct10: widget.correct10,
+                                      correct11: widget.correct11,
+                                      correct12: widget.correct12,
+                                      correct13: widget.correct13,
+                                      correct14: widget.correct14,
+                                      correct15: widget.correct15,
+                                      correct16: widget.correct16,
+                                      correct17: widget.correct17,
+                                      correct18: widget.correct18,
+                                      correct19: widget.correct19,
+                                      correct20: widget.correct20,
+                                      correct21: widget.correct21,
+                                      wrong: widget.wrong,
+                                      wrong1: widget.wrong1,
+                                      wrong2: widget.wrong2,
+                                      wrong3: widget.wrong3,
+                                      wrong4: widget.wrong4,
+                                      wrong5: widget.wrong5,
+                                      wrong6: widget.wrong6,
+                                      wrong7: widget.wrong7,
+                                      wrong8: widget.wrong8,
+                                      wrong9: widget.wrong9,
+                                      wrong10: widget.wrong10,
+                                      wrong11: widget.wrong11,
+                                      wrong12: widget.wrong12,
+                                      wrong13: widget.wrong13,
+                                      wrong14: widget.wrong14,
+                                      wrong15: widget.wrong15,
+                                      wrong16: widget.wrong16,
+                                      wrong17: widget.wrong17,
+                                      wrong18: widget.wrong18,
+                                      wrong19: widget.wrong19,
+                                      wrong20: widget.wrong20,
+                                      wrong21: widget.wrong21,
+                                      isMatched: widget.isMatched,
+                                      isMatched1: widget.isMatched1,
+                                      isMatched2: widget.isMatched2,
+                                      isMatched3: widget.isMatched3,
+                                      isMatched4: widget.isMatched4,
+                                      isMatched5: widget.isMatched5,
+                                      isMatched6: widget.isMatched6,
+                                      isMatched7: widget.isMatched7,
+                                      isMatched8: widget.isMatched8,
+                                      isMatched9: widget.isMatched9,
+                                      isMatched10: widget.isMatched10,
+                                      isMatched11: widget.isMatched11,
+                                      isMatched12: widget.isMatched12,
+                                      isMatched13: widget.isMatched13,
+                                      isMatched14: widget.isMatched14,
+                                      isMatched15: widget.isMatched15,
+                                      isMatched16: widget.isMatched16,
+                                      isMatched17: widget.isMatched17,
+                                      isMatched18: widget.isMatched18,
+                                      isMatched19: widget.isMatched19,
+                                      isMatched20: widget.isMatched20,
+                                      isMatched21: widget.isMatched21,
+                                    );
+                                  },
+                                );
+                              }
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH3(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
                           );
-                        }
-                        return const Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH3(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: currentHeight / 28,
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: currentHeight / 28,
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              SizedBox(
-                height: currentHeight / 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: _speechRecognitionAvailable && !_isListening
-                        ? () => start()
-                        : null,
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                  SizedBox(
+                    height: currentHeight / 18,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: _speechRecognitionAvailable && !_isListening
+                            ? () => start()
+                            : null,
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            _isListening ? Icons.mic : Icons.mic_off,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(
-                              childID: widget.childID,
-                              currentAvatar: widget.currentAvatar,
-                              currentName: widget.currentName,
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home(
+                                  childID: widget.childID,
+                                  currentAvatar: widget.currentAvatar,
+                                  currentName: widget.currentName,
+                                ),
+                              ),
+                              (Route<dynamic> route) => false);
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            Icons.home,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      AudioWidget.assets(
+                        path: 'audios/audio0.mp3',
+                        play: play_button,
+                        child: MaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              if (play == true) {
+                                play = false;
+                              } else {
+                                if (play == false) {
+                                  play = true;
+                                }
+                              }
+                            });
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(60),
+                          ),
+                          splashColor: Colors.amber,
+                          child: CircleAvatar(
+                            radius: currentHeight / 16,
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            child: Icon(
+                              Icons.volume_up,
+                              color: Colors.white,
+                              size: currentHeight / 14,
                             ),
                           ),
-                          (Route<dynamic> route) => false);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(
-                        () {
-                          print('tapped');
-                          // if (play == true) {
-                          //   play = false;
-                          // } else {
-                          //   if (play == false) {
-                          //     play = true;
-                          //   }
-                          // }
-                        },
-                      );
-                    },
-                    child: CircleAvatar(
-                      radius: currentHeight / 16,
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      child: Icon(
-                        Icons.volume_up,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -2053,6 +2106,9 @@ class _TandH3State extends State<TandH3> {
 
   bool _speechRecognitionAvailable = false;
   bool _isListening = false;
+  bool play = false;
+  bool play_button = false;
+  bool play_birds_sound = true;
   var transcription = '';
 
   String _currentLocale = 'ar_Ar';
@@ -2065,7 +2121,9 @@ class _TandH3State extends State<TandH3> {
     super.initState();
     activateSpeechRecognizer();
 
-    // matchingWords();
+    setState(() {
+      play = true;
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -2095,253 +2153,275 @@ class _TandH3State extends State<TandH3> {
     final currentWidht = MediaQuery.of(context).size.height;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F3.jpeg?alt=media'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+      home: SafeArea(
+        child: AudioWidget.assets(
+          path: '/audios/audio2.mp3',
+          volume: 2.0,
+          play: play,
+          child: Scaffold(
+            body: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F3.jpeg?alt=media'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                    height: currentHeight / 2.5,
-                    width: currentWidht / 1.4,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: _firestore
-                          .collection('Stories')
-                          .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
-                          .snapshots(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, i) {
-                              var content =
-                                  snapshot.data!.docs[i].get('Text')[2];
+                  AudioWidget.assets(
+                    path: 'audios/birds.mp3',
+                    play: play_birds_sound,
+                    volume: 0.1,
+                    loopMode: LoopMode.playlist,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                          height: currentHeight / 2.5,
+                          width: currentWidht / 1.4,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Stories')
+                                .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, i) {
+                                    var content =
+                                        snapshot.data!.docs[i].get('Text')[2];
 
-                              list.add(content);
+                                    list.add(content);
 
-                              return Content_3(
-                                text1: content.toString(),
-                                correct: widget.correct,
-                                correct1: widget.correct1,
-                                correct2: widget.correct2,
-                                correct3: widget.correct3,
-                                correct4: widget.correct4,
-                                correct5: widget.correct5,
-                                correct6: widget.correct6,
-                                correct7: widget.correct7,
-                                correct8: widget.correct8,
-                                correct9: widget.correct9,
-                                correct10: widget.correct10,
-                                correct11: widget.correct11,
-                                correct12: widget.correct12,
-                                correct13: widget.correct13,
-                                correct14: widget.correct14,
-                                correct15: widget.correct15,
-                                correct16: widget.correct16,
-                                correct17: widget.correct17,
-                                correct18: widget.correct18,
-                                correct19: widget.correct19,
-                                correct20: widget.correct20,
-                                correct21: widget.correct21,
-                                wrong: widget.wrong,
-                                wrong1: widget.wrong1,
-                                wrong2: widget.wrong2,
-                                wrong3: widget.wrong3,
-                                wrong4: widget.wrong4,
-                                wrong5: widget.wrong5,
-                                wrong6: widget.wrong6,
-                                wrong7: widget.wrong7,
-                                wrong8: widget.wrong8,
-                                wrong9: widget.wrong9,
-                                wrong10: widget.wrong10,
-                                wrong11: widget.wrong11,
-                                wrong12: widget.wrong12,
-                                wrong13: widget.wrong13,
-                                wrong14: widget.wrong14,
-                                wrong15: widget.wrong15,
-                                wrong16: widget.wrong16,
-                                wrong17: widget.wrong17,
-                                wrong18: widget.wrong18,
-                                wrong19: widget.wrong19,
-                                wrong20: widget.wrong20,
-                                wrong21: widget.wrong21,
-                                isMatched: widget.isMatched,
-                                isMatched1: widget.isMatched1,
-                                isMatched2: widget.isMatched2,
-                                isMatched3: widget.isMatched3,
-                                isMatched4: widget.isMatched4,
-                                isMatched5: widget.isMatched5,
-                                isMatched6: widget.isMatched6,
-                                isMatched7: widget.isMatched7,
-                                isMatched8: widget.isMatched8,
-                                isMatched9: widget.isMatched9,
-                                isMatched10: widget.isMatched10,
-                                isMatched11: widget.isMatched11,
-                                isMatched12: widget.isMatched12,
-                                isMatched13: widget.isMatched13,
-                                isMatched14: widget.isMatched14,
-                                isMatched15: widget.isMatched15,
-                                isMatched16: widget.isMatched16,
-                                isMatched17: widget.isMatched17,
-                                isMatched18: widget.isMatched18,
-                                isMatched19: widget.isMatched19,
-                                isMatched20: widget.isMatched20,
-                                isMatched21: widget.isMatched21,
-                              );
+                                    return Content_3(
+                                      text1: content.toString(),
+                                      correct: widget.correct,
+                                      correct1: widget.correct1,
+                                      correct2: widget.correct2,
+                                      correct3: widget.correct3,
+                                      correct4: widget.correct4,
+                                      correct5: widget.correct5,
+                                      correct6: widget.correct6,
+                                      correct7: widget.correct7,
+                                      correct8: widget.correct8,
+                                      correct9: widget.correct9,
+                                      correct10: widget.correct10,
+                                      correct11: widget.correct11,
+                                      correct12: widget.correct12,
+                                      correct13: widget.correct13,
+                                      correct14: widget.correct14,
+                                      correct15: widget.correct15,
+                                      correct16: widget.correct16,
+                                      correct17: widget.correct17,
+                                      correct18: widget.correct18,
+                                      correct19: widget.correct19,
+                                      correct20: widget.correct20,
+                                      correct21: widget.correct21,
+                                      wrong: widget.wrong,
+                                      wrong1: widget.wrong1,
+                                      wrong2: widget.wrong2,
+                                      wrong3: widget.wrong3,
+                                      wrong4: widget.wrong4,
+                                      wrong5: widget.wrong5,
+                                      wrong6: widget.wrong6,
+                                      wrong7: widget.wrong7,
+                                      wrong8: widget.wrong8,
+                                      wrong9: widget.wrong9,
+                                      wrong10: widget.wrong10,
+                                      wrong11: widget.wrong11,
+                                      wrong12: widget.wrong12,
+                                      wrong13: widget.wrong13,
+                                      wrong14: widget.wrong14,
+                                      wrong15: widget.wrong15,
+                                      wrong16: widget.wrong16,
+                                      wrong17: widget.wrong17,
+                                      wrong18: widget.wrong18,
+                                      wrong19: widget.wrong19,
+                                      wrong20: widget.wrong20,
+                                      wrong21: widget.wrong21,
+                                      isMatched: widget.isMatched,
+                                      isMatched1: widget.isMatched1,
+                                      isMatched2: widget.isMatched2,
+                                      isMatched3: widget.isMatched3,
+                                      isMatched4: widget.isMatched4,
+                                      isMatched5: widget.isMatched5,
+                                      isMatched6: widget.isMatched6,
+                                      isMatched7: widget.isMatched7,
+                                      isMatched8: widget.isMatched8,
+                                      isMatched9: widget.isMatched9,
+                                      isMatched10: widget.isMatched10,
+                                      isMatched11: widget.isMatched11,
+                                      isMatched12: widget.isMatched12,
+                                      isMatched13: widget.isMatched13,
+                                      isMatched14: widget.isMatched14,
+                                      isMatched15: widget.isMatched15,
+                                      isMatched16: widget.isMatched16,
+                                      isMatched17: widget.isMatched17,
+                                      isMatched18: widget.isMatched18,
+                                      isMatched19: widget.isMatched19,
+                                      isMatched20: widget.isMatched20,
+                                      isMatched21: widget.isMatched21,
+                                    );
+                                  },
+                                );
+                              }
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH4(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
                           );
-                        }
-                        return const Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH4(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: currentHeight / 28,
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH2(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH2(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: currentHeight / 28,
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              SizedBox(
-                height: currentHeight / 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: _speechRecognitionAvailable && !_isListening
-                        ? () => start()
-                        : null,
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                  SizedBox(
+                    height: currentHeight / 18,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: _speechRecognitionAvailable && !_isListening
+                            ? () => start()
+                            : null,
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            _isListening ? Icons.mic : Icons.mic_off,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(
-                              childID: widget.childID,
-                              currentAvatar: widget.currentAvatar,
-                              currentName: widget.currentName,
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home(
+                                  childID: widget.childID,
+                                  currentAvatar: widget.currentAvatar,
+                                  currentName: widget.currentName,
+                                ),
+                              ),
+                              (Route<dynamic> route) => false);
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            Icons.home,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      AudioWidget.assets(
+                        path: 'audios/audio2.mp3', //t33
+                        play: play_button,
+                        volume: 2.0,
+                        child: MaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              if (play == true) {
+                                play = false;
+                              } else {
+                                if (play == false) {
+                                  play = true;
+                                }
+                              }
+                            });
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(60),
+                          ),
+                          splashColor: Colors.amber,
+                          child: CircleAvatar(
+                            radius: currentHeight / 16,
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            child: Icon(
+                              Icons.volume_up,
+                              color: Colors.white,
+                              size: currentHeight / 14,
                             ),
                           ),
-                          (Route<dynamic> route) => false);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(
-                        () {
-                          print('tapped');
-                          // if (play == true) {
-                          //   play = false;
-                          // } else {
-                          //   if (play == false) {
-                          //     play = true;
-                          //   }
-                          // }
-                        },
-                      );
-                    },
-                    child: CircleAvatar(
-                      radius: currentHeight / 16,
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      child: Icon(
-                        Icons.volume_up,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -3119,6 +3199,9 @@ class _TandH4State extends State<TandH4> {
 
   bool _speechRecognitionAvailable = false;
   bool _isListening = false;
+  bool play = false;
+  bool play_button = false;
+  bool play_birds_sound = true;
   var transcription = '';
 
   String _currentLocale = 'ar_Ar';
@@ -3131,7 +3214,9 @@ class _TandH4State extends State<TandH4> {
     super.initState();
     activateSpeechRecognizer();
 
-    // matchingWords();
+    setState(() {
+      play = true;
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -3161,220 +3246,246 @@ class _TandH4State extends State<TandH4> {
     final currentWidht = MediaQuery.of(context).size.height;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F4.jpeg?alt=media'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                    height: currentHeight / 2.5,
-                    width: currentWidht / 1.4,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: _firestore
-                          .collection('Stories')
-                          .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
-                          .snapshots(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, i) {
-                              var content =
-                                  snapshot.data!.docs[i].get('Text')[3];
+      home: SafeArea(
+        child: AudioWidget.assets(
+          path: 'audios/audio3.mp3',
+          volume: 2.0,
+          play: play,
+          child: Scaffold(
+            body: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F4.jpeg?alt=media'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: AudioWidget.assets(
+                path: 'audios/birds.mp3',
+                volume: 0.1,
+                loopMode: LoopMode.playlist,
+                play: play_birds_sound,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                          height: currentHeight / 2.5,
+                          width: currentWidht / 1.4,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Stories')
+                                .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, i) {
+                                    var content =
+                                        snapshot.data!.docs[i].get('Text')[3];
 
-                              list.add(content);
+                                    list.add(content);
 
-                              return Content_4(
-                                text1: content.toString(),
-                                correct: widget.correct,
-                                correct1: widget.correct1,
-                                correct2: widget.correct2,
-                                correct3: widget.correct3,
-                                correct4: widget.correct4,
-                                correct5: widget.correct5,
-                                correct6: widget.correct6,
-                                correct7: widget.correct7,
-                                correct8: widget.correct8,
-                                correct9: widget.correct9,
-                                correct10: widget.correct10,
-                                wrong: widget.wrong,
-                                wrong1: widget.wrong1,
-                                wrong2: widget.wrong2,
-                                wrong3: widget.wrong3,
-                                wrong4: widget.wrong4,
-                                wrong5: widget.wrong5,
-                                wrong6: widget.wrong6,
-                                wrong7: widget.wrong7,
-                                wrong8: widget.wrong8,
-                                wrong9: widget.wrong9,
-                                wrong10: widget.wrong10,
-                                isMatched: widget.isMatched,
-                                isMatched1: widget.isMatched1,
-                                isMatched2: widget.isMatched2,
-                                isMatched3: widget.isMatched3,
-                                isMatched4: widget.isMatched4,
-                                isMatched5: widget.isMatched5,
-                                isMatched6: widget.isMatched6,
-                                isMatched7: widget.isMatched7,
-                                isMatched8: widget.isMatched8,
-                                isMatched9: widget.isMatched9,
-                                isMatched10: widget.isMatched10,
-                              );
+                                    return Content_4(
+                                      text1: content.toString(),
+                                      correct: widget.correct,
+                                      correct1: widget.correct1,
+                                      correct2: widget.correct2,
+                                      correct3: widget.correct3,
+                                      correct4: widget.correct4,
+                                      correct5: widget.correct5,
+                                      correct6: widget.correct6,
+                                      correct7: widget.correct7,
+                                      correct8: widget.correct8,
+                                      correct9: widget.correct9,
+                                      correct10: widget.correct10,
+                                      wrong: widget.wrong,
+                                      wrong1: widget.wrong1,
+                                      wrong2: widget.wrong2,
+                                      wrong3: widget.wrong3,
+                                      wrong4: widget.wrong4,
+                                      wrong5: widget.wrong5,
+                                      wrong6: widget.wrong6,
+                                      wrong7: widget.wrong7,
+                                      wrong8: widget.wrong8,
+                                      wrong9: widget.wrong9,
+                                      wrong10: widget.wrong10,
+                                      isMatched: widget.isMatched,
+                                      isMatched1: widget.isMatched1,
+                                      isMatched2: widget.isMatched2,
+                                      isMatched3: widget.isMatched3,
+                                      isMatched4: widget.isMatched4,
+                                      isMatched5: widget.isMatched5,
+                                      isMatched6: widget.isMatched6,
+                                      isMatched7: widget.isMatched7,
+                                      isMatched8: widget.isMatched8,
+                                      isMatched9: widget.isMatched9,
+                                      isMatched10: widget.isMatched10,
+                                    );
+                                  },
+                                );
+                              }
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             },
-                          );
-                        }
-                        return const Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH5(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: currentHeight / 28,
-                      ),
+                      ],
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH3(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
-                          ),
-                        ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: currentHeight / 28,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: currentHeight / 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: _speechRecognitionAvailable && !_isListening
-                        ? () => start()
-                        : null,
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(
-                              childID: widget.childID,
-                              currentAvatar: widget.currentAvatar,
-                              currentName: widget.currentName,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TandH5(
+                                  childID: widget.childID,
+                                  currentAvatar: widget.currentAvatar,
+                                  currentName: widget.currentName,
+                                ),
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: CircleAvatar(
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            radius: currentHeight / 28,
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                              size: currentHeight / 28,
                             ),
                           ),
-                          (Route<dynamic> route) => false);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TandH3(
+                                  childID: widget.childID,
+                                  currentAvatar: widget.currentAvatar,
+                                  currentName: widget.currentName,
+                                ),
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: CircleAvatar(
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            radius: currentHeight / 28,
+                            child: Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                              size: currentHeight / 28,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(
-                        () {
-                          print('tapped');
-                          // if (play == true) {
-                          //   play = false;
-                          // } else {
-                          //   if (play == false) {
-                          //     play = true;
-                          //   }
-                          // }
-                        },
-                      );
-                    },
-                    child: CircleAvatar(
-                      radius: currentHeight / 16,
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      child: Icon(
-                        Icons.volume_up,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
+                    SizedBox(
+                      height: currentHeight / 18,
                     ),
-                  ),
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: _speechRecognitionAvailable && !_isListening
+                              ? () => start()
+                              : null,
+                          child: CircleAvatar(
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            radius: currentHeight / 16,
+                            child: Icon(
+                              _isListening ? Icons.mic : Icons.mic_off,
+                              color: Colors.white,
+                              size: currentHeight / 14,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Home(
+                                    childID: widget.childID,
+                                    currentAvatar: widget.currentAvatar,
+                                    currentName: widget.currentName,
+                                  ),
+                                ),
+                                (Route<dynamic> route) => false);
+                          },
+                          child: CircleAvatar(
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            radius: currentHeight / 16,
+                            child: Icon(
+                              Icons.home,
+                              color: Colors.white,
+                              size: currentHeight / 14,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        AudioWidget.assets(
+                          path: 'audios/audio3.mp3',
+                          play: play_button,
+                          volume: 2.0,
+                          child: MaterialButton(
+                            onPressed: () {
+                              setState(() {
+                                if (play == true) {
+                                  play = false;
+                                } else {
+                                  if (play == false) {
+                                    play = true;
+                                  }
+                                }
+                              });
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(60),
+                            ),
+                            splashColor: Colors.amber,
+                            child: CircleAvatar(
+                              radius: currentHeight / 16,
+                              backgroundColor:
+                                  const Color.fromRGBO(245, 171, 0, 1),
+                              child: Icon(
+                                Icons.volume_up,
+                                color: Colors.white,
+                                size: currentHeight / 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -3865,6 +3976,9 @@ class _TandH5State extends State<TandH5> {
 
   bool _speechRecognitionAvailable = false;
   bool _isListening = false;
+  bool play = false;
+  bool play_button = false;
+  bool play_birds_sound = true;
   var transcription = '';
 
   String _currentLocale = 'ar_Ar';
@@ -3877,7 +3991,9 @@ class _TandH5State extends State<TandH5> {
     super.initState();
     activateSpeechRecognizer();
 
-    // matchingWords();
+    setState(() {
+      play = true;
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -3907,238 +4023,259 @@ class _TandH5State extends State<TandH5> {
     final currentWidht = MediaQuery.of(context).size.height;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F5.jpeg?alt=media'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+      home: SafeArea(
+        child: Scaffold(
+          body: AudioWidget.assets(
+            path: 'audios/audio4.mp3',
+            play: play,
+            volume: 2.0,
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F5.jpeg?alt=media'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                    height: currentHeight / 2.5,
-                    width: currentWidht / 1.4,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: _firestore
-                          .collection('Stories')
-                          .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
-                          .snapshots(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, i) {
-                              var content =
-                                  snapshot.data!.docs[i].get('Text')[4];
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      AudioWidget.assets(
+                        path: 'audios/birds.mp3',
+                        play: play_birds_sound,
+                        volume: 0.1,
+                        loopMode: LoopMode.playlist,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                          height: currentHeight / 2.5,
+                          width: currentWidht / 1.4,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Stories')
+                                .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, i) {
+                                    var content =
+                                        snapshot.data!.docs[i].get('Text')[4];
 
-                              list.add(content);
+                                    list.add(content);
 
-                              return Content_5(
-                                text1: content.toString(),
-                                correct: widget.correct,
-                                correct1: widget.correct1,
-                                correct2: widget.correct2,
-                                correct3: widget.correct3,
-                                correct4: widget.correct4,
-                                correct5: widget.correct5,
-                                correct6: widget.correct6,
-                                correct7: widget.correct7,
-                                correct8: widget.correct8,
-                                correct9: widget.correct9,
-                                correct10: widget.correct10,
-                                correct11: widget.correct11,
-                                correct12: widget.correct12,
-                                correct13: widget.correct13,
-                                correct14: widget.correct14,
-                                correct15: widget.correct15,
-                                correct16: widget.correct16,
-                                wrong: widget.wrong,
-                                wrong1: widget.wrong1,
-                                wrong2: widget.wrong2,
-                                wrong3: widget.wrong3,
-                                wrong4: widget.wrong4,
-                                wrong5: widget.wrong5,
-                                wrong6: widget.wrong6,
-                                wrong7: widget.wrong7,
-                                wrong8: widget.wrong8,
-                                wrong9: widget.wrong9,
-                                wrong10: widget.wrong10,
-                                wrong11: widget.wrong11,
-                                wrong12: widget.wrong12,
-                                wrong13: widget.wrong13,
-                                wrong14: widget.wrong14,
-                                wrong15: widget.wrong15,
-                                wrong16: widget.wrong16,
-                                isMatched: widget.isMatched,
-                                isMatched1: widget.isMatched1,
-                                isMatched2: widget.isMatched2,
-                                isMatched3: widget.isMatched3,
-                                isMatched4: widget.isMatched4,
-                                isMatched5: widget.isMatched5,
-                                isMatched6: widget.isMatched6,
-                                isMatched7: widget.isMatched7,
-                                isMatched8: widget.isMatched8,
-                                isMatched9: widget.isMatched9,
-                                isMatched10: widget.isMatched10,
-                                isMatched11: widget.isMatched11,
-                                isMatched12: widget.isMatched12,
-                                isMatched13: widget.isMatched13,
-                                isMatched14: widget.isMatched14,
-                                isMatched15: widget.isMatched15,
-                                isMatched16: widget.isMatched16,
-                              );
+                                    return Content_5(
+                                      text1: content.toString(),
+                                      correct: widget.correct,
+                                      correct1: widget.correct1,
+                                      correct2: widget.correct2,
+                                      correct3: widget.correct3,
+                                      correct4: widget.correct4,
+                                      correct5: widget.correct5,
+                                      correct6: widget.correct6,
+                                      correct7: widget.correct7,
+                                      correct8: widget.correct8,
+                                      correct9: widget.correct9,
+                                      correct10: widget.correct10,
+                                      correct11: widget.correct11,
+                                      correct12: widget.correct12,
+                                      correct13: widget.correct13,
+                                      correct14: widget.correct14,
+                                      correct15: widget.correct15,
+                                      correct16: widget.correct16,
+                                      wrong: widget.wrong,
+                                      wrong1: widget.wrong1,
+                                      wrong2: widget.wrong2,
+                                      wrong3: widget.wrong3,
+                                      wrong4: widget.wrong4,
+                                      wrong5: widget.wrong5,
+                                      wrong6: widget.wrong6,
+                                      wrong7: widget.wrong7,
+                                      wrong8: widget.wrong8,
+                                      wrong9: widget.wrong9,
+                                      wrong10: widget.wrong10,
+                                      wrong11: widget.wrong11,
+                                      wrong12: widget.wrong12,
+                                      wrong13: widget.wrong13,
+                                      wrong14: widget.wrong14,
+                                      wrong15: widget.wrong15,
+                                      wrong16: widget.wrong16,
+                                      isMatched: widget.isMatched,
+                                      isMatched1: widget.isMatched1,
+                                      isMatched2: widget.isMatched2,
+                                      isMatched3: widget.isMatched3,
+                                      isMatched4: widget.isMatched4,
+                                      isMatched5: widget.isMatched5,
+                                      isMatched6: widget.isMatched6,
+                                      isMatched7: widget.isMatched7,
+                                      isMatched8: widget.isMatched8,
+                                      isMatched9: widget.isMatched9,
+                                      isMatched10: widget.isMatched10,
+                                      isMatched11: widget.isMatched11,
+                                      isMatched12: widget.isMatched12,
+                                      isMatched13: widget.isMatched13,
+                                      isMatched14: widget.isMatched14,
+                                      isMatched15: widget.isMatched15,
+                                      isMatched16: widget.isMatched16,
+                                    );
+                                  },
+                                );
+                              }
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH6(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
                           );
-                        }
-                        return const Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH6(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: currentHeight / 28,
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH4(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH4(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: currentHeight / 28,
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              SizedBox(
-                height: currentHeight / 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: _speechRecognitionAvailable && !_isListening
-                        ? () => start()
-                        : null,
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                  SizedBox(
+                    height: currentHeight / 18,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: _speechRecognitionAvailable && !_isListening
+                            ? () => start()
+                            : null,
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            _isListening ? Icons.mic : Icons.mic_off,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(
-                              childID: widget.childID,
-                              currentAvatar: widget.currentAvatar,
-                              currentName: widget.currentName,
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home(
+                                  childID: widget.childID,
+                                  currentAvatar: widget.currentAvatar,
+                                  currentName: widget.currentName,
+                                ),
+                              ),
+                              (Route<dynamic> route) => false);
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            Icons.home,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      AudioWidget.assets(
+                        path: 'audios/audio4.mp3',
+                        play: play_button,
+                        child: MaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              if (play == true) {
+                                play = false;
+                              } else {
+                                if (play == false) {
+                                  play = true;
+                                }
+                              }
+                            });
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(60),
+                          ),
+                          splashColor: Colors.amber,
+                          child: CircleAvatar(
+                            radius: currentHeight / 16,
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            child: Icon(
+                              Icons.volume_up,
+                              color: Colors.white,
+                              size: currentHeight / 14,
                             ),
                           ),
-                          (Route<dynamic> route) => false);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(
-                        () {
-                          print('tapped');
-                          // if (play == true) {
-                          //   play = false;
-                          // } else {
-                          //   if (play == false) {
-                          //     play = true;
-                          //   }
-                          // }
-                        },
-                      );
-                    },
-                    child: CircleAvatar(
-                      radius: currentHeight / 16,
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      child: Icon(
-                        Icons.volume_up,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -4804,6 +4941,9 @@ class _TandH6State extends State<TandH6> {
 
   bool _speechRecognitionAvailable = false;
   bool _isListening = false;
+  bool play = false;
+  bool play_button = false;
+  bool play_birds_sound = true;
   var transcription = '';
 
   String _currentLocale = 'ar_Ar';
@@ -4816,7 +4956,9 @@ class _TandH6State extends State<TandH6> {
     super.initState();
     activateSpeechRecognizer();
 
-    // matchingWords();
+    setState(() {
+      play = true;
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -4846,253 +4988,274 @@ class _TandH6State extends State<TandH6> {
     final currentWidht = MediaQuery.of(context).size.height;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F6.jpeg?alt=media'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+      home: SafeArea(
+        child: Scaffold(
+          body: AudioWidget.assets(
+            path: 'audios/audio5.mp3',
+            play: play,
+            volume: 3,
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F6.jpeg?alt=media'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                    height: currentHeight / 2.5,
-                    width: currentWidht / 1.4,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: _firestore
-                          .collection('Stories')
-                          .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
-                          .snapshots(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, i) {
-                              var content =
-                                  snapshot.data!.docs[i].get('Text')[5];
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      AudioWidget.assets(
+                        path: 'audios/birds.mp3',
+                        play: play_birds_sound,
+                        volume: 0.1,
+                        loopMode: LoopMode.playlist,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                          height: currentHeight / 2.5,
+                          width: currentWidht / 1.4,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Stories')
+                                .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, i) {
+                                    var content =
+                                        snapshot.data!.docs[i].get('Text')[5];
 
-                              list.add(content);
+                                    list.add(content);
 
-                              return Content_6(
-                                text1: content.toString(),
-                                correct: widget.correct,
-                                correct1: widget.correct1,
-                                correct2: widget.correct2,
-                                correct3: widget.correct3,
-                                correct4: widget.correct4,
-                                correct5: widget.correct5,
-                                correct6: widget.correct6,
-                                correct7: widget.correct7,
-                                correct8: widget.correct8,
-                                correct9: widget.correct9,
-                                correct10: widget.correct10,
-                                correct11: widget.correct11,
-                                correct12: widget.correct12,
-                                correct13: widget.correct13,
-                                correct14: widget.correct14,
-                                correct15: widget.correct15,
-                                correct16: widget.correct16,
-                                correct17: widget.correct17,
-                                correct18: widget.correct18,
-                                correct19: widget.correct19,
-                                correct20: widget.correct20,
-                                correct21: widget.correct21,
-                                wrong: widget.wrong,
-                                wrong1: widget.wrong1,
-                                wrong2: widget.wrong2,
-                                wrong3: widget.wrong3,
-                                wrong4: widget.wrong4,
-                                wrong5: widget.wrong5,
-                                wrong6: widget.wrong6,
-                                wrong7: widget.wrong7,
-                                wrong8: widget.wrong8,
-                                wrong9: widget.wrong9,
-                                wrong10: widget.wrong10,
-                                wrong11: widget.wrong11,
-                                wrong12: widget.wrong12,
-                                wrong13: widget.wrong13,
-                                wrong14: widget.wrong14,
-                                wrong15: widget.wrong15,
-                                wrong16: widget.wrong16,
-                                wrong17: widget.wrong17,
-                                wrong18: widget.wrong18,
-                                wrong19: widget.wrong19,
-                                wrong20: widget.wrong20,
-                                wrong21: widget.wrong21,
-                                isMatched: widget.isMatched,
-                                isMatched1: widget.isMatched1,
-                                isMatched2: widget.isMatched2,
-                                isMatched3: widget.isMatched3,
-                                isMatched4: widget.isMatched4,
-                                isMatched5: widget.isMatched5,
-                                isMatched6: widget.isMatched6,
-                                isMatched7: widget.isMatched7,
-                                isMatched8: widget.isMatched8,
-                                isMatched9: widget.isMatched9,
-                                isMatched10: widget.isMatched10,
-                                isMatched11: widget.isMatched11,
-                                isMatched12: widget.isMatched12,
-                                isMatched13: widget.isMatched13,
-                                isMatched14: widget.isMatched14,
-                                isMatched15: widget.isMatched15,
-                                isMatched16: widget.isMatched16,
-                                isMatched17: widget.isMatched17,
-                                isMatched18: widget.isMatched18,
-                                isMatched19: widget.isMatched19,
-                                isMatched20: widget.isMatched20,
-                                isMatched21: widget.isMatched21,
-                              );
+                                    return Content_6(
+                                      text1: content.toString(),
+                                      correct: widget.correct,
+                                      correct1: widget.correct1,
+                                      correct2: widget.correct2,
+                                      correct3: widget.correct3,
+                                      correct4: widget.correct4,
+                                      correct5: widget.correct5,
+                                      correct6: widget.correct6,
+                                      correct7: widget.correct7,
+                                      correct8: widget.correct8,
+                                      correct9: widget.correct9,
+                                      correct10: widget.correct10,
+                                      correct11: widget.correct11,
+                                      correct12: widget.correct12,
+                                      correct13: widget.correct13,
+                                      correct14: widget.correct14,
+                                      correct15: widget.correct15,
+                                      correct16: widget.correct16,
+                                      correct17: widget.correct17,
+                                      correct18: widget.correct18,
+                                      correct19: widget.correct19,
+                                      correct20: widget.correct20,
+                                      correct21: widget.correct21,
+                                      wrong: widget.wrong,
+                                      wrong1: widget.wrong1,
+                                      wrong2: widget.wrong2,
+                                      wrong3: widget.wrong3,
+                                      wrong4: widget.wrong4,
+                                      wrong5: widget.wrong5,
+                                      wrong6: widget.wrong6,
+                                      wrong7: widget.wrong7,
+                                      wrong8: widget.wrong8,
+                                      wrong9: widget.wrong9,
+                                      wrong10: widget.wrong10,
+                                      wrong11: widget.wrong11,
+                                      wrong12: widget.wrong12,
+                                      wrong13: widget.wrong13,
+                                      wrong14: widget.wrong14,
+                                      wrong15: widget.wrong15,
+                                      wrong16: widget.wrong16,
+                                      wrong17: widget.wrong17,
+                                      wrong18: widget.wrong18,
+                                      wrong19: widget.wrong19,
+                                      wrong20: widget.wrong20,
+                                      wrong21: widget.wrong21,
+                                      isMatched: widget.isMatched,
+                                      isMatched1: widget.isMatched1,
+                                      isMatched2: widget.isMatched2,
+                                      isMatched3: widget.isMatched3,
+                                      isMatched4: widget.isMatched4,
+                                      isMatched5: widget.isMatched5,
+                                      isMatched6: widget.isMatched6,
+                                      isMatched7: widget.isMatched7,
+                                      isMatched8: widget.isMatched8,
+                                      isMatched9: widget.isMatched9,
+                                      isMatched10: widget.isMatched10,
+                                      isMatched11: widget.isMatched11,
+                                      isMatched12: widget.isMatched12,
+                                      isMatched13: widget.isMatched13,
+                                      isMatched14: widget.isMatched14,
+                                      isMatched15: widget.isMatched15,
+                                      isMatched16: widget.isMatched16,
+                                      isMatched17: widget.isMatched17,
+                                      isMatched18: widget.isMatched18,
+                                      isMatched19: widget.isMatched19,
+                                      isMatched20: widget.isMatched20,
+                                      isMatched21: widget.isMatched21,
+                                    );
+                                  },
+                                );
+                              }
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH7(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
                           );
-                        }
-                        return const Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH7(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: currentHeight / 28,
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH5(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH5(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: currentHeight / 28,
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              SizedBox(
-                height: currentHeight / 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: _speechRecognitionAvailable && !_isListening
-                        ? () => start()
-                        : null,
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                  SizedBox(
+                    height: currentHeight / 18,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: _speechRecognitionAvailable && !_isListening
+                            ? () => start()
+                            : null,
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            _isListening ? Icons.mic : Icons.mic_off,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(
-                              childID: widget.childID,
-                              currentAvatar: widget.currentAvatar,
-                              currentName: widget.currentName,
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home(
+                                  childID: widget.childID,
+                                  currentAvatar: widget.currentAvatar,
+                                  currentName: widget.currentName,
+                                ),
+                              ),
+                              (Route<dynamic> route) => false);
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            Icons.home,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      AudioWidget.assets(
+                        path: 'audios/audio5.mp3',
+                        play: play_button,
+                        child: MaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              if (play == true) {
+                                play = false;
+                              } else {
+                                if (play == false) {
+                                  play = true;
+                                }
+                              }
+                            });
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(60),
+                          ),
+                          splashColor: Colors.amber,
+                          child: CircleAvatar(
+                            radius: currentHeight / 16,
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            child: Icon(
+                              Icons.volume_up,
+                              color: Colors.white,
+                              size: currentHeight / 14,
                             ),
                           ),
-                          (Route<dynamic> route) => false);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(
-                        () {
-                          print('tapped');
-                          // if (play == true) {
-                          //   play = false;
-                          // } else {
-                          //   if (play == false) {
-                          //     play = true;
-                          //   }
-                          // }
-                        },
-                      );
-                    },
-                    child: CircleAvatar(
-                      radius: currentHeight / 16,
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      child: Icon(
-                        Icons.volume_up,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -5835,6 +5998,9 @@ class _TandH7State extends State<TandH7> {
 
   bool _speechRecognitionAvailable = false;
   bool _isListening = false;
+  bool play = false;
+  bool play_button = false;
+  bool play_birds_sound = true;
   var transcription = '';
 
   String _currentLocale = 'ar_Ar';
@@ -5847,7 +6013,9 @@ class _TandH7State extends State<TandH7> {
     super.initState();
     activateSpeechRecognizer();
 
-    // matchingWords();
+    setState(() {
+      play = true;
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -5877,241 +6045,262 @@ class _TandH7State extends State<TandH7> {
     final currentWidht = MediaQuery.of(context).size.height;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F7.jpeg?alt=media'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+      home: SafeArea(
+        child: Scaffold(
+          body: AudioWidget.assets(
+            path: 'audios/audio6.mp3',
+            play: play,
+            volume: 2.0,
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F7.jpeg?alt=media'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                    height: currentHeight / 2.5,
-                    width: currentWidht / 1.4,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: _firestore
-                          .collection('Stories')
-                          .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
-                          .snapshots(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, i) {
-                              var content =
-                                  snapshot.data!.docs[i].get('Text')[6];
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      AudioWidget.assets(
+                        path: 'audios/birds.mp3',
+                        play: play_birds_sound,
+                        volume: 0.1,
+                        loopMode: LoopMode.playlist,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                          height: currentHeight / 2.5,
+                          width: currentWidht / 1.4,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Stories')
+                                .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, i) {
+                                    var content =
+                                        snapshot.data!.docs[i].get('Text')[6];
 
-                              list.add(content);
+                                    list.add(content);
 
-                              return Content_7(
-                                text1: content.toString(),
-                                correct: widget.correct,
-                                correct1: widget.correct1,
-                                correct2: widget.correct2,
-                                correct3: widget.correct3,
-                                correct4: widget.correct4,
-                                correct5: widget.correct5,
-                                correct6: widget.correct6,
-                                correct7: widget.correct7,
-                                correct8: widget.correct8,
-                                correct9: widget.correct9,
-                                correct10: widget.correct10,
-                                correct11: widget.correct11,
-                                correct12: widget.correct12,
-                                correct13: widget.correct13,
-                                correct14: widget.correct14,
-                                correct15: widget.correct15,
-                                correct16: widget.correct16,
-                                wrong: widget.wrong,
-                                wrong1: widget.wrong1,
-                                wrong2: widget.wrong2,
-                                wrong3: widget.wrong3,
-                                wrong4: widget.wrong4,
-                                wrong5: widget.wrong5,
-                                wrong6: widget.wrong6,
-                                wrong7: widget.wrong7,
-                                wrong8: widget.wrong8,
-                                wrong9: widget.wrong9,
-                                wrong10: widget.wrong10,
-                                wrong11: widget.wrong11,
-                                wrong12: widget.wrong12,
-                                wrong13: widget.wrong13,
-                                wrong14: widget.wrong14,
-                                wrong15: widget.wrong15,
-                                wrong16: widget.wrong16,
-                                isMatched: widget.isMatched,
-                                isMatched1: widget.isMatched1,
-                                isMatched2: widget.isMatched2,
-                                isMatched3: widget.isMatched3,
-                                isMatched4: widget.isMatched4,
-                                isMatched5: widget.isMatched5,
-                                isMatched6: widget.isMatched6,
-                                isMatched7: widget.isMatched7,
-                                isMatched8: widget.isMatched8,
-                                isMatched9: widget.isMatched9,
-                                isMatched10: widget.isMatched10,
-                                isMatched11: widget.isMatched11,
-                                isMatched12: widget.isMatched12,
-                                isMatched13: widget.isMatched13,
-                                isMatched14: widget.isMatched14,
-                                isMatched15: widget.isMatched15,
-                                isMatched16: widget.isMatched16,
-                              );
+                                    return Content_7(
+                                      text1: content.toString(),
+                                      correct: widget.correct,
+                                      correct1: widget.correct1,
+                                      correct2: widget.correct2,
+                                      correct3: widget.correct3,
+                                      correct4: widget.correct4,
+                                      correct5: widget.correct5,
+                                      correct6: widget.correct6,
+                                      correct7: widget.correct7,
+                                      correct8: widget.correct8,
+                                      correct9: widget.correct9,
+                                      correct10: widget.correct10,
+                                      correct11: widget.correct11,
+                                      correct12: widget.correct12,
+                                      correct13: widget.correct13,
+                                      correct14: widget.correct14,
+                                      correct15: widget.correct15,
+                                      correct16: widget.correct16,
+                                      wrong: widget.wrong,
+                                      wrong1: widget.wrong1,
+                                      wrong2: widget.wrong2,
+                                      wrong3: widget.wrong3,
+                                      wrong4: widget.wrong4,
+                                      wrong5: widget.wrong5,
+                                      wrong6: widget.wrong6,
+                                      wrong7: widget.wrong7,
+                                      wrong8: widget.wrong8,
+                                      wrong9: widget.wrong9,
+                                      wrong10: widget.wrong10,
+                                      wrong11: widget.wrong11,
+                                      wrong12: widget.wrong12,
+                                      wrong13: widget.wrong13,
+                                      wrong14: widget.wrong14,
+                                      wrong15: widget.wrong15,
+                                      wrong16: widget.wrong16,
+                                      isMatched: widget.isMatched,
+                                      isMatched1: widget.isMatched1,
+                                      isMatched2: widget.isMatched2,
+                                      isMatched3: widget.isMatched3,
+                                      isMatched4: widget.isMatched4,
+                                      isMatched5: widget.isMatched5,
+                                      isMatched6: widget.isMatched6,
+                                      isMatched7: widget.isMatched7,
+                                      isMatched8: widget.isMatched8,
+                                      isMatched9: widget.isMatched9,
+                                      isMatched10: widget.isMatched10,
+                                      isMatched11: widget.isMatched11,
+                                      isMatched12: widget.isMatched12,
+                                      isMatched13: widget.isMatched13,
+                                      isMatched14: widget.isMatched14,
+                                      isMatched15: widget.isMatched15,
+                                      isMatched16: widget.isMatched16,
+                                    );
+                                  },
+                                );
+                              }
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH8(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
                           );
-                        }
-                        return const Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH8(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: currentHeight / 28,
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH6(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH6(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: currentHeight / 28,
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              SizedBox(
-                height: currentHeight / 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (_speechRecognitionAvailable && !_isListening) {
-                        start();
-                      }
-                      null;
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                  SizedBox(
+                    height: currentHeight / 18,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (_speechRecognitionAvailable && !_isListening) {
+                            start();
+                          }
+                          null;
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            _isListening ? Icons.mic : Icons.mic_off,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(
-                              childID: widget.childID,
-                              currentAvatar: widget.currentAvatar,
-                              currentName: widget.currentName,
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home(
+                                  childID: widget.childID,
+                                  currentAvatar: widget.currentAvatar,
+                                  currentName: widget.currentName,
+                                ),
+                              ),
+                              (Route<dynamic> route) => false);
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            Icons.home,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      AudioWidget.assets(
+                        path: 'audios/audio6.mp3',
+                        play: play_button,
+                        child: MaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              if (play == true) {
+                                play = false;
+                              } else {
+                                if (play == false) {
+                                  play = true;
+                                }
+                              }
+                            });
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(60),
+                          ),
+                          splashColor: Colors.amber,
+                          child: CircleAvatar(
+                            radius: currentHeight / 16,
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            child: Icon(
+                              Icons.volume_up,
+                              color: Colors.white,
+                              size: currentHeight / 14,
                             ),
                           ),
-                          (Route<dynamic> route) => false);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(
-                        () {
-                          print('tapped');
-                          // if (play == true) {
-                          //   play = false;
-                          // } else {
-                          //   if (play == false) {
-                          //     play = true;
-                          //   }
-                          // }
-                        },
-                      );
-                    },
-                    child: CircleAvatar(
-                      radius: currentHeight / 16,
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      child: Icon(
-                        Icons.volume_up,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -6734,6 +6923,9 @@ class _TandH8State extends State<TandH8> {
 
   bool _speechRecognitionAvailable = false;
   bool _isListening = false;
+  bool play = false;
+  bool play_button = false;
+  bool play_birds_sound = true;
   var transcription = '';
 
   String _currentLocale = 'ar_Ar';
@@ -6746,7 +6938,9 @@ class _TandH8State extends State<TandH8> {
     super.initState();
     activateSpeechRecognizer();
 
-    // matchingWords();
+    setState(() {
+      play = true;
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -6776,253 +6970,274 @@ class _TandH8State extends State<TandH8> {
     final currentWidht = MediaQuery.of(context).size.height;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F8.jpeg?alt=media'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                    height: currentHeight / 2.5,
-                    width: currentWidht / 1.4,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: _firestore
-                          .collection('Stories')
-                          .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
-                          .snapshots(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, i) {
-                              var content =
-                                  snapshot.data!.docs[i].get('Text')[7];
-
-                              list.add(content);
-
-                              return Content_8(
-                                text1: content.toString(),
-                                correct: widget.correct,
-                                correct1: widget.correct1,
-                                correct2: widget.correct2,
-                                correct3: widget.correct3,
-                                correct4: widget.correct4,
-                                correct5: widget.correct5,
-                                correct6: widget.correct6,
-                                correct7: widget.correct7,
-                                correct8: widget.correct8,
-                                correct9: widget.correct9,
-                                correct10: widget.correct10,
-                                correct11: widget.correct11,
-                                correct12: widget.correct12,
-                                correct13: widget.correct13,
-                                correct14: widget.correct14,
-                                correct15: widget.correct15,
-                                correct16: widget.correct16,
-                                correct17: widget.correct17,
-                                correct18: widget.correct18,
-                                correct19: widget.correct19,
-                                correct20: widget.correct20,
-                                wrong: widget.wrong,
-                                wrong1: widget.wrong1,
-                                wrong2: widget.wrong2,
-                                wrong3: widget.wrong3,
-                                wrong4: widget.wrong4,
-                                wrong5: widget.wrong5,
-                                wrong6: widget.wrong6,
-                                wrong7: widget.wrong7,
-                                wrong8: widget.wrong8,
-                                wrong9: widget.wrong9,
-                                wrong10: widget.wrong10,
-                                wrong11: widget.wrong11,
-                                wrong12: widget.wrong12,
-                                wrong13: widget.wrong13,
-                                wrong14: widget.wrong14,
-                                wrong15: widget.wrong15,
-                                wrong16: widget.wrong16,
-                                wrong17: widget.wrong17,
-                                wrong18: widget.wrong18,
-                                wrong19: widget.wrong19,
-                                wrong20: widget.wrong20,
-                                isMatched: widget.isMatched,
-                                isMatched1: widget.isMatched1,
-                                isMatched2: widget.isMatched2,
-                                isMatched3: widget.isMatched3,
-                                isMatched4: widget.isMatched4,
-                                isMatched5: widget.isMatched5,
-                                isMatched6: widget.isMatched6,
-                                isMatched7: widget.isMatched7,
-                                isMatched8: widget.isMatched8,
-                                isMatched9: widget.isMatched9,
-                                isMatched10: widget.isMatched10,
-                                isMatched11: widget.isMatched11,
-                                isMatched12: widget.isMatched12,
-                                isMatched13: widget.isMatched13,
-                                isMatched14: widget.isMatched14,
-                                isMatched15: widget.isMatched15,
-                                isMatched16: widget.isMatched16,
-                                isMatched17: widget.isMatched17,
-                                isMatched18: widget.isMatched18,
-                                isMatched19: widget.isMatched19,
-                                isMatched20: widget.isMatched20,
-                              );
-                            },
-                          );
-                        }
-                        return const Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ),
-                ],
+      home: SafeArea(
+        child: Scaffold(
+          body: AudioWidget.assets(
+            path: 'audios/audio7.mp3',
+            play: play,
+            volume: 2,
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://firebasestorage.googleapis.com/v0/b/little-reader-efa14.appspot.com/o/Stories%2FSy_Tortoise_And_Hare%2FImages%2F8.jpeg?alt=media'),
+                  fit: BoxFit.cover,
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      // Navigator.pushAndRemoveUntil(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => TandH2(
-                      //       childID: widget.childID,
-                      //       currentAvatar: widget.currentAvatar,
-                      //       currentName: widget.currentName,
-                      //     ),
-                      //   ),
-                      //   (Route<dynamic> route) => false,
-                      // );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: currentHeight / 28,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TandH7(
-                            childID: widget.childID,
-                            currentAvatar: widget.currentAvatar,
-                            currentName: widget.currentName,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      AudioWidget.assets(
+                        path: 'audios/birds.mp3',
+                        play: play_birds_sound,
+                        volume: 0.1,
+                        loopMode: LoopMode.playlist,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                          height: currentHeight / 2.5,
+                          width: currentWidht / 1.4,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Stories')
+                                .where('ID', isEqualTo: 'Sy_Tortoise_And_Hare')
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, i) {
+                                    var content =
+                                        snapshot.data!.docs[i].get('Text')[7];
+
+                                    list.add(content);
+
+                                    return Content_8(
+                                      text1: content.toString(),
+                                      correct: widget.correct,
+                                      correct1: widget.correct1,
+                                      correct2: widget.correct2,
+                                      correct3: widget.correct3,
+                                      correct4: widget.correct4,
+                                      correct5: widget.correct5,
+                                      correct6: widget.correct6,
+                                      correct7: widget.correct7,
+                                      correct8: widget.correct8,
+                                      correct9: widget.correct9,
+                                      correct10: widget.correct10,
+                                      correct11: widget.correct11,
+                                      correct12: widget.correct12,
+                                      correct13: widget.correct13,
+                                      correct14: widget.correct14,
+                                      correct15: widget.correct15,
+                                      correct16: widget.correct16,
+                                      correct17: widget.correct17,
+                                      correct18: widget.correct18,
+                                      correct19: widget.correct19,
+                                      correct20: widget.correct20,
+                                      wrong: widget.wrong,
+                                      wrong1: widget.wrong1,
+                                      wrong2: widget.wrong2,
+                                      wrong3: widget.wrong3,
+                                      wrong4: widget.wrong4,
+                                      wrong5: widget.wrong5,
+                                      wrong6: widget.wrong6,
+                                      wrong7: widget.wrong7,
+                                      wrong8: widget.wrong8,
+                                      wrong9: widget.wrong9,
+                                      wrong10: widget.wrong10,
+                                      wrong11: widget.wrong11,
+                                      wrong12: widget.wrong12,
+                                      wrong13: widget.wrong13,
+                                      wrong14: widget.wrong14,
+                                      wrong15: widget.wrong15,
+                                      wrong16: widget.wrong16,
+                                      wrong17: widget.wrong17,
+                                      wrong18: widget.wrong18,
+                                      wrong19: widget.wrong19,
+                                      wrong20: widget.wrong20,
+                                      isMatched: widget.isMatched,
+                                      isMatched1: widget.isMatched1,
+                                      isMatched2: widget.isMatched2,
+                                      isMatched3: widget.isMatched3,
+                                      isMatched4: widget.isMatched4,
+                                      isMatched5: widget.isMatched5,
+                                      isMatched6: widget.isMatched6,
+                                      isMatched7: widget.isMatched7,
+                                      isMatched8: widget.isMatched8,
+                                      isMatched9: widget.isMatched9,
+                                      isMatched10: widget.isMatched10,
+                                      isMatched11: widget.isMatched11,
+                                      isMatched12: widget.isMatched12,
+                                      isMatched13: widget.isMatched13,
+                                      isMatched14: widget.isMatched14,
+                                      isMatched15: widget.isMatched15,
+                                      isMatched16: widget.isMatched16,
+                                      isMatched17: widget.isMatched17,
+                                      isMatched18: widget.isMatched18,
+                                      isMatched19: widget.isMatched19,
+                                      isMatched20: widget.isMatched20,
+                                    );
+                                  },
+                                );
+                              }
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            },
                           ),
                         ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 28,
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: currentHeight / 28,
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              SizedBox(
-                height: currentHeight / 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (_speechRecognitionAvailable && !_isListening) {
-                        start();
-                      }
-                      null;
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        _isListening ? Icons.mic : Icons.mic_off,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          // Navigator.pushAndRemoveUntil(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => TandH2(
+                          //       childID: widget.childID,
+                          //       currentAvatar: widget.currentAvatar,
+                          //       currentName: widget.currentName,
+                          //     ),
+                          //   ),
+                          //   (Route<dynamic> route) => false,
+                          // );
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: currentHeight / 28,
+                          ),
+                        ),
                       ),
-                    ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TandH7(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 28,
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: currentHeight / 28,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    width: 30,
+                  SizedBox(
+                    height: currentHeight / 18,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(
-                              childID: widget.childID,
-                              currentAvatar: widget.currentAvatar,
-                              currentName: widget.currentName,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (_speechRecognitionAvailable && !_isListening) {
+                            start();
+                          }
+                          null;
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            _isListening ? Icons.mic : Icons.mic_off,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home(
+                                  childID: widget.childID,
+                                  currentAvatar: widget.currentAvatar,
+                                  currentName: widget.currentName,
+                                ),
+                              ),
+                              (Route<dynamic> route) => false);
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            Icons.home,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      AudioWidget.assets(
+                        path: 'audios/audio7.mp3',
+                        play: play_button,
+                        child: MaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              if (play == true) {
+                                play = false;
+                              } else {
+                                if (play == false) {
+                                  play = true;
+                                }
+                              }
+                            });
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(60),
+                          ),
+                          splashColor: Colors.amber,
+                          child: CircleAvatar(
+                            radius: currentHeight / 16,
+                            backgroundColor:
+                                const Color.fromRGBO(245, 171, 0, 1),
+                            child: Icon(
+                              Icons.volume_up,
+                              color: Colors.white,
+                              size: currentHeight / 14,
                             ),
                           ),
-                          (Route<dynamic> route) => false);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      radius: currentHeight / 16,
-                      child: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                        size: currentHeight / 14,
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(
-                        () {
-                          print('tapped');
-                          // if (play == true) {
-                          //   play = false;
-                          // } else {
-                          //   if (play == false) {
-                          //     play = true;
-                          //   }
-                          // }
-                        },
-                      );
-                    },
-                    child: CircleAvatar(
-                      radius: currentHeight / 16,
-                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                      child: Icon(
-                        Icons.volume_up,
-                        color: Colors.white,
-                        size: currentHeight / 14,
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),

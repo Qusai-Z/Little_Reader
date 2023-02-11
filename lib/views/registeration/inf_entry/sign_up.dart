@@ -1,8 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:little_reader/views/registeration/inf_entry/sign_in.dart';
 import 'inf_entry.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -363,8 +365,7 @@ class _SignUpState extends State<SignUp> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  InfEntry(email: _emailAddress),
+                              builder: (context) => const SignIn(),
                             ),
                           );
                         },
@@ -393,7 +394,9 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       InkWell(
-                        onTap: (() {}),
+                        onTap: (() {
+                          _launchURL();
+                        }),
                         child: Text(
                           ' الأحكام والشروط',
                           style: TextStyle(
@@ -412,7 +415,9 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       InkWell(
-                        onTap: (() {}),
+                        onTap: () {
+                          _launchURL();
+                        },
                         child: Text(
                           'سياسة الخصوصية',
                           style: TextStyle(
@@ -431,5 +436,15 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+}
+
+_launchURL() async {
+  const url = 'http://littlereaderprivacy.com/';
+  final uri = Uri.parse(url);
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri);
+  } else {
+    throw 'Could not launch $url';
   }
 }

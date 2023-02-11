@@ -33,22 +33,20 @@ dependencies:
 
 
   cupertino_icons: ^1.0.2
-  firebase_core: ^2.1.1
   firebase_auth: ^4.1.0
   cloud_firestore: ^4.0.3 
   modal_progress_hud_nsn: ^0.3.0
   firebase_storage: ^11.0.3
-  cached_network_image: ^3.2.1
   awesome_dialog: ^3.0.2
   random_string_generator: ^2.0.0
-  http: ^0.13.5
   permission_handler: ^10.2.0
   page_transition: ^2.0.9
   flutter_speech: ^2.0.0
   assets_audio_player: ^3.0.5
   flutter_tts: ^3.6.3
   flutter_sound: ^9.2.13
-  pdf: ^3.8.4
+  url_launcher: ^6.1.9
+  
 
 
   
