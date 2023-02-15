@@ -10,6 +10,8 @@ class childStatistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentHeight = MediaQuery.of(context).size.height;
+    final currentwidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         body: Center(
@@ -17,23 +19,206 @@ class childStatistics extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
-                maxRadius: 120,
-                minRadius: 120,
+                maxRadius: currentHeight / 12,
+                minRadius: currentwidth / 12,
                 child: Image.network(
                   '$avatar_url_st',
                 ),
               ),
               Text(
                 '$name_st',
-                style: const TextStyle(fontFamily: 'Lalezar', fontSize: 30),
+                style: TextStyle(
+                    fontFamily: 'Lalezar', fontSize: currentHeight / 22),
               ),
               Expanded(
-                child: Container(
-                  margin:
-                      const EdgeInsets.only(left: 50, right: 50, bottom: 20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.orange,
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Container(
+                    margin:
+                        const EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.grey,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'الحروف',
+                          style: TextStyle(
+                              fontSize: currentHeight / 28,
+                              fontFamily: 'Lalezar',
+                              color: Colors.red),
+                        ),
+                        SizedBox(height: currentHeight / 55),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '23',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              ' حرف قرئ بشكل صحيح',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '23',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              ' حرف قرئ بشكل صحيح',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Container(
+                    margin:
+                        const EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.grey,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'الكلمات',
+                          style: TextStyle(
+                              fontSize: currentHeight / 28,
+                              fontFamily: 'Lalezar',
+                              color: Colors.red),
+                        ),
+                        SizedBox(height: currentHeight / 55),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '23',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              ' حرف قرئ بشكل صحيح',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '23',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              ' حرف قرئ بشكل صحيح',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Container(
+                    margin:
+                        const EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.grey,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'القصص',
+                          style: TextStyle(
+                              fontSize: currentHeight / 28,
+                              fontFamily: 'Lalezar',
+                              color: Colors.red),
+                        ),
+                        SizedBox(height: currentHeight / 55),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '23',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              ' حرف قرئ بشكل صحيح',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '23',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              ' حرف قرئ بشكل صحيح',
+                              style: TextStyle(
+                                  fontSize: currentwidth / 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
