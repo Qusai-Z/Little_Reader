@@ -54,32 +54,66 @@ class _AddChildState extends State<AddChild> {
 
   String? selectedAvatar;
 
-  final String level_1 =
-      'https://pbs.twimg.com/media/FjnKOl2XkAAqSKD?format=jpg&name=360x360';
-  final String level_2 =
-      'https://pbs.twimg.com/media/FjnKOxkXgAU8brB?format=jpg&name=360x360';
-  final String level_3 =
-      'https://pbs.twimg.com/media/FjnKO8KX0AApv2_?format=jpg&name=small';
+  int _correctLetters = 0;
+  int _wrongLetters = 0;
+
+  int _correctWords = 0;
+  int _wrongWords = 0;
+
+  int _correctStoryWords = 0;
+  int _wrongStoryWords = 0;
+
+  int level1 = 0;
+  int level2 = 0;
+  int level3 = 0;
 
   var index;
-  int correctWord = 0;
-  int incorrectWord = 0;
+  int correctWords = 0;
+  int wrongWords = 0;
 
   addnewChild() async {
     // Object of DatabaseServices class
     DatabaseServices db = DatabaseServices();
 
     //calling this method from the DatabaseServices class and pass the parameters
-    db.setChildInformationData(child_name.text, selectedAge, selectedRelation,
-        selectedAvatar, level_1, level_2, level_3);
+    db.setChildInformationData(
+        child_name.text, selectedAge, selectedRelation, selectedAvatar);
+
+    _firestore
+        .collection('Statistics')
+        .doc("${_auth.currentUser!.email}")
+        .collection('children')
+        .doc(child_name.text)
+        .collection('letters')
+        .doc('letters')
+        .set({
+      "correct_letters": _correctLetters,
+      "wrong_letters": _wrongLetters,
+    });
+    _firestore
+        .collection('Statistics')
+        .doc("${_auth.currentUser!.email}")
+        .collection('children')
+        .doc(child_name.text)
+        .collection('words')
+        .doc('words')
+        .set({
+      "correct_words": _correctWords,
+      "wrong_words": _wrongWords,
+    });
+    _firestore
+        .collection('Statistics')
+        .doc("${_auth.currentUser!.email}")
+        .collection('children')
+        .doc(child_name.text)
+        .collection('words_of_story')
+        .doc('words_of_story')
+        .set({
+      "correct_WordsStory": _correctStoryWords,
+      "wrong_WordsStory": _wrongStoryWords,
+    });
 
     setState(() {});
-  }
-
-  addWordStatistics() async {
-    DatabaseServices db = DatabaseServices();
-
-    db.setChildWordStatistics(correctWord, child_name);
   }
 
   @override
@@ -1228,7 +1262,6 @@ class _AddChildState extends State<AddChild> {
                                     onPressed: () async {
                                       if (formKey.currentState!.validate()) {
                                         addnewChild();
-                                        addWordStatistics();
                                         Navigator.pop(
                                           context,
                                         );

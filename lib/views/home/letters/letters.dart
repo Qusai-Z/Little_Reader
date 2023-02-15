@@ -1,13 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:little_reader/services/database.dart';
 import 'package:little_reader/views/home/home.dart';
 import 'package:flutter_speech/flutter_speech.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:little_reader/services/all_statistics.dart';
 
 const languages = [
   Language('Arabic', 'ar-Ar'),
 ];
+
+int _correctLetters = 0;
+int _wrongLetters = 0;
+
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
 
 class Language {
   final String name;
@@ -45,8 +54,6 @@ class _LettersPageState extends State<LettersPage> {
 
   // String _currentLocale = 'en_US';
   Language selectedLang = languages.first;
-
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   initState() {
@@ -119,13 +126,17 @@ class _LettersPageState extends State<LettersPage> {
                         );
                         //
                       },
-                      child: CircleAvatar(
-                        backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                        radius: currentHeight / 20,
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                          size: currentHeight / 22,
+                      child: AudioWidget.assets(
+                        path: 'audios/Oh-Oh.mp3',
+                        play: wrong,
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 20,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: currentHeight / 22,
+                          ),
                         ),
                       ),
                     ),
@@ -295,36 +306,54 @@ class _LettersPageState extends State<LettersPage> {
   }
 
   void onRecognitionResult(String text) async {
-    String? complete;
     print('_TestSpeechState.onRecognitionResult... $text');
 
     setState(() {
       transcription = text;
     });
-
-    if (transcription == 'الف') {
-      isMatched = true;
-      correct = true;
-      _Next();
-      print('MM:$isMatched');
-    } else {
-      isMatched = false;
-      wrong = true;
-
-      print('MM:$isMatched');
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+
+    if (text == 'الف') {
+      isMatched = true;
+      correct = true;
+      _correctLetters++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('letters')
+          .doc('letters')
+          .update({
+        "correct_letters": _correctLetters,
+        "wrong_letters": _wrongLetters,
+      });
+      _Next();
+    }
+    if (text != 'الف' && text != '') {
+      isMatched = false;
+      wrong = true;
+      _wrongLetters++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('letters')
+          .doc('letters')
+          .update({
+        "correct_letters": _correctLetters,
+        "wrong_letters": _wrongLetters,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
 
-  void stop() => _speech.stop().then((_) {
-        setState(() => _isListening = false);
-      });
   Future _Next() => Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushAndRemoveUntil(
           context,
@@ -372,6 +401,7 @@ class _LettersPageState2 extends State<LettersPage2> {
   Language selectedLang = languages.first;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
 
   @override
   initState() {
@@ -456,113 +486,47 @@ class _LettersPageState2 extends State<LettersPage2> {
                     SingleChildScrollView(
                       child: Column(
                         children: [
-                          Container(
-                            color: Colors.brown,
-                            height: currentHeight / 1.2,
-                            width: currentWidht / 0.8,
-                            margin: const EdgeInsets.all(30),
+                          AudioWidget.assets(
+                            path: 'audios/Oh-Oh.mp3',
+                            play: wrong,
                             child: Container(
-                              color: Colors.white,
-                              margin: const EdgeInsets.all(16),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    height: currentHeight / 3,
-                                    margin: EdgeInsets.only(
-                                        bottom: currentHeight / 4),
-                                    child: Text(
-                                      'ب',
-                                      style: TextStyle(
-                                          fontSize: currentHeight / 6,
-                                          color: isMatched == true
-                                              ? colorGreen
-                                              : isMatched == false
-                                                  ? colorRed
-                                                  : Colors.black),
+                              color: Colors.brown,
+                              height: currentHeight / 1.2,
+                              width: currentWidht / 0.8,
+                              margin: const EdgeInsets.all(30),
+                              child: Container(
+                                color: Colors.white,
+                                margin: const EdgeInsets.all(16),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      height: currentHeight / 3,
+                                      margin: EdgeInsets.only(
+                                          bottom: currentHeight / 4),
+                                      child: Text(
+                                        'ب',
+                                        style: TextStyle(
+                                            fontSize: currentHeight / 6,
+                                            color: isMatched == true
+                                                ? colorGreen
+                                                : isMatched == false
+                                                    ? colorRed
+                                                    : Colors.black),
+                                      ),
                                     ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      MaterialButton(
-                                        onPressed: () {
-                                          if (_speechRecognitionAvailable &&
-                                              !_isListening) {
-                                            start();
-                                          }
-                                          null;
-                                        },
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(60),
-                                        ),
-                                        splashColor: Colors.amber,
-                                        child: CircleAvatar(
-                                          backgroundColor: const Color.fromRGBO(
-                                              245, 171, 0, 1),
-                                          radius: currentHeight / 16,
-                                          child: Icon(
-                                            _isListening
-                                                ? Icons.mic
-                                                : Icons.mic_off,
-                                            color: Colors.white,
-                                            size: currentHeight / 14,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: currentWidht / 8,
-                                      ),
-                                      MaterialButton(
-                                        onPressed: () {
-                                          Navigator.pushAndRemoveUntil(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => Home(
-                                                  childID: widget.childID,
-                                                  currentAvatar:
-                                                      widget.currentAvatar,
-                                                  currentName:
-                                                      widget.currentName,
-                                                ),
-                                              ),
-                                              (Route<dynamic> route) => false);
-                                        },
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                        ),
-                                        splashColor: Colors.amber,
-                                        child: CircleAvatar(
-                                          backgroundColor: const Color.fromRGBO(
-                                              245, 171, 0, 1),
-                                          radius: currentHeight / 16,
-                                          child: Icon(
-                                            Icons.home,
-                                            color: Colors.white,
-                                            size: currentHeight / 14,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: currentWidht / 8,
-                                      ),
-                                      AudioWidget.assets(
-                                        path: 'audios/BA2.mp3',
-                                        play: play,
-                                        child: MaterialButton(
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        MaterialButton(
                                           onPressed: () {
-                                            setState(() {
-                                              if (play == false) {
-                                                play = true;
-                                              } else {
-                                                if (play == true) {
-                                                  play = false;
-                                                }
-                                              }
-                                            });
+                                            if (_speechRecognitionAvailable &&
+                                                !_isListening) {
+                                              start();
+                                            }
+                                            null;
                                           },
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -570,21 +534,95 @@ class _LettersPageState2 extends State<LettersPage2> {
                                           ),
                                           splashColor: Colors.amber,
                                           child: CircleAvatar(
-                                            radius: currentHeight / 16,
                                             backgroundColor:
                                                 const Color.fromRGBO(
                                                     245, 171, 0, 1),
+                                            radius: currentHeight / 16,
                                             child: Icon(
-                                              Icons.volume_up,
+                                              _isListening
+                                                  ? Icons.mic
+                                                  : Icons.mic_off,
                                               color: Colors.white,
                                               size: currentHeight / 14,
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        SizedBox(
+                                          width: currentWidht / 8,
+                                        ),
+                                        MaterialButton(
+                                          onPressed: () {
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => Home(
+                                                    childID: widget.childID,
+                                                    currentAvatar:
+                                                        widget.currentAvatar,
+                                                    currentName:
+                                                        widget.currentName,
+                                                  ),
+                                                ),
+                                                (Route<dynamic> route) =>
+                                                    false);
+                                          },
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                          ),
+                                          splashColor: Colors.amber,
+                                          child: CircleAvatar(
+                                            backgroundColor:
+                                                const Color.fromRGBO(
+                                                    245, 171, 0, 1),
+                                            radius: currentHeight / 16,
+                                            child: Icon(
+                                              Icons.home,
+                                              color: Colors.white,
+                                              size: currentHeight / 14,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: currentWidht / 8,
+                                        ),
+                                        AudioWidget.assets(
+                                          path: 'audios/BA2.mp3',
+                                          play: play,
+                                          child: MaterialButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                if (play == false) {
+                                                  play = true;
+                                                } else {
+                                                  if (play == true) {
+                                                    play = false;
+                                                  }
+                                                }
+                                              });
+                                            },
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(60),
+                                            ),
+                                            splashColor: Colors.amber,
+                                            child: CircleAvatar(
+                                              radius: currentHeight / 16,
+                                              backgroundColor:
+                                                  const Color.fromRGBO(
+                                                      245, 171, 0, 1),
+                                              child: Icon(
+                                                Icons.volume_up,
+                                                color: Colors.white,
+                                                size: currentHeight / 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -650,27 +688,44 @@ class _LettersPageState2 extends State<LettersPage2> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription.trim() == 'باء' || transcription.trim() == 'ب') {
-      setState(() {
-        isMatched = true;
-        correct = true;
-        _Next();
-        print('MM:$isMatched');
-      });
-    } else {
-      setState(() {
-        isMatched = false;
-        wrong = true;
-
-        print('MM:$isMatched');
-      });
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'باء') {
+      isMatched = true;
+      correct = true;
+      _correctLetters++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('letters')
+          .doc('letters')
+          .update({
+        "correct_letters": _correctLetters,
+        "wrong_letters": _wrongLetters,
+      });
+      _Next();
+    }
+    if (text != 'باء' && text != '') {
+      isMatched = false;
+      wrong = true;
+      _wrongLetters++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('letters')
+          .doc('letters')
+          .update({
+        "correct_letters": _correctLetters,
+        "wrong_letters": _wrongLetters,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -1453,13 +1508,17 @@ class _LettersPageState5 extends State<LettersPage5> {
                           (Route<dynamic> route) => false,
                         );
                       },
-                      child: CircleAvatar(
-                        backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                        radius: currentHeight / 22,
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                          size: currentHeight / 24,
+                      child: AudioWidget.assets(
+                        path: 'audios/Oh-Oh.mp3',
+                        play: wrong,
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 22,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: currentHeight / 24,
+                          ),
                         ),
                       ),
                     ),
@@ -1655,27 +1714,42 @@ class _LettersPageState5 extends State<LettersPage5> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription.trim() == 'جيم') {
-      setState(() {
-        isMatched = true;
-        correct = true;
-        _Next();
-        print('MM:$isMatched');
-      });
-    } else {
-      setState(() {
-        isMatched = false;
-        wrong = true;
-
-        print('MM:$isMatched');
-      });
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'جيم') {
+      isMatched = true;
+      correct = true;
+      _correctLetters++;
+
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.childID)
+          .set({
+        "name": widget.currentName,
+        "correct_letters": _correctLetters,
+        "wrong_letters": _wrongLetters
+      });
+      _Next();
+    }
+    if (text != 'جيم' && text != '') {
+      isMatched = false;
+      wrong = true;
+      _wrongLetters++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.childID)
+          .set({
+        "correct_letters": _correctLetters,
+        "wrong_letters": _wrongLetters,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -1869,8 +1943,12 @@ class _LettersPageState6 extends State<LettersPage6> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: currentWidht / 8,
+                                      AudioWidget.assets(
+                                        path: 'audios/Oh-Oh.mp3',
+                                        play: wrong,
+                                        child: SizedBox(
+                                          width: currentWidht / 8,
+                                        ),
                                       ),
                                       MaterialButton(
                                         onPressed: () {
@@ -2007,27 +2085,42 @@ class _LettersPageState6 extends State<LettersPage6> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription.trim() == 'حاء' || transcription.trim() == 'ح') {
-      setState(() {
-        isMatched = true;
-        correct = true;
-        _Next();
-        print('MM:$isMatched');
-      });
-    } else {
-      setState(() {
-        isMatched = false;
-        wrong = true;
-
-        print('MM:$isMatched');
-      });
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'حاء') {
+      isMatched = true;
+      correct = true;
+      _correctLetters++;
+
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.childID)
+          .set({
+        "name": widget.currentName,
+        "correct_letters": _correctLetters,
+        "wrong_letters": _wrongLetters
+      });
+      _Next();
+    }
+    if (text != 'حاء' && text != '') {
+      isMatched = false;
+      wrong = true;
+      _wrongLetters++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.childID)
+          .set({
+        "correct_letters": _correctLetters,
+        "wrong_letters": _wrongLetters,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -2354,27 +2447,21 @@ class _LettersPageState7 extends State<LettersPage7> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription.trim() == 'خاء' || transcription.trim() == 'خ') {
-      setState(() {
-        isMatched = true;
-        correct = true;
-        _Next();
-        print('MM:$isMatched');
-      });
-    } else {
-      setState(() {
-        isMatched = false;
-        wrong = true;
-
-        print('MM:$isMatched');
-      });
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'خاء') {
+      isMatched = true;
+      correct = true;
+
+      _Next();
+    }
+    if (text != 'خاء' && text != '') {
+      isMatched = true;
+      _Next();
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -2485,27 +2572,31 @@ class _LettersPageState8 extends State<LettersPage8> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LettersPage9(
-                              childID: widget.childID,
-                              currentAvatar: widget.currentAvatar,
-                              currentName: widget.currentName,
+                    AudioWidget.assets(
+                      path: 'audios/Oh-Oh.mp3',
+                      play: wrong,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LettersPage9(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
                             ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 22,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: currentHeight / 24,
                           ),
-                          (Route<dynamic> route) => false,
-                        );
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                        radius: currentHeight / 22,
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                          size: currentHeight / 24,
                         ),
                       ),
                     ),
@@ -2701,30 +2792,42 @@ class _LettersPageState8 extends State<LettersPage8> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription.trim() == 'دال' ||
-        transcription.trim() == 'دا' ||
-        transcription.trim() == 'د' ||
-        transcription.trim() == 'ده') {
-      setState(() {
-        isMatched = true;
-        correct = true;
-        _Next();
-        print('MM:$isMatched');
-      });
-    } else {
-      setState(() {
-        isMatched = false;
-        wrong = true;
-
-        print('MM:$isMatched');
-      });
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'دال' || text == 'د') {
+      isMatched = true;
+      correct = true;
+      _correctLetters++;
+
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.childID)
+          .set({
+        "name": widget.currentName,
+        "correct_letters": _correctLetters,
+        "wrong_letters": _wrongLetters
+      });
+      _Next();
+    }
+    if (text != 'دال' && text != 'د' && text != '') {
+      isMatched = false;
+      wrong = true;
+      _wrongLetters++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.childID)
+          .set({
+        "correct_letters": _correctLetters,
+        "wrong_letters": _wrongLetters,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -2913,8 +3016,12 @@ class _LettersPageState9 extends State<LettersPage9> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: currentWidht / 8,
+                                      AudioWidget.assets(
+                                        path: 'audios/Oh-Oh.mp3',
+                                        play: wrong,
+                                        child: SizedBox(
+                                          width: currentWidht / 8,
+                                        ),
                                       ),
                                       MaterialButton(
                                         onPressed: () {
@@ -3075,6 +3182,20 @@ class _LettersPageState9 extends State<LettersPage9> {
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'ذال' || text == 'زال' || text == 'فال' || text == 'ذ') {
+      isMatched = true;
+      correct = true;
+      _Next();
+    }
+    if (text != 'ذال' &&
+        text != 'زال' &&
+        text != 'فال' &&
+        text != 'ذ' &&
+        text != '') {
+      isMatched = true;
+      correct = true;
+      _Next();
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();

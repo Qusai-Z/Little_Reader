@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:little_reader/views/home/letters/letters.dart';
+import 'package:little_reader/views/home/stories/hard/test.dart';
 import 'package:little_reader/views/registeration/inf_entry/add_child.dart';
 import 'package:little_reader/views/registeration/inf_entry/inf_entry.dart';
 import 'views/registeration/inf_entry/accounts.dart';

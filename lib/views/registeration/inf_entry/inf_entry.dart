@@ -24,6 +24,11 @@ class _InfEntryState extends State<InfEntry> {
   // ignore: non_constant_identifier_names
   late String parent_name;
   String? avatarUrl;
+  int correctWords = 0;
+  int wrongWords = 0;
+  int level1 = 0;
+  int level2 = 0;
+  int level3 = 0;
   bool isMale = false;
   bool isLoading = false;
 

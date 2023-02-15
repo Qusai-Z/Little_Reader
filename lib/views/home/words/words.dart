@@ -1,8 +1,10 @@
 // ignore_for_file: non_constant_identifier_names, unused_element
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:little_reader/services/all_statistics.dart';
 import 'package:little_reader/services/database.dart';
 import 'package:little_reader/views/home/home.dart';
 import 'package:flutter_speech/flutter_speech.dart';
@@ -13,9 +15,15 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_tts/flutter_tts.dart';
 import '../letters/letters.dart';
 
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+
 const languages = [
   Language('Arabic', 'ar-Ar'),
 ];
+
+int _correctWords = 0;
+int _wrongWords = 0;
 
 class Language {
   final String name;
@@ -235,27 +243,31 @@ class _WordsPageState extends State<WordsPage> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => WordsPage2(
-                              childID: widget.childID,
-                              currentAvatar: widget.currentAvatar,
-                              currentName: widget.currentName,
+                    AudioWidget.assets(
+                      path: 'audios/Oh-Oh.mp3',
+                      play: wrong,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WordsPage2(
+                                childID: widget.childID,
+                                currentAvatar: widget.currentAvatar,
+                                currentName: widget.currentName,
+                              ),
                             ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 20,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: currentHeight / 22,
                           ),
-                          (Route<dynamic> route) => false,
-                        );
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
-                        radius: currentHeight / 20,
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                          size: currentHeight / 22,
                         ),
                       ),
                     ),
@@ -419,27 +431,49 @@ class _WordsPageState extends State<WordsPage> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription == 'اسد') {
-      isMatched = true;
-      correct = true;
-      _Next();
-    } else {
-      isMatched = false;
-      wrong = true;
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+
+    if (text == 'اسد') {
+      isMatched = true;
+      correct = true;
+      _correctWords++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": _correctWords,
+        "wrong_words": _wrongWords,
+      });
+      _Next();
+    }
+    if (text != 'اسد' && text != '') {
+      isMatched = false;
+      wrong = true;
+      _wrongWords++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": _correctWords,
+        "wrong_words": _wrongWords,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
 
-  void stop() => _speech.stop().then((_) {
-        setState(() => _isListening = false);
-      });
   Future _Next() => Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushAndRemoveUntil(
           context,

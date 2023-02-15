@@ -25,8 +25,7 @@ class DatabaseServices {
     }
   }
 
-  setChildInformationData(childName, childAge, relation, avatarUrl, level_1,
-      level_2, level_3) async {
+  setChildInformationData(childName, childAge, relation, avatarUrl) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     try {
@@ -41,27 +40,29 @@ class DatabaseServices {
         "relation": relation,
         "avatar_url": avatarUrl,
         "childID": childID,
-        "level_1": level_1,
-        "level_2": level_2,
-        "level_3": level_3,
       });
     } catch (e) {
       print(e.toString());
     }
   }
 
-  setChildWordStatistics(correctWord, name) async {
+  setChildStatistics(
+      childName, level_1, level_2, level_3, correctWords, wrongWords) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     try {
       await db
-          .collection('words_statistics')
+          .collection('Statistics')
           .doc(email)
           .collection('children')
           .doc(childID)
           .set({
-        "name": name,
-        "correct_word": correctWord,
+        "name": childName,
+        "level_1": level_1,
+        "level_2": level_2,
+        "level_3": level_3,
+        "correct_words": correctWords,
+        "wrong_words": wrongWords
       });
     } catch (e) {
       print(e.toString());
@@ -73,7 +74,7 @@ class DatabaseServices {
 
     try {
       db
-          .collection('words_statistics')
+          .collection('statistics')
           .doc("${_auth.currentUser!.email}")
           .collection('children')
           .doc(childID)
@@ -97,8 +98,4 @@ class DatabaseServices {
       print(e.toString());
     }
   }
-
-  Future lettersGameData() async {}
-  Future wordsGameData() async {}
-  Future storiesGameData() async {}
 }

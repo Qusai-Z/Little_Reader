@@ -2,6 +2,7 @@
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speech/flutter_speech.dart';
@@ -10,6 +11,10 @@ import 'package:little_reader/views/home/letters/letters.dart';
 import '../../home.dart';
 
 List<String> list = [];
+int _correct = 0;
+int _wrong = 0;
+
+final _auth = FirebaseAuth.instance;
 
 const languages = [
   Language('Arabic', 'ar-Ar'),
@@ -348,7 +353,7 @@ class _TandHState extends State<TandH> {
                         ),
                       ),
                       const SizedBox(
-                        width: 30,
+                        width: 15,
                       ),
                       AudioWidget.assets(
                         path: 'audios/audio0.mp3',
@@ -417,153 +422,561 @@ class _TandHState extends State<TandH> {
     setState(() {
       transcription = text;
     });
-    dynamic my_words = text.toString().split(" ");
-
-    if (my_words[0] == 'في') {
-      widget.isMatched = true;
-      widget.correct = true;
-    }
-    if (my_words[0] != 'في') {
-      widget.isMatched = false;
-      widget.wrong = true;
-    }
-    if (my_words[1] == 'الغابه') {
-      widget.isMatched1 = true;
-      widget.correct1 = true;
-    }
-    if (my_words[1] != 'الغابه') {
-      widget.isMatched1 = false;
-      widget.wrong1 = true;
-    }
-    if (my_words[2] == 'راى') {
-      widget.isMatched2 = true;
-      widget.correct2 = true;
-    }
-    if (my_words[2] != 'راى') {
-      widget.isMatched2 = false;
-      widget.wrong2 = true;
-    }
-    if (my_words[3] == 'الارنب') {
-      widget.isMatched3 = true;
-      widget.correct3 = true;
-    }
-    if (my_words[3] != 'الارنب') {
-      widget.isMatched3 = false;
-      widget.wrong3 = true;
-    }
-    if (my_words[4] == 'المغرور') {
-      widget.isMatched4 = true;
-      widget.correct4 = true;
-    }
-    if (my_words[4] != 'المغرور') {
-      widget.isMatched4 = false;
-      widget.wrong4 = true;
-    }
-    if (my_words[5] == 'السلحفاه') {
-      widget.isMatched5 = true;
-      widget.correct5 = true;
-    }
-    if (my_words[5] != 'السلحفاه') {
-      widget.isMatched5 = false;
-      widget.wrong5 = true;
-    }
-    if (my_words[6] == 'فتعجب') {
-      widget.isMatched6 = true;
-      widget.correct6 = true;
-    }
-    if (my_words[6] != 'فتعجب') {
-      widget.isMatched6 = false;
-      widget.wrong6 = true;
-    }
-    if (my_words[7] == 'من') {
-      widget.isMatched7 = true;
-      widget.correct7 = true;
-    }
-    if (my_words[7] != 'من') {
-      widget.isMatched7 = false;
-      widget.wrong7 = true;
-    }
-    if (my_words[8] == 'مشيها') {
-      widget.isMatched8 = true;
-      widget.correct8 = true;
-    }
-    if (my_words[8] != 'مشيها') {
-      widget.isMatched8 = false;
-      widget.wrong8 = true;
-    }
-    if (my_words[9] == 'البطيء') {
-      widget.isMatched9 = true;
-      widget.correct9 = true;
-    }
-    if (my_words[9] != 'البطيء') {
-      widget.isMatched9 = false;
-      widget.wrong9 = true;
-    }
-    if (my_words[10] == 'فهو') {
-      widget.isMatched10 = true;
-      widget.correct10 = true;
-    }
-    if (my_words[10] != 'فهو') {
-      widget.isMatched10 = false;
-      widget.wrong10 = true;
-    }
-    if (my_words[11] == 'كما') {
-      widget.isMatched11 = true;
-      widget.correct11 = true;
-    }
-    if (my_words[11] != 'كما') {
-      widget.isMatched11 = false;
-      widget.wrong11 = true;
-    }
-    if (my_words[12] == 'نعرف') {
-      widget.isMatched12 = true;
-      widget.correct12 = true;
-    }
-    if (my_words[12] != 'نعرف') {
-      widget.isMatched12 = false;
-      widget.wrong12 = true;
-    }
-    if (my_words[13] == 'سريع') {
-      widget.isMatched13 = true;
-      widget.correct13 = true;
-    }
-    if (my_words[13] != 'سريع') {
-      widget.isMatched13 = false;
-      widget.wrong13 = true;
-    }
-    if (my_words[14] == 'الحركه') {
-      widget.isMatched14 = true;
-      widget.correct14 = true;
-    }
-    if (my_words[14] != 'الحركه') {
-      widget.isMatched14 = false;
-      widget.wrong14 = true;
-    }
-    if (my_words[15] == 'والجري') {
-      widget.isMatched15 = true;
-      widget.correct15 = true;
-    }
-    if (my_words[15] != 'والجري') {
-      widget.isMatched15 = false;
-      widget.wrong15 = true;
-    }
-    if (my_words[16] == 'والقفز') {
-      widget.isMatched16 = true;
-      widget.correct16 = true;
-      _Next();
-    }
-    if (my_words[16] != 'والقفز') {
-      widget.isMatched16 = false;
-      widget.wrong16 = true;
-      _Next();
-    } else {
-      print('Finished');
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    dynamic my_words = text.toString().split(" ");
+
+    if (my_words[0] == 'في') {
+      widget.isMatched = true;
+      widget.correct = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[0] != 'في') {
+      widget.isMatched = false;
+      widget.wrong = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[1] == 'الغابه') {
+      widget.isMatched1 = true;
+      widget.correct1 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[1] != 'الغابه') {
+      widget.isMatched1 = false;
+      widget.wrong1 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[2] == 'راى') {
+      widget.isMatched2 = true;
+      widget.correct2 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[2] != 'راى') {
+      widget.isMatched2 = false;
+      widget.wrong2 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[3] == 'الارنب') {
+      widget.isMatched3 = true;
+      widget.correct3 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[3] != 'الارنب') {
+      widget.isMatched3 = false;
+      widget.wrong3 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[4] == 'المغرور') {
+      widget.isMatched4 = true;
+      widget.correct4 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[4] != 'المغرور') {
+      widget.isMatched4 = false;
+      widget.wrong4 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[5] == 'السلحفاه') {
+      widget.isMatched5 = true;
+      widget.correct5 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[5] != 'السلحفاه') {
+      widget.isMatched5 = false;
+      widget.wrong5 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[6] == 'فتعجب') {
+      widget.isMatched6 = true;
+      widget.correct6 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[6] != 'فتعجب') {
+      widget.isMatched6 = false;
+      widget.wrong6 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[7] == 'من') {
+      widget.isMatched7 = true;
+      widget.correct7 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[7] != 'من') {
+      widget.isMatched7 = false;
+      widget.wrong7 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[8] == 'مشيها') {
+      widget.isMatched8 = true;
+      widget.correct8 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[8] != 'مشيها') {
+      widget.isMatched8 = false;
+      widget.wrong8 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[9] == 'البطيء') {
+      widget.isMatched9 = true;
+      widget.correct9 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[9] != 'البطيء') {
+      widget.isMatched9 = false;
+      widget.wrong9 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[10] == 'فهو') {
+      widget.isMatched10 = true;
+      widget.correct10 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[10] != 'فهو') {
+      widget.isMatched10 = false;
+      widget.wrong10 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[11] == 'كما') {
+      widget.isMatched11 = true;
+      widget.correct11 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[11] != 'كما') {
+      widget.isMatched11 = false;
+      widget.wrong11 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[12] == 'نعرف') {
+      widget.isMatched12 = true;
+      widget.correct12 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[12] != 'نعرف') {
+      widget.isMatched12 = false;
+      widget.wrong12 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[13] == 'سريع') {
+      widget.isMatched13 = true;
+      widget.correct13 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[13] != 'سريع') {
+      widget.isMatched13 = false;
+      widget.wrong13 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[14] == 'الحركه') {
+      widget.isMatched14 = true;
+      widget.correct14 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[14] != 'الحركه') {
+      widget.isMatched14 = false;
+      widget.wrong14 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[15] == 'والجري') {
+      widget.isMatched15 = true;
+      widget.correct15 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[15] != 'والجري') {
+      widget.isMatched15 = false;
+      widget.wrong15 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+    }
+    if (my_words[16] == 'والقفز') {
+      widget.isMatched16 = true;
+      widget.correct16 = true;
+      _correct++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+      _Next();
+    }
+    if (my_words[16] != 'والقفز') {
+      widget.isMatched16 = false;
+      widget.wrong16 = true;
+      _wrong++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": _correct,
+        "wrong_WordsStory": _wrong,
+      });
+      _Next();
+    } else {
+      print('Finished');
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -704,215 +1117,28 @@ class Content_1 extends StatelessWidget {
     final currentHeight = MediaQuery.of(context).size.height;
     var colored_text = text1.toString().split(" ");
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        width: double.infinity,
-        alignment: Alignment.center,
-        margin: const EdgeInsets.only(
-          left: 5,
-        ),
-        child: Column(
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Row(
-                  textDirection: TextDirection.rtl,
-                  children: [
-                    Text(
-                      colored_text[0],
-                      style: TextStyle(
-                          color: isMatched == true
-                              ? Colors.green
-                              : wrong == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      colored_text[1],
-                      style: TextStyle(
-                          color: isMatched1 == true
-                              ? Colors.green
-                              : wrong1 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      colored_text[2],
-                      style: TextStyle(
-                          color: isMatched2 == true
-                              ? Colors.green
-                              : wrong2 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      colored_text[3],
-                      style: TextStyle(
-                          color: isMatched3 == true
-                              ? Colors.green
-                              : wrong3 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      colored_text[4],
-                      style: TextStyle(
-                          color: isMatched4 == true
-                              ? Colors.green
-                              : wrong4 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      colored_text[5],
-                      style: TextStyle(
-                          color: isMatched5 == true
-                              ? Colors.green
-                              : wrong5 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Row(
-                  textDirection: TextDirection.rtl,
-                  children: [
-                    Text(
-                      colored_text[6],
-                      style: TextStyle(
-                          color: isMatched6 == true
-                              ? Colors.green
-                              : wrong6 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      colored_text[7],
-                      style: TextStyle(
-                          color: isMatched7 == true
-                              ? Colors.green
-                              : wrong7 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      colored_text[8],
-                      style: TextStyle(
-                          color: isMatched8 == true
-                              ? Colors.green
-                              : wrong8 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      colored_text[9],
-                      style: TextStyle(
-                          color: isMatched9 == true
-                              ? Colors.green
-                              : wrong9 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      colored_text[10],
-                      style: TextStyle(
-                          color: isMatched10 == true
-                              ? Colors.green
-                              : wrong10 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      colored_text[11],
-                      style: TextStyle(
-                          color: isMatched11 == true
-                              ? Colors.green
-                              : wrong11 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      colored_text[12],
-                      style: TextStyle(
-                          color: isMatched12 == true
-                              ? Colors.green
-                              : wrong12 == true
-                                  ? Colors.red
-                                  : Colors.black,
-                          fontSize: currentHeight / 22),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Directionality(
+    return Container(
+      width: double.infinity,
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(
+        left: currentHeight / 32,
+        top: currentHeight / 12,
+      ),
+      child: Column(
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Directionality(
               textDirection: TextDirection.rtl,
               child: Row(
                 textDirection: TextDirection.rtl,
                 children: [
-                  SizedBox(
-                    width: currentHeight / 9,
-                  ),
                   Text(
-                    colored_text[13],
+                    colored_text[0],
                     style: TextStyle(
-                        color: isMatched13 == true
+                        color: isMatched == true
                             ? Colors.green
-                            : wrong13 == true
+                            : wrong == true
                                 ? Colors.red
                                 : Colors.black,
                         fontSize: currentHeight / 22),
@@ -921,11 +1147,11 @@ class Content_1 extends StatelessWidget {
                     width: 3,
                   ),
                   Text(
-                    colored_text[14],
+                    colored_text[1],
                     style: TextStyle(
-                        color: isMatched14 == true
+                        color: isMatched1 == true
                             ? Colors.green
-                            : wrong14 == true
+                            : wrong1 == true
                                 ? Colors.red
                                 : Colors.black,
                         fontSize: currentHeight / 22),
@@ -934,21 +1160,50 @@ class Content_1 extends StatelessWidget {
                     width: 3,
                   ),
                   Text(
-                    colored_text[15],
+                    colored_text[2],
                     style: TextStyle(
-                        color: isMatched15 == true
+                        color: isMatched2 == true
                             ? Colors.green
-                            : wrong15 == true
+                            : wrong2 == true
                                 ? Colors.red
                                 : Colors.black,
                         fontSize: currentHeight / 22),
                   ),
+                  const SizedBox(
+                    width: 3,
+                  ),
                   Text(
-                    colored_text[16],
+                    colored_text[3],
                     style: TextStyle(
-                        color: isMatched15 == true
+                        color: isMatched3 == true
                             ? Colors.green
-                            : wrong15 == true
+                            : wrong3 == true
+                                ? Colors.red
+                                : Colors.black,
+                        fontSize: currentHeight / 22),
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    colored_text[4],
+                    style: TextStyle(
+                        color: isMatched4 == true
+                            ? Colors.green
+                            : wrong4 == true
+                                ? Colors.red
+                                : Colors.black,
+                        fontSize: currentHeight / 22),
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    colored_text[5],
+                    style: TextStyle(
+                        color: isMatched5 == true
+                            ? Colors.green
+                            : wrong5 == true
                                 ? Colors.red
                                 : Colors.black,
                         fontSize: currentHeight / 22),
@@ -956,8 +1211,164 @@ class Content_1 extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Row(
+                textDirection: TextDirection.rtl,
+                children: [
+                  Text(
+                    colored_text[6],
+                    style: TextStyle(
+                        color: isMatched6 == true
+                            ? Colors.green
+                            : wrong6 == true
+                                ? Colors.red
+                                : Colors.black,
+                        fontSize: currentHeight / 22),
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    colored_text[7],
+                    style: TextStyle(
+                        color: isMatched7 == true
+                            ? Colors.green
+                            : wrong7 == true
+                                ? Colors.red
+                                : Colors.black,
+                        fontSize: currentHeight / 22),
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    colored_text[8],
+                    style: TextStyle(
+                        color: isMatched8 == true
+                            ? Colors.green
+                            : wrong8 == true
+                                ? Colors.red
+                                : Colors.black,
+                        fontSize: currentHeight / 22),
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    colored_text[9],
+                    style: TextStyle(
+                        color: isMatched9 == true
+                            ? Colors.green
+                            : wrong9 == true
+                                ? Colors.red
+                                : Colors.black,
+                        fontSize: currentHeight / 22),
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    colored_text[10],
+                    style: TextStyle(
+                        color: isMatched10 == true
+                            ? Colors.green
+                            : wrong10 == true
+                                ? Colors.red
+                                : Colors.black,
+                        fontSize: currentHeight / 22),
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    colored_text[11],
+                    style: TextStyle(
+                        color: isMatched11 == true
+                            ? Colors.green
+                            : wrong11 == true
+                                ? Colors.red
+                                : Colors.black,
+                        fontSize: currentHeight / 22),
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    colored_text[12],
+                    style: TextStyle(
+                        color: isMatched12 == true
+                            ? Colors.green
+                            : wrong12 == true
+                                ? Colors.red
+                                : Colors.black,
+                        fontSize: currentHeight / 22),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Directionality(
+            textDirection: TextDirection.rtl,
+            child: Row(
+              textDirection: TextDirection.rtl,
+              children: [
+                SizedBox(
+                  width: currentHeight / 9,
+                ),
+                Text(
+                  colored_text[13],
+                  style: TextStyle(
+                      color: isMatched13 == true
+                          ? Colors.green
+                          : wrong13 == true
+                              ? Colors.red
+                              : Colors.black,
+                      fontSize: currentHeight / 22),
+                ),
+                const SizedBox(
+                  width: 3,
+                ),
+                Text(
+                  colored_text[14],
+                  style: TextStyle(
+                      color: isMatched14 == true
+                          ? Colors.green
+                          : wrong14 == true
+                              ? Colors.red
+                              : Colors.black,
+                      fontSize: currentHeight / 22),
+                ),
+                const SizedBox(
+                  width: 3,
+                ),
+                Text(
+                  colored_text[15],
+                  style: TextStyle(
+                      color: isMatched15 == true
+                          ? Colors.green
+                          : wrong15 == true
+                              ? Colors.red
+                              : Colors.black,
+                      fontSize: currentHeight / 22),
+                ),
+                Text(
+                  colored_text[16],
+                  style: TextStyle(
+                      color: isMatched15 == true
+                          ? Colors.green
+                          : wrong15 == true
+                              ? Colors.red
+                              : Colors.black,
+                      fontSize: currentHeight / 22),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -7269,6 +7680,12 @@ class _TandH8State extends State<TandH8> {
     setState(() {
       transcription = text;
     });
+  }
+
+  void onRecognitionComplete(String text) {
+    print('_TestSpeechState.onRecognitionComplete... $text');
+    setState(() => _isListening = false);
+
     dynamic my_words = text.toString().split(" ");
 
     if (my_words[0] == 'استيقظ') {
@@ -7443,11 +7860,6 @@ class _TandH8State extends State<TandH8> {
     } else {
       print('Finished');
     }
-  }
-
-  void onRecognitionComplete(String text) {
-    print('_TestSpeechState.onRecognitionComplete... $text');
-    setState(() => _isListening = false);
   }
 
   void errorHandler() => activateSpeechRecognizer();
