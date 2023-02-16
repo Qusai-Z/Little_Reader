@@ -276,6 +276,38 @@ class _LettersPageState extends State<LettersPage> {
                         ),
                       ),
                     ),
+                    StreamBuilder<QuerySnapshot>(
+                      stream: _firestore
+                          .collection('Statistics')
+                          .doc(_auth.currentUser!.email)
+                          .collection('children')
+                          .doc(widget.currentName)
+                          .collection('letters')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const CircularProgressIndicator(); //If no data return this
+                        }
+
+                        final information = snapshot.data!
+                            .docs; //information: stores gets the data from firebase documents
+
+                        for (var item in information) {
+                          final getCL =
+                              item.data().toString().contains('correct_letters')
+                                  ? item.get('correct_letters')
+                                  : 0;
+                          final getWL =
+                              item.data().toString().contains('wrong_letters')
+                                  ? item.get('wrong_letters')
+                                  : 0;
+
+                          _correctLetters = getCL;
+                          _wrongLetters = getWL;
+                        }
+                        return Container();
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -620,6 +652,42 @@ class _LettersPageState2 extends State<LettersPage2> {
                                           ),
                                         ),
                                       ],
+                                    ),
+                                    StreamBuilder<QuerySnapshot>(
+                                      stream: _firestore
+                                          .collection('Statistics')
+                                          .doc(_auth.currentUser!.email)
+                                          .collection('children')
+                                          .doc(widget.currentName)
+                                          .collection('letters')
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return const CircularProgressIndicator(); //If no data return this
+                                        }
+
+                                        final information = snapshot.data!
+                                            .docs; //information: stores gets the data from firebase documents
+
+                                        for (var item in information) {
+                                          final getCL = item
+                                                  .data()
+                                                  .toString()
+                                                  .contains('correct_letters')
+                                              ? item.get('correct_letters')
+                                              : 0;
+                                          final getWL = item
+                                                  .data()
+                                                  .toString()
+                                                  .contains('wrong_letters')
+                                              ? item.get('wrong_letters')
+                                              : 0;
+
+                                          _correctLetters = getCL;
+                                          _wrongLetters = getWL;
+                                        }
+                                        return Container();
+                                      },
                                     ),
                                   ],
                                 ),
@@ -976,6 +1044,42 @@ class _LettersPageState3 extends State<LettersPage3> {
                                       ),
                                     ],
                                   ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -1024,6 +1128,7 @@ class _LettersPageState3 extends State<LettersPage3> {
             _isListening = result;
             isMatched = true;
             correct = true;
+            _correctLetters++;
             _Next();
           });
         });
@@ -1310,6 +1415,42 @@ class _LettersPageState4 extends State<LettersPage4> {
                                       ),
                                     ],
                                   ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -1358,6 +1499,7 @@ class _LettersPageState4 extends State<LettersPage4> {
             _isListening = result;
             isMatched = true;
             correct = true;
+            _correctLetters++;
             _Next();
           });
         });
@@ -1647,6 +1789,42 @@ class _LettersPageState5 extends State<LettersPage5> {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
                                   ),
                                 ],
                               ),
@@ -2090,7 +2268,7 @@ class _LettersPageState6 extends State<LettersPage6> {
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
-    if (text == 'حاء') {
+    if (text == 'حاء' || text == 'ح') {
       isMatched = true;
       correct = true;
       _correctLetters++;
@@ -2107,7 +2285,7 @@ class _LettersPageState6 extends State<LettersPage6> {
       });
       _Next();
     }
-    if (text != 'حاء' && text != '') {
+    if (text != 'حاء' && text != 'ح' && text != '') {
       isMatched = false;
       wrong = true;
       _wrongLetters++;
@@ -2378,6 +2556,42 @@ class _LettersPageState7 extends State<LettersPage7> {
                                             ),
                                           ),
                                         ),
+                                      ),
+                                      StreamBuilder<QuerySnapshot>(
+                                        stream: _firestore
+                                            .collection('Statistics')
+                                            .doc(_auth.currentUser!.email)
+                                            .collection('children')
+                                            .doc(widget.currentName)
+                                            .collection('letters')
+                                            .snapshots(),
+                                        builder: (context, snapshot) {
+                                          if (!snapshot.hasData) {
+                                            return const CircularProgressIndicator(); //If no data return this
+                                          }
+
+                                          final information = snapshot.data!
+                                              .docs; //information: stores gets the data from firebase documents
+
+                                          for (var item in information) {
+                                            final getCL = item
+                                                    .data()
+                                                    .toString()
+                                                    .contains('correct_letters')
+                                                ? item.get('correct_letters')
+                                                : 0;
+                                            final getWL = item
+                                                    .data()
+                                                    .toString()
+                                                    .contains('wrong_letters')
+                                                ? item.get('wrong_letters')
+                                                : 0;
+
+                                            _correctLetters = getCL;
+                                            _wrongLetters = getWL;
+                                          }
+                                          return Container();
+                                        },
                                       ),
                                     ],
                                   ),
@@ -2725,6 +2939,42 @@ class _LettersPageState8 extends State<LettersPage8> {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
                                   ),
                                 ],
                               ),
@@ -3138,6 +3388,10 @@ class _LettersPageState9 extends State<LettersPage9> {
           print('_TestSpeechState.start => result $result');
           setState(() {
             _isListening = result;
+            isMatched = true;
+            correct = true;
+            _correctLetters++;
+            _Next();
           });
         });
       });
@@ -3158,44 +3412,11 @@ class _LettersPageState9 extends State<LettersPage9> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription.trim() == 'ذال' ||
-        transcription.trim() == 'فال' ||
-        transcription.trim() == 'زال' ||
-        transcription.trim() == 'ذ') {
-      setState(() {
-        isMatched = true;
-        correct = true;
-        _Next();
-        print('MM:$isMatched');
-      });
-    } else {
-      setState(() {
-        isMatched = false;
-        wrong = true;
-
-        print('MM:$isMatched');
-      });
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
-    if (text == 'ذال' || text == 'زال' || text == 'فال' || text == 'ذ') {
-      isMatched = true;
-      correct = true;
-      _Next();
-    }
-    if (text != 'ذال' &&
-        text != 'زال' &&
-        text != 'فال' &&
-        text != 'ذ' &&
-        text != '') {
-      isMatched = true;
-      correct = true;
-      _Next();
-    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -3203,7 +3424,7 @@ class _LettersPageState9 extends State<LettersPage9> {
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
       });
-  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+  Future _Next() => Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -3456,6 +3677,42 @@ class _LettersPageState10 extends State<LettersPage10> {
                                       ),
                                     ],
                                   ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -3502,6 +3759,10 @@ class _LettersPageState10 extends State<LettersPage10> {
           print('_TestSpeechState.start => result $result');
           setState(() {
             _isListening = result;
+            isMatched = true;
+            correct = true;
+            _correctLetters++;
+            _Next();
           });
         });
       });
@@ -3522,22 +3783,6 @@ class _LettersPageState10 extends State<LettersPage10> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription.trim() == 'راء' || transcription.trim() == 'ر') {
-      setState(() {
-        isMatched = true;
-        correct = true;
-        _Next();
-        print('MM:$isMatched');
-      });
-    } else {
-      setState(() {
-        isMatched = false;
-        wrong = true;
-
-        print('MM:$isMatched');
-      });
-    }
   }
 
   void onRecognitionComplete(String text) {
@@ -3550,7 +3795,7 @@ class _LettersPageState10 extends State<LettersPage10> {
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
       });
-  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+  Future _Next() => Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -3806,6 +4051,42 @@ class _LettersPageState11 extends State<LettersPage11> {
                                 ],
                               ),
                             ),
+                          ),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Statistics')
+                                .doc(_auth.currentUser!.email)
+                                .collection('children')
+                                .doc(widget.currentName)
+                                .collection('letters')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator(); //If no data return this
+                              }
+
+                              final information = snapshot.data!
+                                  .docs; //information: stores gets the data from firebase documents
+
+                              for (var item in information) {
+                                final getCL = item
+                                        .data()
+                                        .toString()
+                                        .contains('correct_letters')
+                                    ? item.get('correct_letters')
+                                    : 0;
+                                final getWL = item
+                                        .data()
+                                        .toString()
+                                        .contains('wrong_letters')
+                                    ? item.get('wrong_letters')
+                                    : 0;
+
+                                _correctLetters = getCL;
+                                _wrongLetters = getWL;
+                              }
+                              return Container();
+                            },
                           ),
                         ],
                       ),
@@ -4158,6 +4439,42 @@ class _LettersPageState12 extends State<LettersPage12> {
                               ),
                             ),
                           ),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Statistics')
+                                .doc(_auth.currentUser!.email)
+                                .collection('children')
+                                .doc(widget.currentName)
+                                .collection('letters')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator(); //If no data return this
+                              }
+
+                              final information = snapshot.data!
+                                  .docs; //information: stores gets the data from firebase documents
+
+                              for (var item in information) {
+                                final getCL = item
+                                        .data()
+                                        .toString()
+                                        .contains('correct_letters')
+                                    ? item.get('correct_letters')
+                                    : 0;
+                                final getWL = item
+                                        .data()
+                                        .toString()
+                                        .contains('wrong_letters')
+                                    ? item.get('wrong_letters')
+                                    : 0;
+
+                                _correctLetters = getCL;
+                                _wrongLetters = getWL;
+                              }
+                              return Container();
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -4508,6 +4825,42 @@ class _LettersPageState13 extends State<LettersPage13> {
                               ),
                             ),
                           ),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Statistics')
+                                .doc(_auth.currentUser!.email)
+                                .collection('children')
+                                .doc(widget.currentName)
+                                .collection('letters')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator(); //If no data return this
+                              }
+
+                              final information = snapshot.data!
+                                  .docs; //information: stores gets the data from firebase documents
+
+                              for (var item in information) {
+                                final getCL = item
+                                        .data()
+                                        .toString()
+                                        .contains('correct_letters')
+                                    ? item.get('correct_letters')
+                                    : 0;
+                                final getWL = item
+                                        .data()
+                                        .toString()
+                                        .contains('wrong_letters')
+                                    ? item.get('wrong_letters')
+                                    : 0;
+
+                                _correctLetters = getCL;
+                                _wrongLetters = getWL;
+                              }
+                              return Container();
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -4857,6 +5210,42 @@ class _LettersPageState14 extends State<LettersPage14> {
                               ),
                             ),
                           ),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Statistics')
+                                .doc(_auth.currentUser!.email)
+                                .collection('children')
+                                .doc(widget.currentName)
+                                .collection('letters')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator(); //If no data return this
+                              }
+
+                              final information = snapshot.data!
+                                  .docs; //information: stores gets the data from firebase documents
+
+                              for (var item in information) {
+                                final getCL = item
+                                        .data()
+                                        .toString()
+                                        .contains('correct_letters')
+                                    ? item.get('correct_letters')
+                                    : 0;
+                                final getWL = item
+                                        .data()
+                                        .toString()
+                                        .contains('wrong_letters')
+                                    ? item.get('wrong_letters')
+                                    : 0;
+
+                                _correctLetters = getCL;
+                                _wrongLetters = getWL;
+                              }
+                              return Container();
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -5200,6 +5589,42 @@ class _LettersPageState15 extends State<LettersPage15> {
                                       ),
                                     ],
                                   ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -5246,6 +5671,10 @@ class _LettersPageState15 extends State<LettersPage15> {
           print('_TestSpeechState.start => result $result');
           setState(() {
             _isListening = result;
+            isMatched = true;
+            correct = true;
+            _correctLetters++;
+            _Next();
           });
         });
       });
@@ -5266,24 +5695,6 @@ class _LettersPageState15 extends State<LettersPage15> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription.trim() == 'ضاد' ||
-        transcription.trim() == 'ض' ||
-        transcription.trim() == 'باد') {
-      setState(() {
-        isMatched = true;
-        correct = true;
-        _Next();
-        print('MM:$isMatched');
-      });
-    } else {
-      setState(() {
-        isMatched = false;
-        wrong = true;
-
-        print('MM:$isMatched');
-      });
-    }
   }
 
   void onRecognitionComplete(String text) {
@@ -5296,7 +5707,7 @@ class _LettersPageState15 extends State<LettersPage15> {
   void stop() => _speech.stop().then((_) {
         setState(() => _isListening = false);
       });
-  Future _Next() => Future.delayed(const Duration(seconds: 1), () {
+  Future _Next() => Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -5555,6 +5966,42 @@ class _LettersPageState16 extends State<LettersPage16> {
                                       ),
                                     ],
                                   ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -5603,6 +6050,7 @@ class _LettersPageState16 extends State<LettersPage16> {
             _isListening = result;
             isMatched = true;
             correct = true;
+            _correctLetters++;
             _Next();
 
             print('MM:$isMatched');
@@ -5890,6 +6338,42 @@ class _LettersPageState17 extends State<LettersPage17> {
                                       ),
                                     ],
                                   ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -5939,6 +6423,7 @@ class _LettersPageState17 extends State<LettersPage17> {
 
             isMatched = true;
             correct = true;
+            _correctLetters++;
             _Next();
             print('MM:$isMatched');
           });
@@ -6223,6 +6708,42 @@ class _LettersPageState18 extends State<LettersPage18> {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
                                   ),
                                 ],
                               ),
@@ -6570,6 +7091,42 @@ class _LettersPageState19 extends State<LettersPage19> {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
                                   ),
                                 ],
                               ),
@@ -6921,6 +7478,42 @@ class _LettersPageState20 extends State<LettersPage20> {
                                       ),
                                     ],
                                   ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -6970,6 +7563,7 @@ class _LettersPageState20 extends State<LettersPage20> {
 
             isMatched = true;
             correct = true;
+            _correctLetters++;
             _Next();
             print('MM:$isMatched');
           });
@@ -7254,6 +7848,42 @@ class _LettersPageState21 extends State<LettersPage21> {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
                                   ),
                                 ],
                               ),
@@ -7601,6 +8231,42 @@ class _LettersPageState22 extends State<LettersPage22> {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
                                   ),
                                 ],
                               ),
@@ -7951,6 +8617,42 @@ class _LettersPageState23 extends State<LettersPage23> {
                               ),
                             ),
                           ),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Statistics')
+                                .doc(_auth.currentUser!.email)
+                                .collection('children')
+                                .doc(widget.currentName)
+                                .collection('letters')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator(); //If no data return this
+                              }
+
+                              final information = snapshot.data!
+                                  .docs; //information: stores gets the data from firebase documents
+
+                              for (var item in information) {
+                                final getCL = item
+                                        .data()
+                                        .toString()
+                                        .contains('correct_letters')
+                                    ? item.get('correct_letters')
+                                    : 0;
+                                final getWL = item
+                                        .data()
+                                        .toString()
+                                        .contains('wrong_letters')
+                                    ? item.get('wrong_letters')
+                                    : 0;
+
+                                _correctLetters = getCL;
+                                _wrongLetters = getWL;
+                              }
+                              return Container();
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -8296,6 +8998,42 @@ class _LettersPageState24 extends State<LettersPage24> {
                               ),
                             ),
                           ),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Statistics')
+                                .doc(_auth.currentUser!.email)
+                                .collection('children')
+                                .doc(widget.currentName)
+                                .collection('letters')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator(); //If no data return this
+                              }
+
+                              final information = snapshot.data!
+                                  .docs; //information: stores gets the data from firebase documents
+
+                              for (var item in information) {
+                                final getCL = item
+                                        .data()
+                                        .toString()
+                                        .contains('correct_letters')
+                                    ? item.get('correct_letters')
+                                    : 0;
+                                final getWL = item
+                                        .data()
+                                        .toString()
+                                        .contains('wrong_letters')
+                                    ? item.get('wrong_letters')
+                                    : 0;
+
+                                _correctLetters = getCL;
+                                _wrongLetters = getWL;
+                              }
+                              return Container();
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -8633,6 +9371,42 @@ class _LettersPageState25 extends State<LettersPage25> {
                               ),
                             ),
                           ),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Statistics')
+                                .doc(_auth.currentUser!.email)
+                                .collection('children')
+                                .doc(widget.currentName)
+                                .collection('letters')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator(); //If no data return this
+                              }
+
+                              final information = snapshot.data!
+                                  .docs; //information: stores gets the data from firebase documents
+
+                              for (var item in information) {
+                                final getCL = item
+                                        .data()
+                                        .toString()
+                                        .contains('correct_letters')
+                                    ? item.get('correct_letters')
+                                    : 0;
+                                final getWL = item
+                                        .data()
+                                        .toString()
+                                        .contains('wrong_letters')
+                                    ? item.get('wrong_letters')
+                                    : 0;
+
+                                _correctLetters = getCL;
+                                _wrongLetters = getWL;
+                              }
+                              return Container();
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -8966,6 +9740,42 @@ class _LettersPageState26 extends State<LettersPage26> {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
                                   ),
                                 ],
                               ),
@@ -9311,6 +10121,42 @@ class _LettersPageState27 extends State<LettersPage27> {
                               ),
                             ),
                           ),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: _firestore
+                                .collection('Statistics')
+                                .doc(_auth.currentUser!.email)
+                                .collection('children')
+                                .doc(widget.currentName)
+                                .collection('letters')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator(); //If no data return this
+                              }
+
+                              final information = snapshot.data!
+                                  .docs; //information: stores gets the data from firebase documents
+
+                              for (var item in information) {
+                                final getCL = item
+                                        .data()
+                                        .toString()
+                                        .contains('correct_letters')
+                                    ? item.get('correct_letters')
+                                    : 0;
+                                final getWL = item
+                                        .data()
+                                        .toString()
+                                        .contains('wrong_letters')
+                                    ? item.get('wrong_letters')
+                                    : 0;
+
+                                _correctLetters = getCL;
+                                _wrongLetters = getWL;
+                              }
+                              return Container();
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -9632,6 +10478,42 @@ class _LettersPageState28 extends State<LettersPage28> {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection('Statistics')
+                                        .doc(_auth.currentUser!.email)
+                                        .collection('children')
+                                        .doc(widget.currentName)
+                                        .collection('letters')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const CircularProgressIndicator(); //If no data return this
+                                      }
+
+                                      final information = snapshot.data!
+                                          .docs; //information: stores gets the data from firebase documents
+
+                                      for (var item in information) {
+                                        final getCL = item
+                                                .data()
+                                                .toString()
+                                                .contains('correct_letters')
+                                            ? item.get('correct_letters')
+                                            : 0;
+                                        final getWL = item
+                                                .data()
+                                                .toString()
+                                                .contains('wrong_letters')
+                                            ? item.get('wrong_letters')
+                                            : 0;
+
+                                        _correctLetters = getCL;
+                                        _wrongLetters = getWL;
+                                      }
+                                      return Container();
+                                    },
                                   ),
                                 ],
                               ),
