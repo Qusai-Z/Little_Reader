@@ -237,14 +237,14 @@ class _StoriesPageState extends State<StoriesPage> {
                           elevation: 30,
                           splashColor: const Color.fromRGBO(149, 22, 224, 1),
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BandG(
-                                        childID: widget.childID,
-                                        currentAvatar: widget.currentAvatar,
-                                        currentName: widget.currentName)),
-                                (Route<dynamic> route) => false);
+                            // Navigator.pushAndRemoveUntil(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => BandG(
+                            //             childID: widget.childID,
+                            //             currentAvatar: widget.currentAvatar,
+                            //             currentName: widget.currentName)),
+                            //     (Route<dynamic> route) => false);
                           },
                           child: Container(
                             margin: const EdgeInsets.all(10),
