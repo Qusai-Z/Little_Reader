@@ -452,7 +452,7 @@ class _BandGState extends State<BandG> {
     if (my_words[0] == 'استيقظت') {
       widget.isMatched = true;
       widget.correct = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -485,7 +485,7 @@ class _BandGState extends State<BandG> {
     if (my_words[1] == 'الدب') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -517,7 +517,7 @@ class _BandGState extends State<BandG> {
     if (my_words[2] == 'الام') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -549,7 +549,7 @@ class _BandGState extends State<BandG> {
     if (my_words[3] == 'مبكرا') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -581,7 +581,7 @@ class _BandGState extends State<BandG> {
     if (my_words[4] == 'واعدت' || my_words[4] == 'وعده') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -613,7 +613,7 @@ class _BandGState extends State<BandG> {
     if (my_words[5] == 'الطعام') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -645,7 +645,7 @@ class _BandGState extends State<BandG> {
     if (my_words[6] == 'ثم') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -677,7 +677,7 @@ class _BandGState extends State<BandG> {
     if (my_words[7] == 'وضعته') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -709,7 +709,7 @@ class _BandGState extends State<BandG> {
     if (my_words[8] == 'في') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -741,7 +741,7 @@ class _BandGState extends State<BandG> {
     if (my_words[9] == 'ثلاثه') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -773,7 +773,7 @@ class _BandGState extends State<BandG> {
     if (my_words[10] == 'اطباق') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -805,7 +805,7 @@ class _BandGState extends State<BandG> {
     if (my_words[11] == 'طبق') {
       widget.isMatched11 = true;
       widget.correct11 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -837,7 +837,7 @@ class _BandGState extends State<BandG> {
     if (my_words[12] == 'لها') {
       widget.isMatched12 = true;
       widget.correct12 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -858,7 +858,7 @@ class _BandGState extends State<BandG> {
     if (my_words[13] == 'وطبق') {
       widget.isMatched13 = true;
       widget.correct13 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -890,7 +890,7 @@ class _BandGState extends State<BandG> {
     if (my_words[14] == 'لزوجها') {
       widget.isMatched14 = true;
       widget.correct14 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -911,7 +911,7 @@ class _BandGState extends State<BandG> {
     if (my_words[15] == 'الدب') {
       widget.isMatched15 = true;
       widget.correct15 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -943,7 +943,7 @@ class _BandGState extends State<BandG> {
     if (my_words[16] == 'وطبق') {
       widget.isMatched16 = true;
       widget.correct16 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -975,7 +975,7 @@ class _BandGState extends State<BandG> {
     if (my_words[17] == 'لابنها') {
       widget.isMatched17 = true;
       widget.correct17 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -1007,6 +1007,7 @@ class _BandGState extends State<BandG> {
     if (my_words[18] == 'الدب') {
       widget.isMatched18 = true;
       widget.correct18 = true;
+      Counter.correctStoryCounter++;
 
       _firestore
           .collection('Statistics')
@@ -1024,6 +1025,7 @@ class _BandGState extends State<BandG> {
     if (my_words[18] != 'الدب') {
       widget.isMatched18 = false;
       widget.wrong18 = true;
+      Counter.wrongStoryCounter++;
 
       _firestore
           .collection('Statistics')
@@ -1921,7 +1923,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[0] == 'دعت') {
       widget.isMatched = true;
       widget.correct = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -1953,7 +1955,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[1] == 'الدب') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -1985,7 +1987,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[2] == 'الام') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2017,7 +2019,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[3] == 'زوجها') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2049,7 +2051,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[4] == 'وابنها') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2081,7 +2083,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[5] == 'لتناول') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2113,7 +2115,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[6] == 'الطعام') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2145,7 +2147,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[7] == 'فاكل') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2161,7 +2163,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[7] != 'فاكل') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2177,7 +2179,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[8] == 'كل') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2209,7 +2211,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[9] == 'واحد') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2241,7 +2243,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[10] == 'منهم') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2273,7 +2275,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[11] == 'جزءا') {
       widget.isMatched11 = true;
       widget.correct11 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2305,7 +2307,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[12] == 'من') {
       widget.isMatched12 = true;
       widget.correct12 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2337,7 +2339,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[13] == 'الطعام') {
       widget.isMatched13 = true;
       widget.correct13 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2369,7 +2371,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[14] == 'الذي') {
       widget.isMatched14 = true;
       widget.correct14 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2401,7 +2403,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[15] == 'وضع') {
       widget.isMatched15 = true;
       widget.correct15 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2433,7 +2435,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[16] == 'في') {
       widget.isMatched16 = true;
       widget.correct16 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2465,7 +2467,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[17] == 'طبقه') {
       widget.isMatched17 = true;
       widget.correct17 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2497,7 +2499,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[18] == 'ثم') {
       widget.isMatched18 = true;
       widget.correct18 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2529,7 +2531,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[19] == 'تركوا') {
       widget.isMatched19 = true;
       widget.correct19 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2561,7 +2563,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[20] == 'الباقي') {
       widget.isMatched20 = true;
       widget.correct20 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2593,7 +2595,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[21] == 'على') {
       widget.isMatched21 = true;
       widget.correct21 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2625,7 +2627,7 @@ class _BandG2State extends State<BandG2> {
     if (my_words[22] == 'المائده') {
       widget.isMatched22 = true;
       widget.correct22 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3643,7 +3645,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[1] == 'تناول') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3675,7 +3677,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[2] == 'الطعام') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3707,7 +3709,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[3] == 'خرجت') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3739,7 +3741,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[4] == 'الدببه') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3771,7 +3773,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[5] == 'الثلاثه') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3803,7 +3805,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[6] == 'من') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3835,7 +3837,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[7] == 'البيت') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3867,7 +3869,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[8] == 'للتنزه') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3899,7 +3901,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[9] == 'في') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3931,7 +3933,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[10] == 'الغابه') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3963,7 +3965,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[11] == 'وتركوا') {
       widget.isMatched11 = true;
       widget.correct11 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3995,7 +3997,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[12] == 'باب') {
       widget.isMatched12 = true;
       widget.correct12 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -4027,7 +4029,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[13] == 'بيتهم') {
       widget.isMatched13 = true;
       widget.correct13 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -4059,7 +4061,7 @@ class _BandG3State extends State<BandG3> {
     if (my_words[14] == 'مفتوح') {
       widget.isMatched14 = true;
       widget.correct14 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -4889,7 +4891,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[0] == 'وكانت') {
       widget.isMatched = true;
       widget.correct = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -4921,7 +4923,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[1] == 'هناك') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -4953,7 +4955,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[2] == 'فتاه') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -4985,7 +4987,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[3] == 'تسير') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5017,7 +5019,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[4] == 'في') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5049,7 +5051,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[5] == 'الغابه') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5081,7 +5083,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[6] == 'فشعرت') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5113,7 +5115,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[7] == 'بالجوع') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5145,7 +5147,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[8] == 'والتعب') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5177,7 +5179,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[9] == 'فرات') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5209,7 +5211,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[10] == 'بيتا') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5241,7 +5243,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[11] == 'مفتوحا') {
       widget.isMatched11 = true;
       widget.correct11 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5273,7 +5275,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[12] == 'فدخلت') {
       widget.isMatched12 = true;
       widget.correct12 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5305,7 +5307,7 @@ class _BandG4State extends State<BandG4> {
     if (my_words[13] == 'فيه') {
       widget.isMatched13 = true;
       widget.correct13 = true;
-      Counter.wrongStoryCounter++;
+      Counter.correctStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5317,6 +5319,7 @@ class _BandG4State extends State<BandG4> {
         "correct_WordsStory": Counter.correctStoryCounter,
         "wrong_WordsStory": Counter.wrongStoryCounter,
       });
+      _Next();
     }
     if (my_words[13] != 'فيه') {
       widget.isMatched13 = false;
@@ -5333,6 +5336,7 @@ class _BandG4State extends State<BandG4> {
         "correct_WordsStory": Counter.correctStoryCounter,
         "wrong_WordsStory": Counter.wrongStoryCounter,
       });
+      _Next();
     } else {
       print('Finished');
     }
@@ -6094,6 +6098,556 @@ class _BandG5State extends State<BandG5> {
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    dynamic my_words = text.toString().split(" ");
+
+    if (my_words[0] == 'في') {
+      widget.isMatched = true;
+      widget.correct = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[0] != 'في') {
+      widget.isMatched = false;
+      widget.wrong = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[1] == 'بدايه') {
+      widget.isMatched1 = true;
+      widget.correct1 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[1] != 'بدايه') {
+      widget.isMatched1 = false;
+      widget.wrong1 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[2] == 'المسابقه') {
+      widget.isMatched2 = true;
+      widget.correct2 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[2] != 'المسابقه') {
+      widget.isMatched2 = false;
+      widget.wrong2 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[3] == 'قفز') {
+      widget.isMatched3 = true;
+      widget.correct3 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[3] != 'قفز') {
+      widget.isMatched3 = false;
+      widget.wrong3 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[4] == 'الارنب') {
+      widget.isMatched4 = true;
+      widget.correct4 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[4] != 'الارنب') {
+      widget.isMatched4 = false;
+      widget.wrong4 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[5] == 'المغرور') {
+      widget.isMatched5 = true;
+      widget.correct5 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[5] != 'المغرور') {
+      widget.isMatched5 = false;
+      widget.wrong5 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[6] == 'بسرعه') {
+      widget.isMatched6 = true;
+      widget.correct6 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[6] != 'بسرعه') {
+      widget.isMatched6 = false;
+      widget.wrong6 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[7] == 'كبيره') {
+      widget.isMatched7 = true;
+      widget.correct7 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[7] != 'كبيره') {
+      widget.isMatched7 = false;
+      widget.wrong7 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[8] == 'بينما') {
+      widget.isMatched8 = true;
+      widget.correct8 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[8] != 'بينما') {
+      widget.isMatched8 = false;
+      widget.wrong8 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[9] == 'بدات') {
+      widget.isMatched9 = true;
+      widget.correct9 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[9] != 'بدات') {
+      widget.isMatched9 = false;
+      widget.wrong9 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[10] == 'السلحفاه') {
+      widget.isMatched10 = true;
+      widget.correct10 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[10] != 'السلحفاه') {
+      widget.isMatched10 = false;
+      widget.wrong10 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[11] == 'النشيطه') {
+      widget.isMatched11 = true;
+      widget.correct11 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[11] != 'النشيطه') {
+      widget.isMatched11 = false;
+      widget.wrong11 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[12] == 'في') {
+      widget.isMatched12 = true;
+      widget.correct12 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[12] != 'في') {
+      widget.isMatched12 = false;
+      widget.wrong12 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[13] == 'سيرها') {
+      widget.isMatched13 = true;
+      widget.correct13 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[13] != 'سيرها') {
+      widget.isMatched13 = false;
+      widget.wrong13 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[14] == 'المعتاد') {
+      widget.isMatched14 = true;
+      widget.correct14 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[14] != 'المعتاد') {
+      widget.isMatched14 = false;
+      widget.wrong14 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[15] == 'خلف') {
+      widget.isMatched15 = true;
+      widget.correct15 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[15] != 'خلف') {
+      widget.isMatched15 = false;
+      widget.wrong15 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[16] == 'الارنب') {
+      widget.isMatched16 = true;
+      widget.correct16 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+      _Next();
+    }
+    if (my_words[16] != 'الارنب') {
+      widget.isMatched16 = false;
+      widget.wrong16 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+      _Next();
+    } else {
+      print('Finished');
+    }
   }
 
   void onRecognitionResult(String text) async {
@@ -6102,148 +6656,6 @@ class _BandG5State extends State<BandG5> {
     setState(() {
       transcription = text;
     });
-    dynamic my_words = text.toString().split(" ");
-
-    if (my_words[0] == 'في') {
-      widget.isMatched = true;
-      widget.correct = true;
-    }
-    if (my_words[0] != 'في') {
-      widget.isMatched = false;
-      widget.wrong = true;
-    }
-    if (my_words[1] == 'بدايه') {
-      widget.isMatched1 = true;
-      widget.correct1 = true;
-    }
-    if (my_words[1] != 'بدايه') {
-      widget.isMatched1 = false;
-      widget.wrong1 = true;
-    }
-    if (my_words[2] == 'المسابقه') {
-      widget.isMatched2 = true;
-      widget.correct2 = true;
-    }
-    if (my_words[2] != 'المسابقه') {
-      widget.isMatched2 = false;
-      widget.wrong2 = true;
-    }
-    if (my_words[3] == 'قفز') {
-      widget.isMatched3 = true;
-      widget.correct3 = true;
-    }
-    if (my_words[3] != 'قفز') {
-      widget.isMatched3 = false;
-      widget.wrong3 = true;
-    }
-    if (my_words[4] == 'الارنب') {
-      widget.isMatched4 = true;
-      widget.correct4 = true;
-    }
-    if (my_words[4] != 'الارنب') {
-      widget.isMatched4 = false;
-      widget.wrong4 = true;
-    }
-    if (my_words[5] == 'المغرور') {
-      widget.isMatched5 = true;
-      widget.correct5 = true;
-    }
-    if (my_words[5] != 'المغرور') {
-      widget.isMatched5 = false;
-      widget.wrong5 = true;
-    }
-    if (my_words[6] == 'بسرعه') {
-      widget.isMatched6 = true;
-      widget.correct6 = true;
-    }
-    if (my_words[6] != 'بسرعه') {
-      widget.isMatched6 = false;
-      widget.wrong6 = true;
-    }
-    if (my_words[7] == 'كبيره') {
-      widget.isMatched7 = true;
-      widget.correct7 = true;
-    }
-    if (my_words[7] != 'كبيره') {
-      widget.isMatched7 = false;
-      widget.wrong7 = true;
-    }
-    if (my_words[8] == 'بينما') {
-      widget.isMatched8 = true;
-      widget.correct8 = true;
-    }
-    if (my_words[8] != 'بينما') {
-      widget.isMatched8 = false;
-      widget.wrong8 = true;
-    }
-    if (my_words[9] == 'بدات') {
-      widget.isMatched9 = true;
-      widget.correct9 = true;
-    }
-    if (my_words[9] != 'بدات') {
-      widget.isMatched9 = false;
-      widget.wrong9 = true;
-    }
-    if (my_words[10] == 'السلحفاه') {
-      widget.isMatched10 = true;
-      widget.correct10 = true;
-    }
-    if (my_words[10] != 'السلحفاه') {
-      widget.isMatched10 = false;
-      widget.wrong10 = true;
-    }
-    if (my_words[11] == 'النشيطه') {
-      widget.isMatched11 = true;
-      widget.correct11 = true;
-    }
-    if (my_words[11] != 'النشيطه') {
-      widget.isMatched11 = false;
-      widget.wrong11 = true;
-    }
-    if (my_words[12] == 'في') {
-      widget.isMatched12 = true;
-      widget.correct12 = true;
-    }
-    if (my_words[12] != 'في') {
-      widget.isMatched12 = false;
-      widget.wrong12 = true;
-    }
-    if (my_words[13] == 'سيرها') {
-      widget.isMatched13 = true;
-      widget.correct13 = true;
-    }
-    if (my_words[13] != 'سيرها') {
-      widget.isMatched13 = false;
-      widget.wrong13 = true;
-    }
-    if (my_words[14] == 'المعتاد') {
-      widget.isMatched14 = true;
-      widget.correct14 = true;
-    }
-    if (my_words[14] != 'المعتاد') {
-      widget.isMatched14 = false;
-      widget.wrong14 = true;
-    }
-    if (my_words[15] == 'خلف') {
-      widget.isMatched15 = true;
-      widget.correct15 = true;
-    }
-    if (my_words[15] != 'خلف') {
-      widget.isMatched15 = false;
-      widget.wrong15 = true;
-    }
-    if (my_words[16] == 'الارنب') {
-      widget.isMatched16 = true;
-      widget.correct16 = true;
-      _Next();
-    }
-    if (my_words[16] != 'الارنب') {
-      widget.isMatched16 = false;
-      widget.wrong16 = true;
-      _Next();
-    } else {
-      print('Finished');
-    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -7076,177 +7488,657 @@ class _BandG6State extends State<BandG6> {
     setState(() {
       transcription = text;
     });
-    dynamic my_words = text.toString().split(" ");
-
-    if (my_words[0] == 'راى') {
-      widget.isMatched = true;
-      widget.correct = true;
-    }
-    if (my_words[0] != 'راى') {
-      widget.isMatched = false;
-      widget.wrong = true;
-    }
-    if (my_words[1] == 'الارنب') {
-      widget.isMatched1 = true;
-      widget.correct1 = true;
-    }
-    if (my_words[1] != 'الارنب') {
-      widget.isMatched1 = false;
-      widget.wrong1 = true;
-    }
-    if (my_words[2] == 'المغرور') {
-      widget.isMatched2 = true;
-      widget.correct2 = true;
-    }
-    if (my_words[2] != 'المغرور') {
-      widget.isMatched2 = false;
-      widget.wrong2 = true;
-    }
-    if (my_words[3] == 'انه') {
-      widget.isMatched3 = true;
-      widget.correct3 = true;
-    }
-    if (my_words[3] != 'انه') {
-      widget.isMatched3 = false;
-      widget.wrong3 = true;
-    }
-    if (my_words[4] == 'قد') {
-      widget.isMatched4 = true;
-      widget.correct4 = true;
-    }
-    if (my_words[4] != 'قد') {
-      widget.isMatched4 = false;
-      widget.wrong4 = true;
-    }
-    if (my_words[5] == 'قطع') {
-      widget.isMatched5 = true;
-      widget.correct5 = true;
-    }
-    if (my_words[5] != 'قطع') {
-      widget.isMatched5 = false;
-      widget.wrong5 = true;
-    }
-    if (my_words[6] == 'مسافه') {
-      widget.isMatched6 = true;
-      widget.correct6 = true;
-    }
-    if (my_words[6] != 'مسافه') {
-      widget.isMatched6 = false;
-      widget.wrong6 = true;
-    }
-    if (my_words[7] == 'كبيره') {
-      widget.isMatched7 = true;
-      widget.correct7 = true;
-    }
-    if (my_words[7] != 'كبيره') {
-      widget.isMatched7 = false;
-      widget.wrong7 = true;
-    }
-    if (my_words[8] == 'في') {
-      widget.isMatched8 = true;
-      widget.correct8 = true;
-    }
-    if (my_words[8] != 'في') {
-      widget.isMatched8 = false;
-      widget.wrong8 = true;
-    }
-    if (my_words[9] == 'السباق') {
-      widget.isMatched9 = true;
-      widget.correct9 = true;
-    }
-    if (my_words[9] != 'السباق') {
-      widget.isMatched9 = false;
-      widget.wrong9 = true;
-    }
-    if (my_words[10] == 'وما') {
-      widget.isMatched10 = true;
-      widget.correct10 = true;
-    }
-    if (my_words[10] != 'وما') {
-      widget.isMatched10 = false;
-      widget.wrong10 = true;
-    }
-    if (my_words[11] == 'تزال') {
-      widget.isMatched11 = true;
-      widget.correct11 = true;
-    }
-    if (my_words[11] != 'تزال') {
-      widget.isMatched11 = false;
-      widget.wrong11 = true;
-    }
-    if (my_words[12] == 'السلحفاه') {
-      widget.isMatched12 = true;
-      widget.correct12 = true;
-    }
-    if (my_words[12] != 'السلحفاه') {
-      widget.isMatched12 = false;
-      widget.wrong12 = true;
-    }
-    if (my_words[13] == 'تسير') {
-      widget.isMatched13 = true;
-      widget.correct13 = true;
-    }
-    if (my_words[13] != 'تسير') {
-      widget.isMatched13 = false;
-      widget.wrong13 = true;
-    }
-    if (my_words[14] == 'ببطء') {
-      widget.isMatched14 = true;
-      widget.correct14 = true;
-    }
-    if (my_words[14] != 'ببطء') {
-      widget.isMatched14 = false;
-      widget.wrong14 = true;
-    }
-    if (my_words[15] == 'فجلس') {
-      widget.isMatched15 = true;
-      widget.correct15 = true;
-    }
-    if (my_words[15] != 'فجلس') {
-      widget.isMatched15 = false;
-      widget.wrong15 = true;
-    }
-    if (my_words[16] == 'تحت') {
-      widget.isMatched16 = true;
-      widget.correct16 = true;
-    }
-    if (my_words[16] != 'تحت') {
-      widget.isMatched16 = false;
-      widget.wrong16 = true;
-    }
-    if (my_words[17] == 'شجره') {
-      widget.isMatched17 = true;
-      widget.correct17 = true;
-    }
-    if (my_words[17] != 'شجره') {
-      widget.isMatched17 = false;
-      widget.wrong17 = true;
-    }
-    if (my_words[18] == 'ياكل') {
-      widget.isMatched18 = true;
-      widget.correct18 = true;
-    }
-    if (my_words[18] != 'ياكل') {
-      widget.isMatched18 = false;
-      widget.wrong18 = true;
-    }
-    if (my_words[19] == 'جزره') {
-      widget.isMatched19 = true;
-      widget.correct = true;
-      _Next();
-    }
-    if (my_words[19] != 'جزره') {
-      widget.isMatched19 = false;
-      widget.wrong19 = true;
-      _Next();
-    } else {
-      print('Finished');
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    dynamic my_words = text.toString().split(" ");
+
+    if (my_words[0] == 'راى') {
+      widget.isMatched = true;
+      widget.correct = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[0] != 'راى') {
+      widget.isMatched = false;
+      widget.wrong = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[1] == 'الارنب') {
+      widget.isMatched1 = true;
+      widget.correct1 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[1] != 'الارنب') {
+      widget.isMatched1 = false;
+      widget.wrong1 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[2] == 'المغرور') {
+      widget.isMatched2 = true;
+      widget.correct2 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[2] != 'المغرور') {
+      widget.isMatched2 = false;
+      widget.wrong2 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[3] == 'انه') {
+      widget.isMatched3 = true;
+      widget.correct3 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[3] != 'انه') {
+      widget.isMatched3 = false;
+      widget.wrong3 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[4] == 'قد') {
+      widget.isMatched4 = true;
+      widget.correct4 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[4] != 'قد') {
+      widget.isMatched4 = false;
+      widget.wrong4 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[5] == 'قطع') {
+      widget.isMatched5 = true;
+      widget.correct5 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[5] != 'قطع') {
+      widget.isMatched5 = false;
+      widget.wrong5 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[6] == 'مسافه') {
+      widget.isMatched6 = true;
+      widget.correct6 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[6] != 'مسافه') {
+      widget.isMatched6 = false;
+      widget.wrong6 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[7] == 'كبيره') {
+      widget.isMatched7 = true;
+      widget.correct7 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[7] != 'كبيره') {
+      widget.isMatched7 = false;
+      widget.wrong7 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[8] == 'في') {
+      widget.isMatched8 = true;
+      widget.correct8 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[8] != 'في') {
+      widget.isMatched8 = false;
+      widget.wrong8 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[9] == 'السباق') {
+      widget.isMatched9 = true;
+      widget.correct9 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[9] != 'السباق') {
+      widget.isMatched9 = false;
+      widget.wrong9 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[10] == 'وما') {
+      widget.isMatched10 = true;
+      widget.correct10 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[10] != 'وما') {
+      widget.isMatched10 = false;
+      widget.wrong10 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[11] == 'تزال') {
+      widget.isMatched11 = true;
+      widget.correct11 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[11] != 'تزال') {
+      widget.isMatched11 = false;
+      widget.wrong11 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[12] == 'السلحفاه') {
+      widget.isMatched12 = true;
+      widget.correct12 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[12] != 'السلحفاه') {
+      widget.isMatched12 = false;
+      widget.wrong12 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[13] == 'تسير') {
+      widget.isMatched13 = true;
+      widget.correct13 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[13] != 'تسير') {
+      widget.isMatched13 = false;
+      widget.wrong13 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[14] == 'ببطء') {
+      widget.isMatched14 = true;
+      widget.correct14 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[14] != 'ببطء') {
+      widget.isMatched14 = false;
+      widget.wrong14 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[15] == 'فجلس') {
+      widget.isMatched15 = true;
+      widget.correct15 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[15] != 'فجلس') {
+      widget.isMatched15 = false;
+      widget.wrong15 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[16] == 'تحت') {
+      widget.isMatched16 = true;
+      widget.correct16 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[16] != 'تحت') {
+      widget.isMatched16 = false;
+      widget.wrong16 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[17] == 'شجره') {
+      widget.isMatched17 = true;
+      widget.correct17 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[17] != 'شجره') {
+      widget.isMatched17 = false;
+      widget.wrong17 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[18] == 'ياكل') {
+      widget.isMatched18 = true;
+      widget.correct18 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[18] != 'ياكل') {
+      widget.isMatched18 = false;
+      widget.wrong18 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[19] == 'جزره') {
+      widget.isMatched19 = true;
+      widget.correct = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+      _Next();
+    }
+    if (my_words[19] != 'جزره') {
+      widget.isMatched19 = false;
+      widget.wrong19 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+      _Next();
+    } else {
+      print('Finished');
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -8126,138 +9018,498 @@ class _BandG7State extends State<BandG7> {
     setState(() {
       transcription = text;
     });
-    dynamic my_words = text.toString().split(" ");
-
-    if (my_words[0] == 'اكل') {
-      widget.isMatched = true;
-      widget.correct = true;
-    }
-    if (my_words[0] != 'اكل') {
-      widget.isMatched = false;
-      widget.wrong = true;
-    }
-    if (my_words[1] == 'الارنب') {
-      widget.isMatched1 = true;
-      widget.correct1 = true;
-    }
-    if (my_words[1] != 'الارنب') {
-      widget.isMatched1 = false;
-      widget.wrong1 = true;
-    }
-    if (my_words[2] == 'المغرور') {
-      widget.isMatched2 = true;
-      widget.correct2 = true;
-    }
-    if (my_words[2] != 'المغرور') {
-      widget.isMatched2 = false;
-      widget.wrong2 = true;
-    }
-    if (my_words[3] == 'الجزره') {
-      widget.isMatched3 = true;
-      widget.correct3 = true;
-    }
-    if (my_words[3] != 'الجزره') {
-      widget.isMatched3 = false;
-      widget.wrong3 = true;
-    }
-    if (my_words[4] == 'فنام') {
-      widget.isMatched4 = true;
-      widget.correct4 = true;
-    }
-    if (my_words[4] != 'فنام') {
-      widget.isMatched4 = false;
-      widget.wrong4 = true;
-    }
-    if (my_words[5] == 'بينما') {
-      widget.isMatched5 = true;
-      widget.correct5 = true;
-    }
-    if (my_words[5] != 'بينما') {
-      widget.isMatched5 = false;
-      widget.wrong5 = true;
-    }
-    if (my_words[6] == 'وصلت') {
-      widget.isMatched6 = true;
-      widget.correct6 = true;
-    }
-    if (my_words[6] != 'وصلت') {
-      widget.isMatched6 = false;
-      widget.wrong6 = true;
-    }
-    if (my_words[7] == 'السلحفاه') {
-      widget.isMatched7 = true;
-      widget.correct7 = true;
-    }
-    if (my_words[7] != 'السلحفاه') {
-      widget.isMatched7 = false;
-      widget.wrong7 = true;
-    }
-    if (my_words[8] == 'النشيطه') {
-      widget.isMatched8 = true;
-      widget.correct8 = true;
-    }
-    if (my_words[8] != 'النشيطه') {
-      widget.isMatched8 = false;
-      widget.wrong8 = true;
-    }
-    if (my_words[9] == 'سيرها') {
-      widget.isMatched9 = true;
-      widget.correct9 = true;
-    }
-    if (my_words[9] != 'سيرها') {
-      widget.isMatched9 = false;
-      widget.wrong9 = true;
-    }
-    if (my_words[10] == 'في') {
-      widget.isMatched10 = true;
-      widget.correct10 = true;
-    }
-    if (my_words[10] != 'في') {
-      widget.isMatched10 = false;
-      widget.wrong10 = true;
-    }
-    if (my_words[11] == 'السباق') {
-      widget.isMatched11 = true;
-      widget.correct11 = true;
-    }
-    if (my_words[11] != 'السباق') {
-      widget.isMatched11 = false;
-      widget.wrong11 = true;
-    }
-    if (my_words[12] == 'فلحقت') {
-      widget.isMatched12 = true;
-      widget.correct12 = true;
-    }
-    if (my_words[12] != 'فلحقت') {
-      widget.isMatched12 = false;
-      widget.wrong12 = true;
-    }
-    if (my_words[13] == 'بالارنب') {
-      widget.isMatched13 = true;
-      widget.correct13 = true;
-    }
-    if (my_words[13] != 'بالارنب') {
-      widget.isMatched13 = false;
-      widget.wrong13 = true;
-    }
-    if (my_words[14] == 'وسبقته') {
-      widget.isMatched14 = true;
-      widget.correct14 = true;
-      _Next();
-    }
-    if (my_words[14] != 'وسبقته') {
-      widget.isMatched14 = false;
-      widget.wrong14 = true;
-
-      _Next();
-    } else {
-      print('Finished');
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    dynamic my_words = text.toString().split(" ");
+
+    if (my_words[0] == 'اكل') {
+      widget.isMatched = true;
+      widget.correct = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[0] != 'اكل') {
+      widget.isMatched = false;
+      widget.wrong = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[1] == 'الارنب') {
+      widget.isMatched1 = true;
+      widget.correct1 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[1] != 'الارنب') {
+      widget.isMatched1 = false;
+      widget.wrong1 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[2] == 'المغرور') {
+      widget.isMatched2 = true;
+      widget.correct2 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[2] != 'المغرور') {
+      widget.isMatched2 = false;
+      widget.wrong2 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[3] == 'الجزره') {
+      widget.isMatched3 = true;
+      widget.correct3 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[3] != 'الجزره') {
+      widget.isMatched3 = false;
+      widget.wrong3 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[4] == 'فنام') {
+      widget.isMatched4 = true;
+      widget.correct4 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[4] != 'فنام') {
+      widget.isMatched4 = false;
+      widget.wrong4 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[5] == 'بينما') {
+      widget.isMatched5 = true;
+      widget.correct5 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[5] != 'بينما') {
+      widget.isMatched5 = false;
+      widget.wrong5 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[6] == 'وصلت') {
+      widget.isMatched6 = true;
+      widget.correct6 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[6] != 'وصلت') {
+      widget.isMatched6 = false;
+      widget.wrong6 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[7] == 'السلحفاه') {
+      widget.isMatched7 = true;
+      widget.correct7 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[7] != 'السلحفاه') {
+      widget.isMatched7 = false;
+      widget.wrong7 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[8] == 'النشيطه') {
+      widget.isMatched8 = true;
+      widget.correct8 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[8] != 'النشيطه') {
+      widget.isMatched8 = false;
+      widget.wrong8 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[9] == 'سيرها') {
+      widget.isMatched9 = true;
+      widget.correct9 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[9] != 'سيرها') {
+      widget.isMatched9 = false;
+      widget.wrong9 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[10] == 'في') {
+      widget.isMatched10 = true;
+      widget.correct10 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[10] != 'في') {
+      widget.isMatched10 = false;
+      widget.wrong10 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[11] == 'السباق') {
+      widget.isMatched11 = true;
+      widget.correct11 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[11] != 'السباق') {
+      widget.isMatched11 = false;
+      widget.wrong11 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[12] == 'فلحقت') {
+      widget.isMatched12 = true;
+      widget.correct12 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[12] != 'فلحقت') {
+      widget.isMatched12 = false;
+      widget.wrong12 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[13] == 'بالارنب') {
+      widget.isMatched13 = true;
+      widget.correct13 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[13] != 'بالارنب') {
+      widget.isMatched13 = false;
+      widget.wrong13 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[14] == 'وسبقته') {
+      widget.isMatched14 = true;
+      widget.correct14 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+      _Next();
+    }
+    if (my_words[14] != 'وسبقته') {
+      widget.isMatched14 = false;
+      widget.wrong14 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+
+      _Next();
+    } else {
+      print('Finished');
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -9068,185 +10320,689 @@ class _BandG8State extends State<BandG8> {
     setState(() {
       transcription = text;
     });
-    dynamic my_words = text.toString().split(" ");
-
-    if (my_words[0] == 'استيقظ') {
-      widget.isMatched = true;
-      widget.correct = true;
-    }
-    if (my_words[0] != 'استيقظ') {
-      widget.isMatched = false;
-      widget.wrong = true;
-    }
-    if (my_words[1] == 'الارنب') {
-      widget.isMatched1 = true;
-      widget.correct1 = true;
-    }
-    if (my_words[1] != 'الارنب') {
-      widget.isMatched1 = false;
-      widget.wrong1 = true;
-    }
-    if (my_words[2] == 'من') {
-      widget.isMatched2 = true;
-      widget.correct2 = true;
-    }
-    if (my_words[2] != 'من') {
-      widget.isMatched2 = false;
-      widget.wrong2 = true;
-    }
-    if (my_words[3] == 'نومه') {
-      widget.isMatched3 = true;
-      widget.correct3 = true;
-    }
-    if (my_words[3] != 'نومه') {
-      widget.isMatched3 = false;
-      widget.wrong3 = true;
-    }
-    if (my_words[4] == 'متاخرا') {
-      widget.isMatched4 = true;
-      widget.correct4 = true;
-    }
-    if (my_words[4] != 'متاخرا') {
-      widget.isMatched4 = false;
-      widget.wrong4 = true;
-    }
-    if (my_words[5] == 'وراح') {
-      widget.isMatched5 = true;
-      widget.correct5 = true;
-    }
-    if (my_words[5] != 'وراح') {
-      widget.isMatched5 = false;
-      widget.wrong5 = true;
-    }
-    if (my_words[6] == 'يجري') {
-      widget.isMatched6 = true;
-      widget.correct6 = true;
-    }
-    if (my_words[6] != 'يجري') {
-      widget.isMatched6 = false;
-      widget.wrong6 = true;
-    }
-    if (my_words[7] == 'ويقفز') {
-      widget.isMatched7 = true;
-      widget.correct7 = true;
-    }
-    if (my_words[7] != 'ويقفز') {
-      widget.isMatched7 = false;
-      widget.wrong7 = true;
-    }
-    if (my_words[8] == 'بسرعه') {
-      widget.isMatched8 = true;
-      widget.correct8 = true;
-    }
-    if (my_words[8] != 'بسرعه') {
-      widget.isMatched8 = false;
-      widget.wrong8 = true;
-    }
-    if (my_words[9] == 'لكي') {
-      widget.isMatched9 = true;
-      widget.correct9 = true;
-    }
-    if (my_words[9] != 'لكي') {
-      widget.isMatched9 = false;
-      widget.wrong9 = true;
-    }
-    if (my_words[10] == 'يصل') {
-      widget.isMatched10 = true;
-      widget.correct10 = true;
-    }
-    if (my_words[10] != 'يصل') {
-      widget.isMatched10 = false;
-      widget.wrong10 = true;
-    }
-    if (my_words[11] == 'الى') {
-      widget.isMatched11 = true;
-      widget.correct11 = true;
-    }
-    if (my_words[11] != 'الى') {
-      widget.isMatched11 = false;
-      widget.wrong11 = true;
-    }
-    if (my_words[12] == 'نهايه') {
-      widget.isMatched12 = true;
-      widget.correct12 = true;
-    }
-    if (my_words[12] != 'نهايه') {
-      widget.isMatched12 = false;
-      widget.wrong12 = true;
-    }
-    if (my_words[13] == 'السباق') {
-      widget.isMatched13 = true;
-      widget.correct13 = true;
-    }
-    if (my_words[13] != 'السباق') {
-      widget.isMatched13 = false;
-      widget.wrong13 = true;
-    }
-    if (my_words[14] == 'ولكنه') {
-      widget.isMatched14 = true;
-      widget.correct14 = true;
-    }
-    if (my_words[14] != 'ولكنه') {
-      widget.isMatched14 = false;
-      widget.wrong14 = true;
-    }
-    if (my_words[15] == 'وجد') {
-      widget.isMatched15 = true;
-      widget.correct15 = true;
-    }
-    if (my_words[15] != 'وجد') {
-      widget.isMatched15 = false;
-      widget.wrong15 = true;
-    }
-    if (my_words[16] == 'السلحفاه') {
-      widget.isMatched16 = true;
-      widget.correct16 = true;
-    }
-    if (my_words[16] != 'السلحفاه') {
-      widget.isMatched16 = false;
-      widget.wrong16 = true;
-    }
-    if (my_words[17] == 'النشيطه') {
-      widget.isMatched17 = true;
-      widget.correct17 = true;
-    }
-    if (my_words[17] != 'النشيطه') {
-      widget.isMatched17 = false;
-      widget.wrong17 = true;
-    }
-    if (my_words[18] == 'قد') {
-      widget.isMatched18 = true;
-      widget.correct18 = true;
-    }
-    if (my_words[18] != 'قد') {
-      widget.isMatched18 = false;
-      widget.wrong18 = true;
-    }
-    if (my_words[19] == 'فازت') {
-      widget.isMatched19 = true;
-      widget.correct19 = true;
-    }
-    if (my_words[19] != 'فازت') {
-      widget.isMatched19 = false;
-      widget.wrong19 = true;
-    }
-    if (my_words[20] == 'بالسباق') {
-      widget.isMatched20 = true;
-      widget.correct20 = true;
-      _Next();
-    }
-    if (my_words[20] != 'بالسباق') {
-      widget.isMatched20 = false;
-      widget.wrong20 = true;
-      _Next();
-    } else {
-      print('Finished');
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    dynamic my_words = text.toString().split(" ");
+
+    if (my_words[0] == 'استيقظ') {
+      widget.isMatched = true;
+      widget.correct = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[0] != 'استيقظ') {
+      widget.isMatched = false;
+      widget.wrong = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[1] == 'الارنب') {
+      widget.isMatched1 = true;
+      widget.correct1 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[1] != 'الارنب') {
+      widget.isMatched1 = false;
+      widget.wrong1 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[2] == 'من') {
+      widget.isMatched2 = true;
+      widget.correct2 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[2] != 'من') {
+      widget.isMatched2 = false;
+      widget.wrong2 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[3] == 'نومه') {
+      widget.isMatched3 = true;
+      widget.correct3 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[3] != 'نومه') {
+      widget.isMatched3 = false;
+      widget.wrong3 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[4] == 'متاخرا') {
+      widget.isMatched4 = true;
+      widget.correct4 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[4] != 'متاخرا') {
+      widget.isMatched4 = false;
+      widget.wrong4 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[5] == 'وراح') {
+      widget.isMatched5 = true;
+      widget.correct5 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[5] != 'وراح') {
+      widget.isMatched5 = false;
+      widget.wrong5 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[6] == 'يجري') {
+      widget.isMatched6 = true;
+      widget.correct6 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[6] != 'يجري') {
+      widget.isMatched6 = false;
+      widget.wrong6 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[7] == 'ويقفز') {
+      widget.isMatched7 = true;
+      widget.correct7 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[7] != 'ويقفز') {
+      widget.isMatched7 = false;
+      widget.wrong7 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[8] == 'بسرعه') {
+      widget.isMatched8 = true;
+      widget.correct8 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[8] != 'بسرعه') {
+      widget.isMatched8 = false;
+      widget.wrong8 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[9] == 'لكي') {
+      widget.isMatched9 = true;
+      widget.correct9 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[9] != 'لكي') {
+      widget.isMatched9 = false;
+      widget.wrong9 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[10] == 'يصل') {
+      widget.isMatched10 = true;
+      widget.correct10 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[10] != 'يصل') {
+      widget.isMatched10 = false;
+      widget.wrong10 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[11] == 'الى') {
+      widget.isMatched11 = true;
+      widget.correct11 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[11] != 'الى') {
+      widget.isMatched11 = false;
+      widget.wrong11 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[12] == 'نهايه') {
+      widget.isMatched12 = true;
+      widget.correct12 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[12] != 'نهايه') {
+      widget.isMatched12 = false;
+      widget.wrong12 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[13] == 'السباق') {
+      widget.isMatched13 = true;
+      widget.correct13 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[13] != 'السباق') {
+      widget.isMatched13 = false;
+      widget.wrong13 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[14] == 'ولكنه') {
+      widget.isMatched14 = true;
+      widget.correct14 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[14] != 'ولكنه') {
+      widget.isMatched14 = false;
+      widget.wrong14 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[15] == 'وجد') {
+      widget.isMatched15 = true;
+      widget.correct15 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[15] != 'وجد') {
+      widget.isMatched15 = false;
+      widget.wrong15 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[16] == 'السلحفاه') {
+      widget.isMatched16 = true;
+      widget.correct16 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[16] != 'السلحفاه') {
+      widget.isMatched16 = false;
+      widget.wrong16 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[17] == 'النشيطه') {
+      widget.isMatched17 = true;
+      widget.correct17 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[17] != 'النشيطه') {
+      widget.isMatched17 = false;
+      widget.wrong17 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[18] == 'قد') {
+      widget.isMatched18 = true;
+      widget.correct18 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[18] != 'قد') {
+      widget.isMatched18 = false;
+      widget.wrong18 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[19] == 'فازت') {
+      widget.isMatched19 = true;
+      widget.correct19 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[19] != 'فازت') {
+      widget.isMatched19 = false;
+      widget.wrong19 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+    }
+    if (my_words[20] == 'بالسباق') {
+      widget.isMatched20 = true;
+      widget.correct20 = true;
+      Counter.correctStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+      _Next();
+    }
+    if (my_words[20] != 'بالسباق') {
+      widget.isMatched20 = false;
+      widget.wrong20 = true;
+      Counter.wrongStoryCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words_of_story')
+          .doc('words_of_story')
+          .update({
+        "correct_WordsStory": Counter.correctStoryCounter,
+        "wrong_WordsStory": Counter.wrongStoryCounter,
+      });
+      _Next();
+    } else {
+      print('Finished');
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();

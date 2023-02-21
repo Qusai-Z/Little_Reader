@@ -482,7 +482,8 @@ class _TandHState extends State<TandH> {
     if (my_words[0] != 'في') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter;
+
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -514,7 +515,7 @@ class _TandHState extends State<TandH> {
     if (my_words[1] != 'الغابه') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -546,7 +547,7 @@ class _TandHState extends State<TandH> {
     if (my_words[2] != 'راى') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -578,7 +579,7 @@ class _TandHState extends State<TandH> {
     if (my_words[3] != 'الارنب') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -610,7 +611,7 @@ class _TandHState extends State<TandH> {
     if (my_words[4] != 'المغرور') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -642,7 +643,7 @@ class _TandHState extends State<TandH> {
     if (my_words[5] != 'السلحفاه') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -674,7 +675,7 @@ class _TandHState extends State<TandH> {
     if (my_words[6] != 'فتعجب') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -706,7 +707,7 @@ class _TandHState extends State<TandH> {
     if (my_words[7] != 'من') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -738,7 +739,7 @@ class _TandHState extends State<TandH> {
     if (my_words[8] != 'مشيها') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -770,7 +771,7 @@ class _TandHState extends State<TandH> {
     if (my_words[9] != 'البطيء') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -802,7 +803,7 @@ class _TandHState extends State<TandH> {
     if (my_words[10] != 'فهو') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -834,7 +835,7 @@ class _TandHState extends State<TandH> {
     if (my_words[11] != 'كما') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -866,7 +867,7 @@ class _TandHState extends State<TandH> {
     if (my_words[12] != 'نعرف') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -898,7 +899,7 @@ class _TandHState extends State<TandH> {
     if (my_words[13] != 'سريع') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -930,7 +931,7 @@ class _TandHState extends State<TandH> {
     if (my_words[14] != 'الحركه') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -962,7 +963,7 @@ class _TandHState extends State<TandH> {
     if (my_words[15] != 'والجري') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -995,7 +996,7 @@ class _TandHState extends State<TandH> {
     if (my_words[16] != 'والقفز') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -1898,7 +1899,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[0] != 'قالت') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -1930,7 +1931,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[1] != 'السلحفاه') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -1962,7 +1963,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[2] != 'للارنب') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -1994,7 +1995,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[3] != 'المغرور') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2026,7 +2027,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[4] != 'انا') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2058,7 +2059,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[5] != 'بطيئه') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2090,7 +2091,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[6] != 'المشي') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2122,7 +2123,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[7] != 'ولكني') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2154,7 +2155,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[8] != 'نشيطه') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2186,7 +2187,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[9] != 'واستطيع') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2218,7 +2219,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[10] != 'انهاء') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2250,7 +2251,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[11] != 'كل') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2282,7 +2283,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[12] != 'اعمالي') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2314,7 +2315,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[13] != 'بجد') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2346,7 +2347,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[14] != 'ونشاط') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2378,7 +2379,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[15] != 'فضحك') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2410,7 +2411,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[16] != 'الارنب') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2442,7 +2443,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[17] != 'من') {
       widget.isMatched17 = false;
       widget.wrong17 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -2475,7 +2476,7 @@ class _TandH2State extends State<TandH2> {
     if (my_words[18] != 'كلامها') {
       widget.isMatched18 = false;
       widget.wrong18 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3443,7 +3444,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[0] != 'فكر') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3475,7 +3476,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[1] != 'الارنب') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3507,7 +3508,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[2] != 'قليلا') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3539,7 +3540,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[3] != 'ثم') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3571,7 +3572,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[4] != 'قال') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3603,7 +3604,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[5] != 'للسلحفاه') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3635,7 +3636,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[6] != 'هيا') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3667,7 +3668,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[7] != 'نقوم') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3699,7 +3700,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[8] != 'بمسابقه') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3731,7 +3732,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[9] != 'في') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3763,7 +3764,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[10] != 'الجري') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3795,7 +3796,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[11] != 'حتى') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3827,7 +3828,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[12] != 'تعرف') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3859,7 +3860,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[13] != 'جميع') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3891,7 +3892,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[14] != 'حيوانات') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3923,7 +3924,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[15] != 'الغابه') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3955,7 +3956,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[16] != 'من') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -3987,7 +3988,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[17] != 'من') {
       widget.isMatched17 = false;
       widget.wrong17 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -4019,7 +4020,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[18] != 'الاسرع') {
       widget.isMatched18 = false;
       widget.wrong18 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -4051,7 +4052,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[19] != 'والانشط') {
       widget.isMatched19 = false;
       widget.wrong19 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -4083,7 +4084,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[20] != 'فوافقت') {
       widget.isMatched20 = false;
       widget.wrong20 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -4116,7 +4117,7 @@ class _TandH3State extends State<TandH3> {
     if (my_words[21] != 'السلحفاه') {
       widget.isMatched21 = false;
       widget.wrong21 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5071,7 +5072,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[0] != 'اجتمعت') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5103,7 +5104,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[1] != 'كل') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5135,7 +5136,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[2] != 'حيوانات') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5167,7 +5168,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[3] != 'الغابه') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5199,7 +5200,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[4] != 'لترى') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5231,7 +5232,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[5] != 'السباق') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5263,7 +5264,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[6] != 'بين') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5295,7 +5296,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[7] != 'الارنب') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5327,7 +5328,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[8] != 'المغرور') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5359,7 +5360,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[9] != 'والسلحفاه') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -5392,7 +5393,7 @@ class _TandH4State extends State<TandH4> {
     if (my_words[10] != 'النشيطه') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6164,7 +6165,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[0] != 'في') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6196,7 +6197,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[1] != 'بدايه') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6228,7 +6229,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[2] != 'المسابقه') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6260,7 +6261,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[3] != 'قفز') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6292,7 +6293,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[4] != 'الارنب') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6324,7 +6325,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[5] != 'المغرور') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6356,7 +6357,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[6] != 'بسرعه') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6388,7 +6389,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[7] != 'كبيره') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6420,7 +6421,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[8] != 'بينما') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6452,7 +6453,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[9] != 'بدات') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6484,7 +6485,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[10] != 'السلحفاه') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6516,7 +6517,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[11] != 'النشيطه') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6548,7 +6549,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[12] != 'في') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6580,7 +6581,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[13] != 'سيرها') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6612,7 +6613,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[14] != 'المعتاد') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6644,7 +6645,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[15] != 'خلف') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -6677,7 +6678,7 @@ class _TandH5State extends State<TandH5> {
     if (my_words[16] != 'الارنب') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7581,7 +7582,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[0] != 'راى') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7613,7 +7614,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[1] != 'الارنب') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7645,7 +7646,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[2] != 'المغرور') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7677,7 +7678,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[3] != 'انه') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7709,7 +7710,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[4] != 'قد') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7741,7 +7742,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[5] != 'قطع') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7773,7 +7774,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[6] != 'مسافه') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7805,7 +7806,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[7] != 'كبيره') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7837,7 +7838,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[8] != 'في') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7869,7 +7870,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[9] != 'السباق') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7901,7 +7902,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[10] != 'وما') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7933,7 +7934,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[11] != 'تزال') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7965,7 +7966,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[12] != 'السلحفاه') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -7997,7 +7998,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[13] != 'تسير') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -8029,7 +8030,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[14] != 'ببطء') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -8061,7 +8062,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[15] != 'فجلس') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -8093,7 +8094,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[16] != 'تحت') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -8125,7 +8126,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[17] != 'شجره') {
       widget.isMatched17 = false;
       widget.wrong17 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -8157,7 +8158,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[18] != 'ياكل') {
       widget.isMatched18 = false;
       widget.wrong18 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -8190,7 +8191,7 @@ class _TandH6State extends State<TandH6> {
     if (my_words[19] != 'جزره') {
       widget.isMatched19 = false;
       widget.wrong19 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9140,7 +9141,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[0] != 'اكل') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9172,7 +9173,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[1] != 'الارنب') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9204,7 +9205,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[2] != 'المغرور') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9236,7 +9237,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[3] != 'الجزره') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9268,7 +9269,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[4] != 'فنام') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9300,7 +9301,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[5] != 'بينما') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9332,7 +9333,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[6] != 'وصلت') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9364,7 +9365,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[7] != 'السلحفاه') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9396,7 +9397,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[8] != 'النشيطه') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9428,7 +9429,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[9] != 'سيرها') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9460,7 +9461,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[10] != 'في') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9492,7 +9493,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[11] != 'السباق') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9524,7 +9525,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[12] != 'فلحقت') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9556,7 +9557,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[13] != 'بالارنب') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -9589,7 +9590,7 @@ class _TandH7State extends State<TandH7> {
     if (my_words[14] != 'وسبقته') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10477,7 +10478,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[0] != 'استيقظ') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10509,7 +10510,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[1] != 'الارنب') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10541,7 +10542,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[2] != 'من') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10573,7 +10574,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[3] != 'نومه') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10605,7 +10606,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[4] != 'متاخرا') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10637,7 +10638,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[5] != 'وراح') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10669,7 +10670,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[6] != 'يجري') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10701,7 +10702,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[7] != 'ويقفز') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10733,7 +10734,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[8] != 'بسرعه') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10765,7 +10766,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[9] != 'لكي') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10797,7 +10798,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[10] != 'يصل') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10829,7 +10830,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[11] != 'الى') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10861,7 +10862,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[12] != 'نهايه') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10893,7 +10894,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[13] != 'السباق') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10925,7 +10926,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[14] != 'ولكنه') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10957,7 +10958,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[15] != 'وجد') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -10989,7 +10990,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[16] != 'السلحفاه') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -11021,7 +11022,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[17] != 'النشيطه') {
       widget.isMatched17 = false;
       widget.wrong17 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -11053,7 +11054,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[18] != 'قد') {
       widget.isMatched18 = false;
       widget.wrong18 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -11085,7 +11086,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[19] != 'فازت') {
       widget.isMatched19 = false;
       widget.wrong19 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -11118,7 +11119,7 @@ class _TandH8State extends State<TandH8> {
     if (my_words[20] != 'بالسباق') {
       widget.isMatched20 = false;
       widget.wrong20 = true;
-      Counter.wrongStoryCounter;
+      Counter.wrongStoryCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
