@@ -4,7 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:little_reader/services/all_statistics.dart';
+import 'package:little_reader/services/counter.dart';
+
 import 'package:little_reader/services/database.dart';
 import 'package:little_reader/views/home/home.dart';
 import 'package:flutter_speech/flutter_speech.dart';
@@ -21,9 +22,6 @@ final _auth = FirebaseAuth.instance;
 const languages = [
   Language('Arabic', 'ar-Ar'),
 ];
-
-int _correctWords = 0;
-int _wrongWords = 0;
 
 class Language {
   final String name;
@@ -408,8 +406,8 @@ class _WordsPageState extends State<WordsPage> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -476,7 +474,7 @@ class _WordsPageState extends State<WordsPage> {
     if (text == 'اسد') {
       isMatched = true;
       correct = true;
-      _correctWords++;
+      Counter.correctWordCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -485,15 +483,15 @@ class _WordsPageState extends State<WordsPage> {
           .collection('words')
           .doc('words')
           .update({
-        "correct_words": _correctWords,
-        "wrong_words": _wrongWords,
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
       });
       _Next();
     }
     if (text != 'اسد' && text != '') {
       isMatched = false;
       wrong = true;
-      _wrongWords++;
+      Counter.wrongWordCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -502,8 +500,8 @@ class _WordsPageState extends State<WordsPage> {
           .collection('words')
           .doc('words')
           .update({
-        "correct_words": _correctWords,
-        "wrong_words": _wrongWords,
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
       });
     }
   }
@@ -899,8 +897,8 @@ class _WordsPageState2 extends State<WordsPage2> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -970,23 +968,44 @@ class _WordsPageState2 extends State<WordsPage2> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription == 'ارنب') {
-      isMatched = true;
-      correct = true;
-      print('MM:$isMatched');
-      _Next();
-    } else {
-      isMatched = false;
-      wrong = true;
-
-      print('MM:$isMatched');
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'ارنب') {
+      isMatched = true;
+      correct = true;
+      Counter.correctWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+      _Next();
+    }
+    if (text != 'ارنب' && text != '') {
+      isMatched = false;
+      wrong = true;
+      Counter.wrongWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -1386,8 +1405,8 @@ class _WordsPageState3 extends State<WordsPage3> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -1458,23 +1477,44 @@ class _WordsPageState3 extends State<WordsPage3> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription == 'اناناس') {
-      isMatched = true;
-      correct = true;
-      print('MM:$isMatched');
-      _Next();
-    } else {
-      isMatched = false;
-      wrong = true;
-
-      print('MM:$isMatched');
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'اناناس') {
+      isMatched = true;
+      correct = true;
+      Counter.correctWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+      _Next();
+    }
+    if (text != 'اناناس' && text != '') {
+      isMatched = false;
+      wrong = true;
+      Counter.wrongWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -1874,8 +1914,8 @@ class _WordsPageState4 extends State<WordsPage4> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -1946,23 +1986,44 @@ class _WordsPageState4 extends State<WordsPage4> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription == 'بطه') {
-      isMatched = true;
-      correct = true;
-      _Next();
-      print('MM:$isMatched');
-    } else {
-      isMatched = false;
-      wrong = true;
-
-      print('MM:$isMatched');
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'بطه') {
+      isMatched = true;
+      correct = true;
+      Counter.correctWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+      _Next();
+    }
+    if (text != 'بطه' && text != '') {
+      isMatched = false;
+      wrong = true;
+      Counter.wrongWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -2359,8 +2420,8 @@ class _WordsPageState5 extends State<WordsPage5> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -2431,23 +2492,44 @@ class _WordsPageState5 extends State<WordsPage5> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription == 'بيت') {
-      isMatched = true;
-      correct = true;
-      _Next();
-      print('MM:$isMatched');
-    } else {
-      isMatched = false;
-      wrong = true;
-
-      print('MM:$isMatched');
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'بيت') {
+      isMatched = true;
+      correct = true;
+      Counter.correctWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+      _Next();
+    }
+    if (text != 'بيت' && text != '') {
+      isMatched = false;
+      wrong = true;
+      Counter.wrongWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -2847,8 +2929,8 @@ class _WordsPageState6 extends State<WordsPage6> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -2919,23 +3001,44 @@ class _WordsPageState6 extends State<WordsPage6> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription == 'بومه') {
-      isMatched = true;
-      correct = true;
-      _Next();
-      print('MM:$isMatched');
-    } else {
-      isMatched = false;
-      wrong = true;
-
-      print('MM:$isMatched');
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'بومه') {
+      isMatched = true;
+      correct = true;
+      Counter.correctWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+      _Next();
+    }
+    if (text != 'بومه' && text != '') {
+      isMatched = false;
+      wrong = true;
+      Counter.wrongWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -3336,8 +3439,8 @@ class _WordsPageState7 extends State<WordsPage7> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -3407,23 +3510,44 @@ class _WordsPageState7 extends State<WordsPage7> {
     setState(() {
       transcription = text;
     });
-
-    if (transcription == 'تفاحه') {
-      isMatched = true;
-      correct = true;
-      _Next();
-      print('MM:$isMatched');
-    } else {
-      isMatched = false;
-      wrong = true;
-
-      print('MM:$isMatched');
-    }
   }
 
   void onRecognitionComplete(String text) {
     print('_TestSpeechState.onRecognitionComplete... $text');
     setState(() => _isListening = false);
+    if (text == 'تفاحه') {
+      isMatched = true;
+      correct = true;
+      Counter.correctWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+      _Next();
+    }
+    if (text != 'تفاحه' && text != '') {
+      isMatched = false;
+      wrong = true;
+      Counter.wrongWordCounter++;
+      _firestore
+          .collection('Statistics')
+          .doc("${_auth.currentUser!.email}")
+          .collection('children')
+          .doc(widget.currentName)
+          .collection('words')
+          .doc('words')
+          .update({
+        "correct_words": Counter.correctWordCounter,
+        "wrong_words": Counter.wrongWordCounter,
+      });
+    }
   }
 
   void errorHandler() => activateSpeechRecognizer();
@@ -3824,8 +3948,8 @@ class _WordsPageState8 extends State<WordsPage8> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -4337,8 +4461,8 @@ class _WordsPageState9 extends State<WordsPage9> {
                                   ? item.get('wrong_words')
                                   : 0;
 
-                          _correctWords = getCW;
-                          _wrongWords = getWW;
+                          Counter.correctWordCounter = getCW;
+                          Counter.wrongWordCounter = getWW;
                         }
                         return Container();
                       },
@@ -4794,8 +4918,8 @@ class _WordsPageState10 extends State<WordsPage10> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -5281,8 +5405,8 @@ class _WordsPageState11 extends State<WordsPage11> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -5769,8 +5893,8 @@ class _WordsPageState12 extends State<WordsPage12> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -6259,8 +6383,8 @@ class _WordsPageState13 extends State<WordsPage13> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -6747,8 +6871,8 @@ class _WordsPageState14 extends State<WordsPage14> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -7235,8 +7359,8 @@ class _WordsPageState15 extends State<WordsPage15> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -7723,8 +7847,8 @@ class _WordsPageState16 extends State<WordsPage16> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -8211,8 +8335,8 @@ class _WordsPageState17 extends State<WordsPage17> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -8699,8 +8823,8 @@ class _WordsPageState18 extends State<WordsPage18> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -9187,8 +9311,8 @@ class _WordsPageState19 extends State<WordsPage19> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -9675,8 +9799,8 @@ class _WordsPageState20 extends State<WordsPage20> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -10163,8 +10287,8 @@ class _WordsPageState21 extends State<WordsPage21> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -10651,8 +10775,8 @@ class _WordsPageState22 extends State<WordsPage22> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -11139,8 +11263,8 @@ class _WordsPageState23 extends State<WordsPage23> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -11627,8 +11751,8 @@ class _WordsPageState24 extends State<WordsPage24> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -12115,8 +12239,8 @@ class _WordsPageState25 extends State<WordsPage25> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -12603,8 +12727,8 @@ class _WordsPageState26 extends State<WordsPage26> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -13091,8 +13215,8 @@ class _WordsPageState27 extends State<WordsPage27> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -13579,8 +13703,8 @@ class _WordsPageState28 extends State<WordsPage28> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -14067,8 +14191,8 @@ class _WordsPageState29 extends State<WordsPage29> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -14555,8 +14679,8 @@ class _WordsPageState30 extends State<WordsPage30> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -15043,8 +15167,8 @@ class _WordsPageState31 extends State<WordsPage31> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -15531,8 +15655,8 @@ class _WordsPageState32 extends State<WordsPage32> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -16019,8 +16143,8 @@ class _WordsPageState33 extends State<WordsPage33> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -16507,8 +16631,8 @@ class _WordsPageState34 extends State<WordsPage34> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -16995,8 +17119,8 @@ class _WordsPageState35 extends State<WordsPage35> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -17483,8 +17607,8 @@ class _WordsPageState36 extends State<WordsPage36> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -17971,8 +18095,8 @@ class _WordsPageState37 extends State<WordsPage37> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -18459,8 +18583,8 @@ class _WordsPageState38 extends State<WordsPage38> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -18947,8 +19071,8 @@ class _WordsPageState39 extends State<WordsPage39> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -19435,8 +19559,8 @@ class _WordsPageState40 extends State<WordsPage40> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -19923,8 +20047,8 @@ class _WordsPageState41 extends State<WordsPage41> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -20411,8 +20535,8 @@ class _WordsPageState42 extends State<WordsPage42> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -20899,8 +21023,8 @@ class _WordsPageState43 extends State<WordsPage43> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -21387,8 +21511,8 @@ class _WordsPageState44 extends State<WordsPage44> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -21875,8 +21999,8 @@ class _WordsPageState45 extends State<WordsPage45> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -22363,8 +22487,8 @@ class _WordsPageState46 extends State<WordsPage46> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -22851,8 +22975,8 @@ class _WordsPageState47 extends State<WordsPage47> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -23339,8 +23463,8 @@ class _WordsPageState48 extends State<WordsPage48> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -23827,8 +23951,8 @@ class _WordsPageState49 extends State<WordsPage49> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -24315,8 +24439,8 @@ class _WordsPageState50 extends State<WordsPage50> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -24805,8 +24929,8 @@ class _WordsPageState51 extends State<WordsPage51> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -25293,8 +25417,8 @@ class _WordsPageState52 extends State<WordsPage52> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -25781,8 +25905,8 @@ class _WordsPageState53 extends State<WordsPage53> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -26269,8 +26393,8 @@ class _WordsPageState54 extends State<WordsPage54> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -26757,8 +26881,8 @@ class _WordsPageState55 extends State<WordsPage55> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -27245,8 +27369,8 @@ class _WordsPageState56 extends State<WordsPage56> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -27731,8 +27855,8 @@ class _WordsPageState57 extends State<WordsPage57> {
                                               ? item.get('wrong_words')
                                               : 0;
 
-                                          _correctWords = getCW;
-                                          _wrongWords = getWW;
+                                          Counter.correctWordCounter = getCW;
+                                          Counter.wrongWordCounter = getWW;
                                         }
                                         return Container();
                                       },
@@ -28221,8 +28345,8 @@ class _WordsPageState58 extends State<WordsPage58> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -28709,8 +28833,8 @@ class _WordsPageState59 extends State<WordsPage59> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -29197,8 +29321,8 @@ class _WordsPageState60 extends State<WordsPage60> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -29685,8 +29809,8 @@ class _WordsPageState61 extends State<WordsPage61> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -30173,8 +30297,8 @@ class _WordsPageState62 extends State<WordsPage62> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -30661,8 +30785,8 @@ class _WordsPageState63 extends State<WordsPage63> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -31149,8 +31273,8 @@ class _WordsPageState64 extends State<WordsPage64> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -31637,8 +31761,8 @@ class _WordsPageState65 extends State<WordsPage65> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },
@@ -32113,8 +32237,8 @@ class _WordsPageState66 extends State<WordsPage66> {
                                           ? item.get('wrong_words')
                                           : 0;
 
-                                      _correctWords = getCW;
-                                      _wrongWords = getWW;
+                                      Counter.correctWordCounter = getCW;
+                                      Counter.wrongWordCounter = getWW;
                                     }
                                     return Container();
                                   },

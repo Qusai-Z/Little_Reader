@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speech/flutter_speech.dart';
 import 'package:little_reader/views/home/letters/letters.dart';
-import 'package:little_reader/views/home/stories/counter.dart';
+import 'package:little_reader/services/counter.dart';
 
 import '../../home.dart';
 

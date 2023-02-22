@@ -2,18 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:little_reader/services/counter.dart';
 import 'package:little_reader/services/database.dart';
 import 'package:little_reader/views/home/home.dart';
 import 'package:flutter_speech/flutter_speech.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:little_reader/services/all_statistics.dart';
 
 const languages = [
   Language('Arabic', 'ar-Ar'),
 ];
-
-int _correctLetters = 0;
-int _wrongLetters = 0;
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
@@ -302,8 +299,8 @@ class _LettersPageState extends State<LettersPage> {
                                   ? item.get('wrong_letters')
                                   : 0;
 
-                          _correctLetters = getCL;
-                          _wrongLetters = getWL;
+                          Counter.correctLetterCounter = getCL;
+                          Counter.wrongLetterCounter = getWL;
                         }
                         return Container();
                       },
@@ -352,7 +349,7 @@ class _LettersPageState extends State<LettersPage> {
     if (text == 'الف') {
       isMatched = true;
       correct = true;
-      _correctLetters++;
+      Counter.correctLetterCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -361,15 +358,15 @@ class _LettersPageState extends State<LettersPage> {
           .collection('letters')
           .doc('letters')
           .update({
-        "correct_letters": _correctLetters,
-        "wrong_letters": _wrongLetters,
+        "correct_letters": Counter.correctLetterCounter,
+        "wrong_letters": Counter.wrongLetterCounter,
       });
       _Next();
     }
     if (text != 'الف' && text != '') {
       isMatched = false;
       wrong = true;
-      _wrongLetters++;
+      Counter.wrongLetterCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -378,8 +375,8 @@ class _LettersPageState extends State<LettersPage> {
           .collection('letters')
           .doc('letters')
           .update({
-        "correct_letters": _correctLetters,
-        "wrong_letters": _wrongLetters,
+        "correct_letters": Counter.correctLetterCounter,
+        "wrong_letters": Counter.wrongLetterCounter,
       });
     }
   }
@@ -683,8 +680,8 @@ class _LettersPageState2 extends State<LettersPage2> {
                                               ? item.get('wrong_letters')
                                               : 0;
 
-                                          _correctLetters = getCL;
-                                          _wrongLetters = getWL;
+                                          Counter.correctLetterCounter = getCL;
+                                          Counter.wrongLetterCounter = getWL;
                                         }
                                         return Container();
                                       },
@@ -764,7 +761,7 @@ class _LettersPageState2 extends State<LettersPage2> {
     if (text == 'باء') {
       isMatched = true;
       correct = true;
-      _correctLetters++;
+      Counter.correctLetterCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -773,15 +770,15 @@ class _LettersPageState2 extends State<LettersPage2> {
           .collection('letters')
           .doc('letters')
           .update({
-        "correct_letters": _correctLetters,
-        "wrong_letters": _wrongLetters,
+        "correct_letters": Counter.correctLetterCounter,
+        "wrong_letters": Counter.wrongLetterCounter,
       });
       _Next();
     }
     if (text != 'باء' && text != '') {
       isMatched = false;
       wrong = true;
-      _wrongLetters++;
+      Counter.wrongLetterCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
@@ -790,8 +787,8 @@ class _LettersPageState2 extends State<LettersPage2> {
           .collection('letters')
           .doc('letters')
           .update({
-        "correct_letters": _correctLetters,
-        "wrong_letters": _wrongLetters,
+        "correct_letters": Counter.correctLetterCounter,
+        "wrong_letters": Counter.wrongLetterCounter,
       });
     }
   }
@@ -1074,8 +1071,8 @@ class _LettersPageState3 extends State<LettersPage3> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -1128,7 +1125,7 @@ class _LettersPageState3 extends State<LettersPage3> {
             _isListening = result;
             isMatched = true;
             correct = true;
-            _correctLetters++;
+            Counter.correctLetterCounter++;
             _Next();
           });
         });
@@ -1445,8 +1442,8 @@ class _LettersPageState4 extends State<LettersPage4> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -1499,7 +1496,7 @@ class _LettersPageState4 extends State<LettersPage4> {
             _isListening = result;
             isMatched = true;
             correct = true;
-            _correctLetters++;
+            Counter.correctLetterCounter++;
             _Next();
           });
         });
@@ -1820,8 +1817,8 @@ class _LettersPageState5 extends State<LettersPage5> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -1900,7 +1897,7 @@ class _LettersPageState5 extends State<LettersPage5> {
     if (text == 'جيم') {
       isMatched = true;
       correct = true;
-      _correctLetters++;
+      Counter.correctLetterCounter++;
 
       _firestore
           .collection('Statistics')
@@ -1909,23 +1906,23 @@ class _LettersPageState5 extends State<LettersPage5> {
           .doc(widget.childID)
           .set({
         "name": widget.currentName,
-        "correct_letters": _correctLetters,
-        "wrong_letters": _wrongLetters
+        "correct_letters": Counter.correctLetterCounter,
+        "wrong_letters": Counter.wrongLetterCounter
       });
       _Next();
     }
     if (text != 'جيم' && text != '') {
       isMatched = false;
       wrong = true;
-      _wrongLetters++;
+      Counter.wrongLetterCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
           .collection('children')
           .doc(widget.childID)
           .set({
-        "correct_letters": _correctLetters,
-        "wrong_letters": _wrongLetters,
+        "correct_letters": Counter.correctLetterCounter,
+        "wrong_letters": Counter.wrongLetterCounter,
       });
     }
   }
@@ -2271,7 +2268,7 @@ class _LettersPageState6 extends State<LettersPage6> {
     if (text == 'حاء' || text == 'ح') {
       isMatched = true;
       correct = true;
-      _correctLetters++;
+      Counter.correctLetterCounter++;
 
       _firestore
           .collection('Statistics')
@@ -2280,23 +2277,23 @@ class _LettersPageState6 extends State<LettersPage6> {
           .doc(widget.childID)
           .set({
         "name": widget.currentName,
-        "correct_letters": _correctLetters,
-        "wrong_letters": _wrongLetters
+        "correct_letters": Counter.correctLetterCounter,
+        "wrong_letters": Counter.wrongLetterCounter
       });
       _Next();
     }
     if (text != 'حاء' && text != 'ح' && text != '') {
       isMatched = false;
       wrong = true;
-      _wrongLetters++;
+      Counter.wrongLetterCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
           .collection('children')
           .doc(widget.childID)
           .set({
-        "correct_letters": _correctLetters,
-        "wrong_letters": _wrongLetters,
+        "correct_letters": Counter.correctLetterCounter,
+        "wrong_letters": Counter.wrongLetterCounter,
       });
     }
   }
@@ -2587,8 +2584,9 @@ class _LettersPageState7 extends State<LettersPage7> {
                                                 ? item.get('wrong_letters')
                                                 : 0;
 
-                                            _correctLetters = getCL;
-                                            _wrongLetters = getWL;
+                                            Counter.correctLetterCounter =
+                                                getCL;
+                                            Counter.wrongLetterCounter = getWL;
                                           }
                                           return Container();
                                         },
@@ -2970,8 +2968,8 @@ class _LettersPageState8 extends State<LettersPage8> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -3050,7 +3048,7 @@ class _LettersPageState8 extends State<LettersPage8> {
     if (text == 'دال' || text == 'د') {
       isMatched = true;
       correct = true;
-      _correctLetters++;
+      Counter.correctLetterCounter++;
 
       _firestore
           .collection('Statistics')
@@ -3059,23 +3057,23 @@ class _LettersPageState8 extends State<LettersPage8> {
           .doc(widget.childID)
           .set({
         "name": widget.currentName,
-        "correct_letters": _correctLetters,
-        "wrong_letters": _wrongLetters
+        "correct_letters": Counter.correctLetterCounter,
+        "wrong_letters": Counter.wrongLetterCounter
       });
       _Next();
     }
     if (text != 'دال' && text != 'د' && text != '') {
       isMatched = false;
       wrong = true;
-      _wrongLetters++;
+      Counter.wrongLetterCounter++;
       _firestore
           .collection('Statistics')
           .doc("${_auth.currentUser!.email}")
           .collection('children')
           .doc(widget.childID)
           .set({
-        "correct_letters": _correctLetters,
-        "wrong_letters": _wrongLetters,
+        "correct_letters": Counter.correctLetterCounter,
+        "wrong_letters": Counter.wrongLetterCounter,
       });
     }
   }
@@ -3390,7 +3388,7 @@ class _LettersPageState9 extends State<LettersPage9> {
             _isListening = result;
             isMatched = true;
             correct = true;
-            _correctLetters++;
+            Counter.correctLetterCounter++;
             _Next();
           });
         });
@@ -3707,8 +3705,8 @@ class _LettersPageState10 extends State<LettersPage10> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -3761,7 +3759,7 @@ class _LettersPageState10 extends State<LettersPage10> {
             _isListening = result;
             isMatched = true;
             correct = true;
-            _correctLetters++;
+            Counter.correctLetterCounter++;
             _Next();
           });
         });
@@ -4082,8 +4080,8 @@ class _LettersPageState11 extends State<LettersPage11> {
                                     ? item.get('wrong_letters')
                                     : 0;
 
-                                _correctLetters = getCL;
-                                _wrongLetters = getWL;
+                                Counter.correctLetterCounter = getCL;
+                                Counter.wrongLetterCounter = getWL;
                               }
                               return Container();
                             },
@@ -4469,8 +4467,8 @@ class _LettersPageState12 extends State<LettersPage12> {
                                     ? item.get('wrong_letters')
                                     : 0;
 
-                                _correctLetters = getCL;
-                                _wrongLetters = getWL;
+                                Counter.correctLetterCounter = getCL;
+                                Counter.wrongLetterCounter = getWL;
                               }
                               return Container();
                             },
@@ -4855,8 +4853,8 @@ class _LettersPageState13 extends State<LettersPage13> {
                                     ? item.get('wrong_letters')
                                     : 0;
 
-                                _correctLetters = getCL;
-                                _wrongLetters = getWL;
+                                Counter.correctLetterCounter = getCL;
+                                Counter.wrongLetterCounter = getWL;
                               }
                               return Container();
                             },
@@ -5240,8 +5238,8 @@ class _LettersPageState14 extends State<LettersPage14> {
                                     ? item.get('wrong_letters')
                                     : 0;
 
-                                _correctLetters = getCL;
-                                _wrongLetters = getWL;
+                                Counter.correctLetterCounter = getCL;
+                                Counter.wrongLetterCounter = getWL;
                               }
                               return Container();
                             },
@@ -5619,8 +5617,8 @@ class _LettersPageState15 extends State<LettersPage15> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -5673,7 +5671,7 @@ class _LettersPageState15 extends State<LettersPage15> {
             _isListening = result;
             isMatched = true;
             correct = true;
-            _correctLetters++;
+            Counter.correctLetterCounter++;
             _Next();
           });
         });
@@ -5996,8 +5994,8 @@ class _LettersPageState16 extends State<LettersPage16> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -6050,7 +6048,7 @@ class _LettersPageState16 extends State<LettersPage16> {
             _isListening = result;
             isMatched = true;
             correct = true;
-            _correctLetters++;
+            Counter.correctLetterCounter++;
             _Next();
 
             print('MM:$isMatched');
@@ -6368,8 +6366,8 @@ class _LettersPageState17 extends State<LettersPage17> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -6423,7 +6421,7 @@ class _LettersPageState17 extends State<LettersPage17> {
 
             isMatched = true;
             correct = true;
-            _correctLetters++;
+            Counter.correctLetterCounter++;
             _Next();
             print('MM:$isMatched');
           });
@@ -6739,8 +6737,8 @@ class _LettersPageState18 extends State<LettersPage18> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -7122,8 +7120,8 @@ class _LettersPageState19 extends State<LettersPage19> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -7508,8 +7506,8 @@ class _LettersPageState20 extends State<LettersPage20> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -7563,7 +7561,7 @@ class _LettersPageState20 extends State<LettersPage20> {
 
             isMatched = true;
             correct = true;
-            _correctLetters++;
+            Counter.correctLetterCounter++;
             _Next();
             print('MM:$isMatched');
           });
@@ -7879,8 +7877,8 @@ class _LettersPageState21 extends State<LettersPage21> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -8262,8 +8260,8 @@ class _LettersPageState22 extends State<LettersPage22> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -8647,8 +8645,8 @@ class _LettersPageState23 extends State<LettersPage23> {
                                     ? item.get('wrong_letters')
                                     : 0;
 
-                                _correctLetters = getCL;
-                                _wrongLetters = getWL;
+                                Counter.correctLetterCounter = getCL;
+                                Counter.wrongLetterCounter = getWL;
                               }
                               return Container();
                             },
@@ -9028,8 +9026,8 @@ class _LettersPageState24 extends State<LettersPage24> {
                                     ? item.get('wrong_letters')
                                     : 0;
 
-                                _correctLetters = getCL;
-                                _wrongLetters = getWL;
+                                Counter.correctLetterCounter = getCL;
+                                Counter.wrongLetterCounter = getWL;
                               }
                               return Container();
                             },
@@ -9401,8 +9399,8 @@ class _LettersPageState25 extends State<LettersPage25> {
                                     ? item.get('wrong_letters')
                                     : 0;
 
-                                _correctLetters = getCL;
-                                _wrongLetters = getWL;
+                                Counter.correctLetterCounter = getCL;
+                                Counter.wrongLetterCounter = getWL;
                               }
                               return Container();
                             },
@@ -9771,8 +9769,8 @@ class _LettersPageState26 extends State<LettersPage26> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
@@ -10151,8 +10149,8 @@ class _LettersPageState27 extends State<LettersPage27> {
                                     ? item.get('wrong_letters')
                                     : 0;
 
-                                _correctLetters = getCL;
-                                _wrongLetters = getWL;
+                                Counter.correctLetterCounter = getCL;
+                                Counter.wrongLetterCounter = getWL;
                               }
                               return Container();
                             },
@@ -10509,8 +10507,8 @@ class _LettersPageState28 extends State<LettersPage28> {
                                             ? item.get('wrong_letters')
                                             : 0;
 
-                                        _correctLetters = getCL;
-                                        _wrongLetters = getWL;
+                                        Counter.correctLetterCounter = getCL;
+                                        Counter.wrongLetterCounter = getWL;
                                       }
                                       return Container();
                                     },
