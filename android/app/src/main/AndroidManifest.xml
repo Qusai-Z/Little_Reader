@@ -12,7 +12,7 @@
     
 
    <application android:requestLegacyExternalStorage="true"
-        android:label="little_reader"
+        android:label="القارئ الصغير"
         android:name="${applicationName}"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon">

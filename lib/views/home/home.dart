@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:little_reader/services/counter.dart';
 import 'package:little_reader/views/home/letters/letters.dart';
+import 'package:little_reader/views/home/letters/letters_notSignedIn.dart';
 import 'package:little_reader/views/home/words/words.dart';
 import 'package:little_reader/views/registeration/inf_entry/accounts.dart';
 import '../registeration/inf_entry/first_page.dart';
@@ -35,7 +37,10 @@ class _HomeState extends State<Home> {
   final _key = GlobalKey<FormState>();
   final _firestore = FirebaseFirestore.instance;
 
-//initState is run when the app runs
+  var level1_url = 'imgs/level_1.jpeg';
+  var level2_url = 'imgs/level_2.jpeg';
+  var level3_url = 'imgs/level_3.jpeg';
+
   @override
   void initState() {
     setState(() {
@@ -64,8 +69,15 @@ class _HomeState extends State<Home> {
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           actions: [
             CircleAvatar(
-              backgroundImage: const NetworkImage(
-                  'https://pbs.twimg.com/media/FjnKOl2XkAAqSKD?format=jpg&name=360x360'),
+              backgroundImage: Counter.correctLetterCounter >= 26 &&
+                      Counter.correctWordCounter >= 60 &&
+                      Counter.correctStoryCounter >= 150
+                  ? AssetImage(level2_url)
+                  : Counter.correctLetterCounter >= 92 &&
+                          Counter.correctWordCounter >= 120 &&
+                          Counter.correctStoryCounter >= 600
+                      ? AssetImage(level3_url)
+                      : AssetImage(level1_url),
               radius: currentHeight / 26,
             ),
             const SizedBox(
@@ -174,16 +186,29 @@ class _HomeState extends State<Home> {
                               setState(() {
                                 _play = false;
                               });
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => WordsPage(
-                                    currentAvatar: widget.currentAvatar,
-                                    childID: widget.childID,
-                                    currentName: widget.currentName,
+                              if (widget.childID!.isNotEmpty) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => WordsPage(
+                                      currentAvatar: widget.currentAvatar,
+                                      childID: widget.childID,
+                                      currentName: widget.currentName,
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              } else {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const PleaseSignIn(
+                                      childID: '',
+                                      currentAvatar: '',
+                                      currentName: '',
+                                    ),
+                                  ),
+                                );
+                              }
                             },
                             child: Text(
                               'كلمات',
@@ -209,16 +234,29 @@ class _HomeState extends State<Home> {
                             color: const Color.fromRGBO(255, 166, 0, 1),
                             splashColor: const Color.fromRGBO(149, 22, 224, 1),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => StoriesPage(
-                                    currentAvatar: widget.currentAvatar,
-                                    childID: widget.childID,
-                                    currentName: widget.currentName,
+                              if (widget.childID!.isNotEmpty) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => StoriesPage(
+                                      currentAvatar: widget.currentAvatar!,
+                                      childID: widget.childID!,
+                                      currentName: widget.currentName!,
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const StoriesPage(
+                                      currentAvatar: '',
+                                      childID: '',
+                                      currentName: '',
+                                    ),
+                                  ),
+                                );
+                              }
                             },
                             child: Text(
                               'قصص',
@@ -243,19 +281,36 @@ class _HomeState extends State<Home> {
                             color: const Color.fromRGBO(255, 166, 0, 1),
                             splashColor: const Color.fromRGBO(149, 22, 224, 1),
                             onPressed: () {
-                              setState(() {
-                                _play = false;
-                              });
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LettersPage(
-                                    currentAvatar: widget.currentAvatar,
-                                    childID: widget.childID,
-                                    currentName: widget.currentName,
+                              if (widget.childID!.isNotEmpty) {
+                                setState(() {
+                                  _play = false;
+                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LettersPage(
+                                      currentAvatar: widget.currentAvatar,
+                                      childID: widget.childID,
+                                      currentName: widget.currentName,
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              } else {
+                                setState(() {
+                                  _play = false;
+                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const LettersPageNotSignedIn(
+                                      currentAvatar: '',
+                                      childID: '',
+                                      currentName: '',
+                                    ),
+                                  ),
+                                );
+                              }
                             },
                             child: Text(
                               'حروف',
@@ -292,6 +347,94 @@ class Level1 extends StatelessWidget {
     return CircleAvatar(
       backgroundImage: NetworkImage(level1),
       radius: currentHeight / 32,
+    );
+  }
+}
+
+class PleaseSignIn extends StatefulWidget {
+  final String? childID;
+  final String? currentAvatar;
+  final String? currentName;
+  const PleaseSignIn(
+      {super.key, this.childID, this.currentAvatar, this.currentName});
+
+  @override
+  State<PleaseSignIn> createState() => _PleaseSignInState();
+}
+
+class _PleaseSignInState extends State<PleaseSignIn> {
+  @override
+  Widget build(BuildContext context) {
+    final double currentHeight = MediaQuery.of(context).size.height;
+
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('imgs/Cong.jpeg'),
+              fit: BoxFit.fill,
+            ),
+          ),
+          child: Container(
+            alignment: Alignment.center,
+            width: double.infinity,
+            height: double.infinity,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  SizedBox(height: currentHeight / 6),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'من فضلك أنشئ حساب حتى تتمكن من دخول هذه اللعبة ',
+                        style: TextStyle(
+                            fontSize: currentHeight / 14,
+                            color: const Color.fromARGB(255, 0, 0, 0)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: currentHeight / 6),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MaterialButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Home(
+                                  childID: '',
+                                  currentAvatar: '',
+                                  currentName: '',
+                                ),
+                              ),
+                              (Route<dynamic> route) => false);
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        splashColor: Colors.amber,
+                        child: CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                          radius: currentHeight / 16,
+                          child: Icon(
+                            Icons.home,
+                            color: Colors.white,
+                            size: currentHeight / 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

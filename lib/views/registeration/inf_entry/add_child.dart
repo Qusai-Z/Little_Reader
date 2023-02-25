@@ -239,7 +239,17 @@ class _AddChildState extends State<AddChild> {
                 .collection('children')
                 .get(),
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
+              if (snapshot.data!.docs.isEmpty) {
+                return Center(
+                  child: Text(
+                    'لا يوجد أطفال مسجلين',
+                    style: TextStyle(
+                        fontSize: currentHeight / 22,
+                        fontFamily: 'Lalezar',
+                        color: Colors.grey[400]),
+                  ),
+                );
+              } else if (snapshot.hasData) {
                 return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, i) {

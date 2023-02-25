@@ -47,24 +47,15 @@ class _FirstPageState extends State<FirstPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  Container(
+                  Image.asset(
+                    'imgs/little-kid.png',
                     height: currentHeight / 4,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            'https://pbs.twimg.com/media/Ffr0h0NWQAMYEVi?format=png&name=small'),
-                      ),
-                    ),
                   ),
 
                   Text(
                     'أهلا بك مع القارئ الصغير',
                     style: TextStyle(
-                      fontSize: currentHeight / 20,
+                      fontSize: currentHeight / 24,
                       fontFamily: 'Lalezar',
                       color: const Color.fromRGBO(245, 171, 0, 1),
                     ),
@@ -78,26 +69,22 @@ class _FirstPageState extends State<FirstPage> {
                       thickness: 3,
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
+                  SizedBox(
+                    height: currentHeight / 12,
                   ),
                   // ignore: sized_box_for_whitespace
                   Row(
                     children: [
                       Expanded(
                         child: Container(
-                          margin: const EdgeInsets.only(left: 100, right: 100),
+                          margin: EdgeInsets.only(
+                              left: currentwidth / 12,
+                              right: currentwidth / 12),
                           child: RawMaterialButton(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
-
                             onPressed: () async {
-                              //change the state of the isLoading variable to true
-
-                              signInAnonoumouslyFirebase();
-
-                              // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -108,16 +95,15 @@ class _FirstPageState extends State<FirstPage> {
                                   ),
                                 ),
                               );
-                              //after finishing the process; set the state to false again
                             },
-                            elevation: 10,
-                            fillColor: const Color.fromRGBO(7, 205, 219, 1),
+                            elevation: 10.0,
+                            fillColor: const Color.fromRGBO(245, 171, 0, 1),
                             // ignore: sort_child_properties_last
                             child: Text(
                               'دخول الطفل',
                               style: TextStyle(
                                 color: const Color.fromARGB(255, 255, 255, 255),
-                                fontSize: currentHeight / 28,
+                                fontSize: currentHeight / 24,
                                 fontFamily: 'Lalezar',
                               ),
                             ),
@@ -127,15 +113,16 @@ class _FirstPageState extends State<FirstPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 70,
+                  SizedBox(
+                    height: currentHeight / 12,
                   ),
-                  // ignore: sized_box_for_whitespace
                   Row(
                     children: [
                       Expanded(
                         child: Container(
-                          margin: const EdgeInsets.only(left: 100, right: 100),
+                          margin: EdgeInsets.only(
+                              left: currentwidth / 12,
+                              right: currentwidth / 12),
                           child: RawMaterialButton(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
@@ -145,13 +132,13 @@ class _FirstPageState extends State<FirstPage> {
                               Navigator.pushNamed(context, SignUp.ScreenRoute);
                             },
                             elevation: 10.0,
-                            fillColor: const Color.fromRGBO(245, 171, 0, 1),
+                            fillColor: const Color.fromRGBO(7, 205, 219, 1),
                             // ignore: sort_child_properties_last
                             child: Text(
-                              'دخول ولي الأمر',
+                              'إنشاء حساب',
                               style: TextStyle(
                                 color: const Color.fromARGB(255, 255, 255, 255),
-                                fontSize: currentHeight / 28,
+                                fontSize: currentHeight / 24,
                                 fontFamily: 'Lalezar',
                               ),
                             ),
@@ -161,8 +148,8 @@ class _FirstPageState extends State<FirstPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 50,
+                  SizedBox(
+                    height: currentHeight / 28,
                   ),
                   InkWell(
                     onTap: (() {

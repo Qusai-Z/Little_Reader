@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speech/flutter_speech.dart';
 import 'package:little_reader/views/home/letters/letters.dart';
 import 'package:little_reader/services/counter.dart';
+import 'package:little_reader/views/home/letters/letters_notSignedIn.dart';
 
 import '../../home.dart';
 
@@ -26,7 +25,7 @@ class Language {
   const Language(this.name, this.code);
 }
 
-class TandH extends StatefulWidget {
+class TandHNotSignedIn extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
@@ -85,13 +84,14 @@ class TandH extends StatefulWidget {
   bool? isMatched15;
   bool? isMatched16;
 
-  TandH({Key? key, this.childID, this.currentAvatar, this.currentName})
+  TandHNotSignedIn(
+      {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
   @override
-  _TandHState createState() => _TandHState();
+  _TandHNotSignedInState createState() => _TandHNotSignedInState();
 }
 
-class _TandHState extends State<TandH> {
+class _TandHNotSignedInState extends State<TandHNotSignedIn> {
   late SpeechRecognition _speech;
 
   bool _speechRecognitionAvailable = false;
@@ -118,7 +118,7 @@ class _TandHState extends State<TandH> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   void activateSpeechRecognizer() {
-    print('_TandHState.activateSpeechRecognizer... ');
+    print('_TandHNotSignedInState.activateSpeechRecognizer... ');
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
@@ -266,7 +266,7 @@ class _TandHState extends State<TandH> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH2(
+                              builder: (context) => TandHNotSignedIn2(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -383,40 +383,6 @@ class _TandHState extends State<TandH> {
                       ),
                     ],
                   ),
-                  StreamBuilder<QuerySnapshot>(
-                    stream: _firestore
-                        .collection('Statistics')
-                        .doc(_auth.currentUser!.email)
-                        .collection('children')
-                        .doc(widget.currentName)
-                        .collection('words_of_story ')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator(); //If no data return this
-                      }
-
-                      final information = snapshot.data!
-                          .docs; //information: stores gets the data from firebase documents
-
-                      for (var item in information) {
-                        final getCS = item
-                                .data()
-                                .toString()
-                                .contains('correct_WordsStory')
-                            ? item.get('correct_WordsStory')
-                            : 0;
-                        final getWS =
-                            item.data().toString().contains('wrong_WordsStory')
-                                ? item.get('wrong_WordsStory')
-                                : 0;
-
-                        Counter.correctStoryCounter = getCS;
-                        Counter.wrongStoryCounter = getWS;
-                      }
-                      return Container();
-                    },
-                  ),
                 ],
               ),
             ),
@@ -428,7 +394,7 @@ class _TandHState extends State<TandH> {
 
   void start() => _speech.activate(selectedLang.code).then((_) {
         return _speech.listen().then((result) {
-          print('_TandHState.start => result $result');
+          print('_TandHNotSignedInState.start => result $result');
           setState(() {
             _isListening = result;
           });
@@ -436,7 +402,7 @@ class _TandHState extends State<TandH> {
       });
 
   void onCurrentLocale(String locale) {
-    print('_TandHState.onCurrentLocale... $locale');
+    print('_TandHNotSignedInState.onCurrentLocale... $locale');
     setState(
         () => selectedLang = languages.firstWhere((l) => l.code == locale));
   }
@@ -446,7 +412,7 @@ class _TandHState extends State<TandH> {
   }
 
   void onRecognitionResult(String text) async {
-    print('_TandHState.onRecognitionResult... $text');
+    print('_TandHNotSignedInState.onRecognitionResult... $text');
 
     setState(() {
       transcription = text;
@@ -461,549 +427,141 @@ class _TandHState extends State<TandH> {
     if (my_words[0] == 'في') {
       widget.isMatched = true;
       widget.correct = true;
-      Counter.correctStoryCounter++;
-      Counter.wrongStoryCounter;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[0] != 'في') {
       widget.isMatched = false;
       widget.wrong = true;
-
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] == 'الغابه') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] != 'الغابه') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] == 'راى') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] != 'راى') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] == 'الارنب') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] != 'الارنب') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] == 'المغرور') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] != 'المغرور') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] == 'السلحفاه') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] != 'السلحفاه') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] == 'فتعجب') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] != 'فتعجب') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] == 'من') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] != 'من') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] == 'مشيها') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] != 'مشيها') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] == 'البطيء') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] != 'البطيء') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] == 'فهو') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] != 'فهو') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] == 'كما') {
       widget.isMatched11 = true;
       widget.correct11 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] != 'كما') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] == 'نعرف') {
       widget.isMatched12 = true;
       widget.correct12 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] != 'نعرف') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] == 'سريع') {
       widget.isMatched13 = true;
       widget.correct13 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] != 'سريع') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] == 'الحركه') {
       widget.isMatched14 = true;
       widget.correct14 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] != 'الحركه') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] == 'والجري') {
       widget.isMatched15 = true;
       widget.correct15 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] != 'والجري') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[16] == 'والقفز') {
       widget.isMatched16 = true;
       widget.correct16 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     }
     if (my_words[16] != 'والقفز') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     } else {
       print('Finished');
@@ -1020,7 +578,7 @@ class _TandHState extends State<TandH> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => TandH2(
+            builder: (context) => TandHNotSignedIn2(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -1405,7 +963,7 @@ class Content_1 extends StatelessWidget {
   }
 }
 
-class TandH2 extends StatefulWidget {
+class TandHNotSignedIn2 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
@@ -1479,17 +1037,17 @@ class TandH2 extends StatefulWidget {
   bool? isMatched20;
   bool? isMatched21;
 
-  TandH2(
+  TandHNotSignedIn2(
       {Key? key,
       required this.childID,
       required this.currentAvatar,
       required this.currentName})
       : super(key: key);
   @override
-  _TandH2State createState() => _TandH2State();
+  _TandHNotSignedIn2State createState() => _TandHNotSignedIn2State();
 }
 
-class _TandH2State extends State<TandH2> {
+class _TandHNotSignedIn2State extends State<TandHNotSignedIn2> {
   late SpeechRecognition _speech;
 
   bool _speechRecognitionAvailable = false;
@@ -1516,7 +1074,7 @@ class _TandH2State extends State<TandH2> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   void activateSpeechRecognizer() {
-    print('_TandH2State.activateSpeechRecognizer... ');
+    print('_TandHNotSignedIn2State.activateSpeechRecognizer... ');
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
@@ -1679,7 +1237,7 @@ class _TandH2State extends State<TandH2> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH3(
+                              builder: (context) => TandHNotSignedIn3(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -1703,7 +1261,7 @@ class _TandH2State extends State<TandH2> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH(
+                              builder: (context) => TandHNotSignedIn(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -1806,40 +1364,6 @@ class _TandH2State extends State<TandH2> {
                       ),
                     ],
                   ),
-                  StreamBuilder<QuerySnapshot>(
-                    stream: _firestore
-                        .collection('Statistics')
-                        .doc(_auth.currentUser!.email)
-                        .collection('children')
-                        .doc(widget.currentName)
-                        .collection('words_of_story ')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator(); //If no data return this
-                      }
-
-                      final information = snapshot.data!
-                          .docs; //information: stores gets the data from firebase documents
-
-                      for (var item in information) {
-                        final getCS = item
-                                .data()
-                                .toString()
-                                .contains('correct_WordsStory')
-                            ? item.get('correct_WordsStory')
-                            : 0;
-                        final getWS =
-                            item.data().toString().contains('wrong_WordsStory')
-                                ? item.get('wrong_WordsStory')
-                                : 0;
-
-                        Counter.correctStoryCounter = getCS;
-                        Counter.wrongStoryCounter = getWS;
-                      }
-                      return Container();
-                    },
-                  ),
                 ],
               ),
             ),
@@ -1851,7 +1375,7 @@ class _TandH2State extends State<TandH2> {
 
   void start() => _speech.activate(selectedLang.code).then((_) {
         return _speech.listen().then((result) {
-          print('_TandH2State.start => result $result');
+          print('_TandHNotSignedIn2State.start => result $result');
           setState(() {
             _isListening = result;
           });
@@ -1859,7 +1383,7 @@ class _TandH2State extends State<TandH2> {
       });
 
   void onCurrentLocale(String locale) {
-    print('_TandH2State.onCurrentLocale... $locale');
+    print('_TandHNotSignedIn2State.onCurrentLocale... $locale');
     setState(
         () => selectedLang = languages.firstWhere((l) => l.code == locale));
   }
@@ -1869,7 +1393,7 @@ class _TandH2State extends State<TandH2> {
   }
 
   void onRecognitionResult(String text) async {
-    print('_TandH2State.onRecognitionResult... $text');
+    print('_TandHNotSignedIn2State.onRecognitionResult... $text');
 
     setState(() {
       transcription = text;
@@ -1879,611 +1403,157 @@ class _TandH2State extends State<TandH2> {
     if (my_words[0] == 'قالت') {
       widget.isMatched = true;
       widget.correct = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[0] != 'قالت') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] == 'السلحفاه') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] != 'السلحفاه') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] == 'للارنب') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] != 'للارنب') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] == 'المغرور') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] != 'المغرور') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] == 'انا') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] != 'انا') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] == 'بطيئه') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] != 'بطيئه') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] == 'المشي') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] != 'المشي') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] == 'ولكني') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] != 'ولكني') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] == 'نشيطه') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] != 'نشيطه') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] == 'واستطيع') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] != 'واستطيع') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] == 'انهاء') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] != 'انهاء') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] == 'كل') {
       widget.isMatched11 = true;
       widget.correct11 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] != 'كل') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] == 'اعمالي') {
       widget.isMatched12 = true;
       widget.correct12 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] != 'اعمالي') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] == 'بجد') {
       widget.isMatched13 = true;
       widget.correct13 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] != 'بجد') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] == 'ونشاط') {
       widget.isMatched14 = true;
       widget.correct14 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] != 'ونشاط') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] == 'فضحك') {
       widget.isMatched15 = true;
       widget.correct15 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] != 'فضحك') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[16] == 'الارنب') {
       widget.isMatched16 = true;
       widget.correct16 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[16] != 'الارنب') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[17] == 'من') {
       widget.isMatched17 = true;
       widget.correct17 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[17] != 'من') {
       widget.isMatched17 = false;
       widget.wrong17 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[18] == 'كلامها') {
       widget.isMatched18 = true;
       widget.correct18 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     }
     if (my_words[18] != 'كلامها') {
       widget.isMatched18 = false;
       widget.wrong18 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     } else {
       print('Finished');
@@ -2504,7 +1574,7 @@ class _TandH2State extends State<TandH2> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => TandH3(
+            builder: (context) => TandHNotSignedIn3(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -2949,7 +2019,7 @@ class Content_2 extends StatelessWidget {
   }
 }
 
-class TandH3 extends StatefulWidget {
+class TandHNotSignedIn3 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
@@ -3023,17 +2093,17 @@ class TandH3 extends StatefulWidget {
   bool? isMatched20;
   bool? isMatched21;
 
-  TandH3(
+  TandHNotSignedIn3(
       {Key? key,
       required this.childID,
       required this.currentAvatar,
       required this.currentName})
       : super(key: key);
   @override
-  _TandH3State createState() => _TandH3State();
+  _TandHNotSignedIn3State createState() => _TandHNotSignedIn3State();
 }
 
-class _TandH3State extends State<TandH3> {
+class _TandHNotSignedIn3State extends State<TandHNotSignedIn3> {
   late SpeechRecognition _speech;
 
   bool _speechRecognitionAvailable = false;
@@ -3060,7 +2130,7 @@ class _TandH3State extends State<TandH3> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   void activateSpeechRecognizer() {
-    print('_TandH2State.activateSpeechRecognizer... ');
+    print('_TandHNotSignedIn2State.activateSpeechRecognizer... ');
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
@@ -3223,7 +2293,7 @@ class _TandH3State extends State<TandH3> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH4(
+                              builder: (context) => TandHNotSignedIn4(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -3247,7 +2317,7 @@ class _TandH3State extends State<TandH3> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH2(
+                              builder: (context) => TandHNotSignedIn2(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -3351,40 +2421,6 @@ class _TandH3State extends State<TandH3> {
                       ),
                     ],
                   ),
-                  StreamBuilder<QuerySnapshot>(
-                    stream: _firestore
-                        .collection('Statistics')
-                        .doc(_auth.currentUser!.email)
-                        .collection('children')
-                        .doc(widget.currentName)
-                        .collection('words_of_story ')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator(); //If no data return this
-                      }
-
-                      final information = snapshot.data!
-                          .docs; //information: stores gets the data from firebase documents
-
-                      for (var item in information) {
-                        final getCS = item
-                                .data()
-                                .toString()
-                                .contains('correct_WordsStory')
-                            ? item.get('correct_WordsStory')
-                            : 0;
-                        final getWS =
-                            item.data().toString().contains('wrong_WordsStory')
-                                ? item.get('wrong_WordsStory')
-                                : 0;
-
-                        Counter.correctStoryCounter = getCS;
-                        Counter.wrongStoryCounter = getWS;
-                      }
-                      return Container();
-                    },
-                  ),
                 ],
               ),
             ),
@@ -3396,7 +2432,7 @@ class _TandH3State extends State<TandH3> {
 
   void start() => _speech.activate(selectedLang.code).then((_) {
         return _speech.listen().then((result) {
-          print('_TandH2State.start => result $result');
+          print('_TandHNotSignedIn2State.start => result $result');
           setState(() {
             _isListening = result;
           });
@@ -3404,7 +2440,7 @@ class _TandH3State extends State<TandH3> {
       });
 
   void onCurrentLocale(String locale) {
-    print('_TandH2State.onCurrentLocale... $locale');
+    print('_TandHNotSignedIn2State.onCurrentLocale... $locale');
     setState(
         () => selectedLang = languages.firstWhere((l) => l.code == locale));
   }
@@ -3414,7 +2450,7 @@ class _TandH3State extends State<TandH3> {
   }
 
   void onRecognitionResult(String text) async {
-    print('_TandH2State.onRecognitionResult... $text');
+    print('_TandHNotSignedIn2State.onRecognitionResult... $text');
 
     setState(() {
       transcription = text;
@@ -3424,707 +2460,181 @@ class _TandH3State extends State<TandH3> {
     if (my_words[0] == 'فكر') {
       widget.isMatched = true;
       widget.correct = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[0] != 'فكر') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] == 'الارنب') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] != 'الارنب') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] == 'قليلا') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] != 'قليلا') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] == 'ثم') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] != 'ثم') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] == 'قال') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] != 'قال') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] == 'للسلحفاه') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] != 'للسلحفاه') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] == 'هيا') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] != 'هيا') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] == 'نقوم') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] != 'نقوم') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] == 'بمسابقه') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] != 'بمسابقه') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] == 'في') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] != 'في') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] == 'الجري') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] != 'الجري') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] == 'حتى') {
       widget.isMatched11 = true;
       widget.correct11 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] != 'حتى') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] == 'تعرف') {
       widget.isMatched12 = true;
       widget.correct12 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] != 'تعرف') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] == 'جميع') {
       widget.isMatched13 = true;
       widget.correct13 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] != 'جميع') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] == 'حيوانات') {
       widget.isMatched14 = true;
       widget.correct14 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] != 'حيوانات') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] == 'الغابه') {
       widget.isMatched15 = true;
       widget.correct15 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] != 'الغابه') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[16] == 'من') {
       widget.isMatched16 = true;
       widget.correct16 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[16] != 'من') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[17] == 'من') {
       widget.isMatched17 = true;
       widget.correct17 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[17] != 'من') {
       widget.isMatched17 = false;
       widget.wrong17 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[18] == 'الاسرع') {
       widget.isMatched18 = true;
       widget.correct18 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[18] != 'الاسرع') {
       widget.isMatched18 = false;
       widget.wrong18 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[19] == 'والانشط') {
       widget.isMatched19 = true;
       widget.correct19 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[19] != 'والانشط') {
       widget.isMatched19 = false;
       widget.wrong19 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[20] == 'فوافقت') {
       widget.isMatched20 = true;
       widget.correct20 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[20] != 'فوافقت') {
       widget.isMatched20 = false;
       widget.wrong20 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[21] == 'السلحفاه') {
       widget.isMatched21 = true;
       widget.correct21 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     }
     if (my_words[21] != 'السلحفاه') {
       widget.isMatched21 = false;
       widget.wrong21 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     } else {
       print('Finished');
@@ -4145,7 +2655,7 @@ class _TandH3State extends State<TandH3> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => TandH4(
+            builder: (context) => TandHNotSignedIn4(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -4637,7 +3147,7 @@ class Content_3 extends StatelessWidget {
   }
 }
 
-class TandH4 extends StatefulWidget {
+class TandHNotSignedIn4 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
@@ -4678,17 +3188,17 @@ class TandH4 extends StatefulWidget {
   bool? isMatched9;
   bool? isMatched10;
 
-  TandH4(
+  TandHNotSignedIn4(
       {Key? key,
       required this.childID,
       required this.currentAvatar,
       required this.currentName})
       : super(key: key);
   @override
-  _TandH4State createState() => _TandH4State();
+  _TandHNotSignedIn4State createState() => _TandHNotSignedIn4State();
 }
 
-class _TandH4State extends State<TandH4> {
+class _TandHNotSignedIn4State extends State<TandHNotSignedIn4> {
   late SpeechRecognition _speech;
 
   bool _speechRecognitionAvailable = false;
@@ -4715,7 +3225,7 @@ class _TandH4State extends State<TandH4> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   void activateSpeechRecognizer() {
-    print('_TandH4State.activateSpeechRecognizer... ');
+    print('_TandHNotSignedIn4State.activateSpeechRecognizer... ');
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
@@ -4844,7 +3354,7 @@ class _TandH4State extends State<TandH4> {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => TandH5(
+                                builder: (context) => TandHNotSignedIn5(
                                   childID: widget.childID,
                                   currentAvatar: widget.currentAvatar,
                                   currentName: widget.currentName,
@@ -4869,7 +3379,7 @@ class _TandH4State extends State<TandH4> {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => TandH3(
+                                builder: (context) => TandHNotSignedIn3(
                                   childID: widget.childID,
                                   currentAvatar: widget.currentAvatar,
                                   currentName: widget.currentName,
@@ -4976,42 +3486,6 @@ class _TandH4State extends State<TandH4> {
                         ),
                       ],
                     ),
-                    StreamBuilder<QuerySnapshot>(
-                      stream: _firestore
-                          .collection('Statistics')
-                          .doc(_auth.currentUser!.email)
-                          .collection('children')
-                          .doc(widget.currentName)
-                          .collection('words_of_story ')
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const CircularProgressIndicator(); //If no data return this
-                        }
-
-                        final information = snapshot.data!
-                            .docs; //information: stores gets the data from firebase documents
-
-                        for (var item in information) {
-                          final getCS = item
-                                  .data()
-                                  .toString()
-                                  .contains('correct_WordsStory')
-                              ? item.get('correct_WordsStory')
-                              : 0;
-                          final getWS = item
-                                  .data()
-                                  .toString()
-                                  .contains('wrong_WordsStory')
-                              ? item.get('wrong_WordsStory')
-                              : 0;
-
-                          Counter.correctStoryCounter = getCS;
-                          Counter.wrongStoryCounter = getWS;
-                        }
-                        return Container();
-                      },
-                    ),
                   ],
                 ),
               ),
@@ -5024,7 +3498,7 @@ class _TandH4State extends State<TandH4> {
 
   void start() => _speech.activate(selectedLang.code).then((_) {
         return _speech.listen().then((result) {
-          print('_TandH4State.start => result $result');
+          print('_TandHNotSignedIn4State.start => result $result');
           setState(() {
             _isListening = result;
           });
@@ -5032,7 +3506,7 @@ class _TandH4State extends State<TandH4> {
       });
 
   void onCurrentLocale(String locale) {
-    print('_TandH4State.onCurrentLocale... $locale');
+    print('_TandHNotSignedIn4State.onCurrentLocale... $locale');
     setState(
         () => selectedLang = languages.firstWhere((l) => l.code == locale));
   }
@@ -5042,7 +3516,7 @@ class _TandH4State extends State<TandH4> {
   }
 
   void onRecognitionResult(String text) async {
-    print('_TandH4State.onRecognitionResult... $text');
+    print('_TandHNotSignedIn4State.onRecognitionResult... $text');
 
     setState(() {
       transcription = text;
@@ -5052,355 +3526,93 @@ class _TandH4State extends State<TandH4> {
     if (my_words[0] == 'اجتمعت') {
       widget.isMatched = true;
       widget.correct = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[0] != 'اجتمعت') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] == 'كل') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] != 'كل') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] == 'حيوانات') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] != 'حيوانات') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] == 'الغابه') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] != 'الغابه') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] == 'لترى') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] != 'لترى') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] == 'السباق') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] != 'السباق') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] == 'بين') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] != 'بين') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] == 'الارنب') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] != 'الارنب') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] == 'المغرور') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] != 'المغرور') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] == 'والسلحفاه') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] != 'والسلحفاه') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] == 'النشيطه') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     }
     if (my_words[10] != 'النشيطه') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     } else {
       print('Finished');
@@ -5421,7 +3633,7 @@ class _TandH4State extends State<TandH4> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => TandH5(
+            builder: (context) => TandHNotSignedIn5(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -5696,7 +3908,7 @@ class Content_4 extends StatelessWidget {
   }
 }
 
-class TandH5 extends StatefulWidget {
+class TandHNotSignedIn5 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
@@ -5755,17 +3967,17 @@ class TandH5 extends StatefulWidget {
   bool? isMatched15;
   bool? isMatched16;
 
-  TandH5(
+  TandHNotSignedIn5(
       {Key? key,
       required this.childID,
       required this.currentAvatar,
       required this.currentName})
       : super(key: key);
   @override
-  _TandH5State createState() => _TandH5State();
+  _TandHNotSignedIn5State createState() => _TandHNotSignedIn5State();
 }
 
-class _TandH5State extends State<TandH5> {
+class _TandHNotSignedIn5State extends State<TandHNotSignedIn5> {
   late SpeechRecognition _speech;
 
   bool _speechRecognitionAvailable = false;
@@ -5792,7 +4004,7 @@ class _TandH5State extends State<TandH5> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   void activateSpeechRecognizer() {
-    print('_TandH2State.activateSpeechRecognizer... ');
+    print('_TandHNotSignedIn2State.activateSpeechRecognizer... ');
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
@@ -5940,7 +4152,7 @@ class _TandH5State extends State<TandH5> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH6(
+                              builder: (context) => TandHNotSignedIn6(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -5964,7 +4176,7 @@ class _TandH5State extends State<TandH5> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH4(
+                              builder: (context) => TandHNotSignedIn4(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -6067,40 +4279,6 @@ class _TandH5State extends State<TandH5> {
                       ),
                     ],
                   ),
-                  StreamBuilder<QuerySnapshot>(
-                    stream: _firestore
-                        .collection('Statistics')
-                        .doc(_auth.currentUser!.email)
-                        .collection('children')
-                        .doc(widget.currentName)
-                        .collection('words_of_story ')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator(); //If no data return this
-                      }
-
-                      final information = snapshot.data!
-                          .docs; //information: stores gets the data from firebase documents
-
-                      for (var item in information) {
-                        final getCS = item
-                                .data()
-                                .toString()
-                                .contains('correct_WordsStory')
-                            ? item.get('correct_WordsStory')
-                            : 0;
-                        final getWS =
-                            item.data().toString().contains('wrong_WordsStory')
-                                ? item.get('wrong_WordsStory')
-                                : 0;
-
-                        Counter.correctStoryCounter = getCS;
-                        Counter.wrongStoryCounter = getWS;
-                      }
-                      return Container();
-                    },
-                  ),
                 ],
               ),
             ),
@@ -6112,7 +4290,7 @@ class _TandH5State extends State<TandH5> {
 
   void start() => _speech.activate(selectedLang.code).then((_) {
         return _speech.listen().then((result) {
-          print('_TandH2State.start => result $result');
+          print('_TandHNotSignedIn2State.start => result $result');
           setState(() {
             _isListening = result;
           });
@@ -6120,7 +4298,7 @@ class _TandH5State extends State<TandH5> {
       });
 
   void onCurrentLocale(String locale) {
-    print('_TandH2State.onCurrentLocale... $locale');
+    print('_TandHNotSignedIn2State.onCurrentLocale... $locale');
     setState(
         () => selectedLang = languages.firstWhere((l) => l.code == locale));
   }
@@ -6135,7 +4313,7 @@ class _TandH5State extends State<TandH5> {
   }
 
   void onRecognitionResult(String text) async {
-    print('_TandH2State.onRecognitionResult... $text');
+    print('_TandHNotSignedIn2State.onRecognitionResult... $text');
 
     setState(() {
       transcription = text;
@@ -6145,547 +4323,141 @@ class _TandH5State extends State<TandH5> {
     if (my_words[0] == 'في') {
       widget.isMatched = true;
       widget.correct = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[0] != 'في') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] == 'بدايه') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] != 'بدايه') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] == 'المسابقه') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] != 'المسابقه') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] == 'قفز') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] != 'قفز') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] == 'الارنب') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] != 'الارنب') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] == 'المغرور') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] != 'المغرور') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] == 'بسرعه') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] != 'بسرعه') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] == 'كبيره') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] != 'كبيره') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] == 'بينما') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] != 'بينما') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] == 'بدات') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] != 'بدات') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] == 'السلحفاه') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] != 'السلحفاه') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] == 'النشيطه') {
       widget.isMatched11 = true;
       widget.correct11 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] != 'النشيطه') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] == 'في') {
       widget.isMatched12 = true;
       widget.correct12 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] != 'في') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] == 'سيرها') {
       widget.isMatched13 = true;
       widget.correct13 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] != 'سيرها') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] == 'المعتاد') {
       widget.isMatched14 = true;
       widget.correct14 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] != 'المعتاد') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] == 'خلف') {
       widget.isMatched15 = true;
       widget.correct15 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] != 'خلف') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[16] == 'الارنب') {
       widget.isMatched16 = true;
       widget.correct16 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     }
     if (my_words[16] != 'الارنب') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     } else {
       print('Finished');
@@ -6701,7 +4473,7 @@ class _TandH5State extends State<TandH5> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => TandH6(
+            builder: (context) => TandHNotSignedIn6(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -7088,7 +4860,7 @@ class Content_5 extends StatelessWidget {
   }
 }
 
-class TandH6 extends StatefulWidget {
+class TandHNotSignedIn6 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
@@ -7162,17 +4934,17 @@ class TandH6 extends StatefulWidget {
   bool? isMatched20;
   bool? isMatched21;
 
-  TandH6(
+  TandHNotSignedIn6(
       {Key? key,
       required this.childID,
       required this.currentAvatar,
       required this.currentName})
       : super(key: key);
   @override
-  _TandH6State createState() => _TandH6State();
+  _TandHNotSignedIn6State createState() => _TandHNotSignedIn6State();
 }
 
-class _TandH6State extends State<TandH6> {
+class _TandHNotSignedIn6State extends State<TandHNotSignedIn6> {
   late SpeechRecognition _speech;
 
   bool _speechRecognitionAvailable = false;
@@ -7199,7 +4971,7 @@ class _TandH6State extends State<TandH6> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   void activateSpeechRecognizer() {
-    print('_TandH2State.activateSpeechRecognizer... ');
+    print('_TandHNotSignedIn2State.activateSpeechRecognizer... ');
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
@@ -7362,7 +5134,7 @@ class _TandH6State extends State<TandH6> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH7(
+                              builder: (context) => TandHNotSignedIn7(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -7386,7 +5158,7 @@ class _TandH6State extends State<TandH6> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH5(
+                              builder: (context) => TandHNotSignedIn5(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -7489,40 +5261,6 @@ class _TandH6State extends State<TandH6> {
                       ),
                     ],
                   ),
-                  StreamBuilder<QuerySnapshot>(
-                    stream: _firestore
-                        .collection('Statistics')
-                        .doc(_auth.currentUser!.email)
-                        .collection('children')
-                        .doc(widget.currentName)
-                        .collection('words_of_story ')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator(); //If no data return this
-                      }
-
-                      final information = snapshot.data!
-                          .docs; //information: stores gets the data from firebase documents
-
-                      for (var item in information) {
-                        final getCS = item
-                                .data()
-                                .toString()
-                                .contains('correct_WordsStory')
-                            ? item.get('correct_WordsStory')
-                            : 0;
-                        final getWS =
-                            item.data().toString().contains('wrong_WordsStory')
-                                ? item.get('wrong_WordsStory')
-                                : 0;
-
-                        Counter.correctStoryCounter = getCS;
-                        Counter.wrongStoryCounter = getWS;
-                      }
-                      return Container();
-                    },
-                  ),
                 ],
               ),
             ),
@@ -7534,7 +5272,7 @@ class _TandH6State extends State<TandH6> {
 
   void start() => _speech.activate(selectedLang.code).then((_) {
         return _speech.listen().then((result) {
-          print('_TandH2State.start => result $result');
+          print('_TandHNotSignedIn2State.start => result $result');
           setState(() {
             _isListening = result;
           });
@@ -7542,7 +5280,7 @@ class _TandH6State extends State<TandH6> {
       });
 
   void onCurrentLocale(String locale) {
-    print('_TandH2State.onCurrentLocale... $locale');
+    print('_TandHNotSignedIn2State.onCurrentLocale... $locale');
     setState(
         () => selectedLang = languages.firstWhere((l) => l.code == locale));
   }
@@ -7552,7 +5290,7 @@ class _TandH6State extends State<TandH6> {
   }
 
   void onRecognitionResult(String text) async {
-    print('_TandH2State.onRecognitionResult... $text');
+    print('_TandHNotSignedIn2State.onRecognitionResult... $text');
 
     setState(() {
       transcription = text;
@@ -7562,643 +5300,165 @@ class _TandH6State extends State<TandH6> {
     if (my_words[0] == 'راى') {
       widget.isMatched = true;
       widget.correct = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[0] != 'راى') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] == 'الارنب') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] != 'الارنب') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] == 'المغرور') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] != 'المغرور') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] == 'انه') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] != 'انه') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] == 'قد') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] != 'قد') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] == 'قطع') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] != 'قطع') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] == 'مسافه') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] != 'مسافه') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] == 'كبيره') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] != 'كبيره') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] == 'في') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] != 'في') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] == 'السباق') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] != 'السباق') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] == 'وما') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] != 'وما') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] == 'تزال') {
       widget.isMatched11 = true;
       widget.correct11 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] != 'تزال') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] == 'السلحفاه') {
       widget.isMatched12 = true;
       widget.correct12 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] != 'السلحفاه') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] == 'تسير') {
       widget.isMatched13 = true;
       widget.correct13 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] != 'تسير') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] == 'ببطء') {
       widget.isMatched14 = true;
       widget.correct14 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] != 'ببطء') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] == 'فجلس') {
       widget.isMatched15 = true;
       widget.correct15 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] != 'فجلس') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[16] == 'تحت') {
       widget.isMatched16 = true;
       widget.correct16 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[16] != 'تحت') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[17] == 'شجره') {
       widget.isMatched17 = true;
       widget.correct17 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[17] != 'شجره') {
       widget.isMatched17 = false;
       widget.wrong17 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[18] == 'ياكل') {
       widget.isMatched18 = true;
       widget.correct18 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[18] != 'ياكل') {
       widget.isMatched18 = false;
       widget.wrong18 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[19] == 'جزره') {
       widget.isMatched19 = true;
       widget.correct = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     }
     if (my_words[19] != 'جزره') {
       widget.isMatched19 = false;
       widget.wrong19 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     } else {
       print('Finished');
@@ -8219,7 +5479,7 @@ class _TandH6State extends State<TandH6> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => TandH7(
+            builder: (context) => TandHNotSignedIn7(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -8674,7 +5934,7 @@ class Content_6 extends StatelessWidget {
   }
 }
 
-class TandH7 extends StatefulWidget {
+class TandHNotSignedIn7 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
@@ -8733,17 +5993,17 @@ class TandH7 extends StatefulWidget {
   bool? isMatched15;
   bool? isMatched16;
 
-  TandH7(
+  TandHNotSignedIn7(
       {Key? key,
       required this.childID,
       required this.currentAvatar,
       required this.currentName})
       : super(key: key);
   @override
-  _TandH7State createState() => _TandH7State();
+  _TandHNotSignedIn7State createState() => _TandHNotSignedIn7State();
 }
 
-class _TandH7State extends State<TandH7> {
+class _TandHNotSignedIn7State extends State<TandHNotSignedIn7> {
   late SpeechRecognition _speech;
 
   bool _speechRecognitionAvailable = false;
@@ -8770,7 +6030,7 @@ class _TandH7State extends State<TandH7> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   void activateSpeechRecognizer() {
-    print('_TandHState.activateSpeechRecognizer... ');
+    print('_TandHNotSignedInState.activateSpeechRecognizer... ');
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
@@ -8918,7 +6178,7 @@ class _TandH7State extends State<TandH7> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH8(
+                              builder: (context) => TandHNotSignedIn8(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -8942,7 +6202,7 @@ class _TandH7State extends State<TandH7> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH6(
+                              builder: (context) => TandHNotSignedIn6(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -9048,40 +6308,6 @@ class _TandH7State extends State<TandH7> {
                       ),
                     ],
                   ),
-                  StreamBuilder<QuerySnapshot>(
-                    stream: _firestore
-                        .collection('Statistics')
-                        .doc(_auth.currentUser!.email)
-                        .collection('children')
-                        .doc(widget.currentName)
-                        .collection('words_of_story ')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator(); //If no data return this
-                      }
-
-                      final information = snapshot.data!
-                          .docs; //information: stores gets the data from firebase documents
-
-                      for (var item in information) {
-                        final getCS = item
-                                .data()
-                                .toString()
-                                .contains('correct_WordsStory')
-                            ? item.get('correct_WordsStory')
-                            : 0;
-                        final getWS =
-                            item.data().toString().contains('wrong_WordsStory')
-                                ? item.get('wrong_WordsStory')
-                                : 0;
-
-                        Counter.correctStoryCounter = getCS;
-                        Counter.wrongStoryCounter = getWS;
-                      }
-                      return Container();
-                    },
-                  ),
                 ],
               ),
             ),
@@ -9093,7 +6319,7 @@ class _TandH7State extends State<TandH7> {
 
   void start() => _speech.activate(selectedLang.code).then((_) {
         return _speech.listen().then((result) {
-          print('_TandHState.start => result $result');
+          print('_TandHNotSignedInState.start => result $result');
           setState(() {
             _isListening = result;
           });
@@ -9101,7 +6327,7 @@ class _TandH7State extends State<TandH7> {
       });
 
   void onCurrentLocale(String locale) {
-    print('_TandHState.onCurrentLocale... $locale');
+    print('_TandHNotSignedInState.onCurrentLocale... $locale');
     setState(
         () => selectedLang = languages.firstWhere((l) => l.code == locale));
   }
@@ -9111,7 +6337,7 @@ class _TandH7State extends State<TandH7> {
   }
 
   void onRecognitionResult(String text) async {
-    print('_TandHState.onRecognitionResult... $text');
+    print('_TandHNotSignedInState.onRecognitionResult... $text');
 
     setState(() {
       transcription = text;
@@ -9121,483 +6347,124 @@ class _TandH7State extends State<TandH7> {
     if (my_words[0] == 'اكل') {
       widget.isMatched = true;
       widget.correct = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[0] != 'اكل') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] == 'الارنب') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] != 'الارنب') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] == 'المغرور') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] != 'المغرور') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] == 'الجزره') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] != 'الجزره') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] == 'فنام') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] != 'فنام') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] == 'بينما') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] != 'بينما') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] == 'وصلت') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] != 'وصلت') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] == 'السلحفاه') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] != 'السلحفاه') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] == 'النشيطه') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] != 'النشيطه') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] == 'سيرها') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] != 'سيرها') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] == 'في') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] != 'في') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] == 'السباق') {
       widget.isMatched11 = true;
       widget.correct11 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] != 'السباق') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] == 'فلحقت') {
       widget.isMatched12 = true;
       widget.correct12 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] != 'فلحقت') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] == 'بالارنب') {
       widget.isMatched13 = true;
       widget.correct13 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] != 'بالارنب') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] == 'وسبقته') {
       widget.isMatched14 = true;
       widget.correct14 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     }
     if (my_words[14] != 'وسبقته') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
 
       _Next();
     } else {
@@ -9620,7 +6487,7 @@ class _TandH7State extends State<TandH7> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => TandH8(
+            builder: (context) => TandHNotSignedIn8(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -9981,7 +6848,7 @@ class Content_7 extends StatelessWidget {
   }
 }
 
-class TandH8 extends StatefulWidget {
+class TandHNotSignedIn8 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
@@ -10052,17 +6919,17 @@ class TandH8 extends StatefulWidget {
   bool? isMatched19;
   bool? isMatched20;
 
-  TandH8(
+  TandHNotSignedIn8(
       {Key? key,
       required this.childID,
       required this.currentAvatar,
       required this.currentName})
       : super(key: key);
   @override
-  _TandH8State createState() => _TandH8State();
+  _TandHNotSignedIn8State createState() => _TandHNotSignedIn8State();
 }
 
-class _TandH8State extends State<TandH8> {
+class _TandHNotSignedIn8State extends State<TandHNotSignedIn8> {
   late SpeechRecognition _speech;
 
   bool _speechRecognitionAvailable = false;
@@ -10089,7 +6956,7 @@ class _TandH8State extends State<TandH8> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   void activateSpeechRecognizer() {
-    print('_TandHState.activateSpeechRecognizer... ');
+    print('_TandHNotSignedInState.activateSpeechRecognizer... ');
     _speech = SpeechRecognition();
     _speech.setRecognitionStartedHandler(onRecognitionStarted);
     _speech.setRecognitionResultHandler(onRecognitionResult);
@@ -10249,7 +7116,7 @@ class _TandH8State extends State<TandH8> {
                           // Navigator.pushAndRemoveUntil(
                           //   context,
                           //   MaterialPageRoute(
-                          //     builder: (context) => TandH2(
+                          //     builder: (context) => TandHNotSignedIn2(
                           //       childID: widget.childID,
                           //       currentAvatar: widget.currentAvatar,
                           //       currentName: widget.currentName,
@@ -10273,7 +7140,7 @@ class _TandH8State extends State<TandH8> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TandH7(
+                              builder: (context) => TandHNotSignedIn7(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -10379,40 +7246,6 @@ class _TandH8State extends State<TandH8> {
                       ),
                     ],
                   ),
-                  StreamBuilder<QuerySnapshot>(
-                    stream: _firestore
-                        .collection('Statistics')
-                        .doc(_auth.currentUser!.email)
-                        .collection('children')
-                        .doc(widget.currentName)
-                        .collection('words_of_story ')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator(); //If no data return this
-                      }
-
-                      final information = snapshot.data!
-                          .docs; //information: stores gets the data from firebase documents
-
-                      for (var item in information) {
-                        final getCS = item
-                                .data()
-                                .toString()
-                                .contains('correct_WordsStory')
-                            ? item.get('correct_WordsStory')
-                            : 0;
-                        final getWS =
-                            item.data().toString().contains('wrong_WordsStory')
-                                ? item.get('wrong_WordsStory')
-                                : 0;
-
-                        Counter.correctStoryCounter = getCS;
-                        Counter.wrongStoryCounter = getWS;
-                      }
-                      return Container();
-                    },
-                  ),
                 ],
               ),
             ),
@@ -10424,7 +7257,7 @@ class _TandH8State extends State<TandH8> {
 
   void start() => _speech.activate(selectedLang.code).then((_) {
         return _speech.listen().then((result) {
-          print('_TandHState.start => result $result');
+          print('_TandHNotSignedInState.start => result $result');
           setState(() {
             _isListening = result;
           });
@@ -10432,7 +7265,7 @@ class _TandH8State extends State<TandH8> {
       });
 
   void onCurrentLocale(String locale) {
-    print('_TandHState.onCurrentLocale... $locale');
+    print('_TandHNotSignedInState.onCurrentLocale... $locale');
     setState(
         () => selectedLang = languages.firstWhere((l) => l.code == locale));
   }
@@ -10442,7 +7275,7 @@ class _TandH8State extends State<TandH8> {
   }
 
   void onRecognitionResult(String text) async {
-    print('_TandHState.onRecognitionResult... $text');
+    print('_TandHNotSignedInState.onRecognitionResult... $text');
 
     setState(() {
       transcription = text;
@@ -10458,675 +7291,173 @@ class _TandH8State extends State<TandH8> {
     if (my_words[0] == 'استيقظ') {
       widget.isMatched = true;
       widget.correct = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[0] != 'استيقظ') {
       widget.isMatched = false;
       widget.wrong = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] == 'الارنب') {
       widget.isMatched1 = true;
       widget.correct1 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[1] != 'الارنب') {
       widget.isMatched1 = false;
       widget.wrong1 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] == 'من') {
       widget.isMatched2 = true;
       widget.correct2 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[2] != 'من') {
       widget.isMatched2 = false;
       widget.wrong2 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] == 'نومه') {
       widget.isMatched3 = true;
       widget.correct3 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[3] != 'نومه') {
       widget.isMatched3 = false;
       widget.wrong3 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] == 'متاخرا') {
       widget.isMatched4 = true;
       widget.correct4 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[4] != 'متاخرا') {
       widget.isMatched4 = false;
       widget.wrong4 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] == 'وراح') {
       widget.isMatched5 = true;
       widget.correct5 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[5] != 'وراح') {
       widget.isMatched5 = false;
       widget.wrong5 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] == 'يجري') {
       widget.isMatched6 = true;
       widget.correct6 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[6] != 'يجري') {
       widget.isMatched6 = false;
       widget.wrong6 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] == 'ويقفز') {
       widget.isMatched7 = true;
       widget.correct7 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[7] != 'ويقفز') {
       widget.isMatched7 = false;
       widget.wrong7 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] == 'بسرعه') {
       widget.isMatched8 = true;
       widget.correct8 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[8] != 'بسرعه') {
       widget.isMatched8 = false;
       widget.wrong8 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] == 'لكي') {
       widget.isMatched9 = true;
       widget.correct9 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[9] != 'لكي') {
       widget.isMatched9 = false;
       widget.wrong9 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] == 'يصل') {
       widget.isMatched10 = true;
       widget.correct10 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[10] != 'يصل') {
       widget.isMatched10 = false;
       widget.wrong10 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] == 'الى') {
       widget.isMatched11 = true;
       widget.correct11 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[11] != 'الى') {
       widget.isMatched11 = false;
       widget.wrong11 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] == 'نهايه') {
       widget.isMatched12 = true;
       widget.correct12 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[12] != 'نهايه') {
       widget.isMatched12 = false;
       widget.wrong12 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] == 'السباق') {
       widget.isMatched13 = true;
       widget.correct13 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[13] != 'السباق') {
       widget.isMatched13 = false;
       widget.wrong13 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] == 'ولكنه') {
       widget.isMatched14 = true;
       widget.correct14 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[14] != 'ولكنه') {
       widget.isMatched14 = false;
       widget.wrong14 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] == 'وجد') {
       widget.isMatched15 = true;
       widget.correct15 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[15] != 'وجد') {
       widget.isMatched15 = false;
       widget.wrong15 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[16] == 'السلحفاه') {
       widget.isMatched16 = true;
       widget.correct16 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[16] != 'السلحفاه') {
       widget.isMatched16 = false;
       widget.wrong16 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[17] == 'النشيطه') {
       widget.isMatched17 = true;
       widget.correct17 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[17] != 'النشيطه') {
       widget.isMatched17 = false;
       widget.wrong17 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[18] == 'قد') {
       widget.isMatched18 = true;
       widget.correct18 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[18] != 'قد') {
       widget.isMatched18 = false;
       widget.wrong18 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[19] == 'فازت') {
       widget.isMatched19 = true;
       widget.correct19 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[19] != 'فازت') {
       widget.isMatched19 = false;
       widget.wrong19 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
     }
     if (my_words[20] == 'بالسباق') {
       widget.isMatched20 = true;
       widget.correct20 = true;
-      Counter.correctStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     }
     if (my_words[20] != 'بالسباق') {
       widget.isMatched20 = false;
       widget.wrong20 = true;
-      Counter.wrongStoryCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('words_of_story')
-          .doc('words_of_story')
-          .update({
-        "correct_WordsStory": Counter.correctStoryCounter,
-        "wrong_WordsStory": Counter.wrongStoryCounter,
-      });
+
       _Next();
     } else {
       print('Finished');
@@ -11143,7 +7474,7 @@ class _TandH8State extends State<TandH8> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Congrats(
+            builder: (context) => CongratsNotSignedIn(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,

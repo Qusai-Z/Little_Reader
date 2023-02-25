@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:little_reader/views/home/stories/easy/Three_Bears_And_Girl.dart';
 import 'package:little_reader/views/home/stories/easy/Tortoise_And_Hare.dart';
+import 'package:little_reader/views/home/stories/easy/Totoise_And_Hare_NotSignedIn.dart';
 
 class StoriesPage extends StatefulWidget {
   final String? childID;
@@ -332,14 +333,25 @@ class _StoriesPageState extends State<StoriesPage> {
                           elevation: 30,
                           splashColor: const Color.fromRGBO(149, 22, 224, 1),
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TandH(
-                                        childID: widget.childID,
-                                        currentAvatar: widget.currentAvatar,
-                                        currentName: widget.currentName)),
-                                (Route<dynamic> route) => false);
+                            if (widget.childID!.isNotEmpty) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TandH(
+                                          childID: widget.childID,
+                                          currentAvatar: widget.currentAvatar,
+                                          currentName: widget.currentName)),
+                                  (Route<dynamic> route) => false);
+                            } else {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TandHNotSignedIn(
+                                          childID: '',
+                                          currentAvatar: '',
+                                          currentName: '')),
+                                  (Route<dynamic> route) => false);
+                            }
                           },
                           child: Container(
                             margin: const EdgeInsets.all(10),

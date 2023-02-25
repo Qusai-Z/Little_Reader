@@ -13,9 +13,6 @@ const languages = [
   Language('Azerbaijani', 'az'),
 ];
 
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-final _auth = FirebaseAuth.instance;
-
 class Language {
   final String name;
   final String code;
@@ -23,20 +20,20 @@ class Language {
   const Language(this.name, this.code);
 }
 
-class LettersPage extends StatefulWidget {
+class LettersPageNotSignedIn extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage(
+  const LettersPageNotSignedIn(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage> createState() => _LettersPageState();
+  State<LettersPageNotSignedIn> createState() => _LettersPageNotSignedInState();
 }
 
-class _LettersPageState extends State<LettersPage> {
+class _LettersPageNotSignedInState extends State<LettersPageNotSignedIn> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -114,7 +111,7 @@ class _LettersPageState extends State<LettersPage> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage2(
+                            builder: (context) => LettersPageNotSignedIn2(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -274,38 +271,6 @@ class _LettersPageState extends State<LettersPage> {
                         ),
                       ),
                     ),
-                    StreamBuilder<QuerySnapshot>(
-                      stream: _firestore
-                          .collection('Statistics')
-                          .doc(_auth.currentUser!.email)
-                          .collection('children')
-                          .doc(widget.currentName)
-                          .collection('letters')
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const CircularProgressIndicator(); //If no data return this
-                        }
-
-                        final information = snapshot.data!
-                            .docs; //information: stores gets the data from firebase documents
-
-                        for (var item in information) {
-                          final getCL =
-                              item.data().toString().contains('correct_letters')
-                                  ? item.get('correct_letters')
-                                  : 0;
-                          final getWL =
-                              item.data().toString().contains('wrong_letters')
-                                  ? item.get('wrong_letters')
-                                  : 0;
-
-                          Counter.correctLetterCounter = getCL;
-                          Counter.wrongLetterCounter = getWL;
-                        }
-                        return Container();
-                      },
-                    ),
                   ],
                 ),
               ),
@@ -350,35 +315,12 @@ class _LettersPageState extends State<LettersPage> {
     if (text == 'əlif') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'əlif' && text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -388,7 +330,7 @@ class _LettersPageState extends State<LettersPage> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage2(
+            builder: (context) => LettersPageNotSignedIn2(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -399,21 +341,22 @@ class _LettersPageState extends State<LettersPage> {
       });
 }
 
-class LettersPage2 extends StatefulWidget {
+class LettersPageNotSignedIn2 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page2';
 
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage2(
+  const LettersPageNotSignedIn2(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage2> createState() => _LettersPageState2();
+  State<LettersPageNotSignedIn2> createState() =>
+      _LettersPageNotSignedInState2();
 }
 
-class _LettersPageState2 extends State<LettersPage2> {
+class _LettersPageNotSignedInState2 extends State<LettersPageNotSignedIn2> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -494,7 +437,7 @@ class _LettersPageState2 extends State<LettersPage2> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage3(
+                            builder: (context) => LettersPageNotSignedIn3(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -651,42 +594,6 @@ class _LettersPageState2 extends State<LettersPage2> {
                                         ),
                                       ],
                                     ),
-                                    StreamBuilder<QuerySnapshot>(
-                                      stream: _firestore
-                                          .collection('Statistics')
-                                          .doc(_auth.currentUser!.email)
-                                          .collection('children')
-                                          .doc(widget.currentName)
-                                          .collection('letters')
-                                          .snapshots(),
-                                      builder: (context, snapshot) {
-                                        if (!snapshot.hasData) {
-                                          return const CircularProgressIndicator(); //If no data return this
-                                        }
-
-                                        final information = snapshot.data!
-                                            .docs; //information: stores gets the data from firebase documents
-
-                                        for (var item in information) {
-                                          final getCL = item
-                                                  .data()
-                                                  .toString()
-                                                  .contains('correct_letters')
-                                              ? item.get('correct_letters')
-                                              : 0;
-                                          final getWL = item
-                                                  .data()
-                                                  .toString()
-                                                  .contains('wrong_letters')
-                                              ? item.get('wrong_letters')
-                                              : 0;
-
-                                          Counter.correctLetterCounter = getCL;
-                                          Counter.wrongLetterCounter = getWL;
-                                        }
-                                        return Container();
-                                      },
-                                    ),
                                   ],
                                 ),
                               ),
@@ -700,7 +607,7 @@ class _LettersPageState2 extends State<LettersPage2> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage(
+                            builder: (context) => LettersPageNotSignedIn(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -762,35 +669,12 @@ class _LettersPageState2 extends State<LettersPage2> {
     if (text == 'b' || text == 'və' || text == 'bəə') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'b' && text != 'və' && text != 'bəə' && text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -803,7 +687,7 @@ class _LettersPageState2 extends State<LettersPage2> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage3(
+            builder: (context) => LettersPageNotSignedIn3(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -814,20 +698,21 @@ class _LettersPageState2 extends State<LettersPage2> {
       });
 }
 
-class LettersPage3 extends StatefulWidget {
+class LettersPageNotSignedIn3 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage3(
+  const LettersPageNotSignedIn3(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage3> createState() => _LettersPageState3();
+  State<LettersPageNotSignedIn3> createState() =>
+      _LettersPageNotSignedInState3();
 }
 
-class _LettersPageState3 extends State<LettersPage3> {
+class _LettersPageNotSignedInState3 extends State<LettersPageNotSignedIn3> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -907,7 +792,7 @@ class _LettersPageState3 extends State<LettersPage3> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage4(
+                            builder: (context) => LettersPageNotSignedIn4(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -1048,42 +933,6 @@ class _LettersPageState3 extends State<LettersPage3> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -1096,7 +945,7 @@ class _LettersPageState3 extends State<LettersPage3> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage2(
+                            builder: (context) => LettersPageNotSignedIn2(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -1168,18 +1017,7 @@ class _LettersPageState3 extends State<LettersPage3> {
         text == 'teatr') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'ə' &&
@@ -1196,18 +1034,6 @@ class _LettersPageState3 extends State<LettersPage3> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -1220,7 +1046,7 @@ class _LettersPageState3 extends State<LettersPage3> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage4(
+            builder: (context) => LettersPageNotSignedIn4(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -1231,20 +1057,21 @@ class _LettersPageState3 extends State<LettersPage3> {
       });
 }
 
-class LettersPage4 extends StatefulWidget {
+class LettersPageNotSignedIn4 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page2';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage4(
+  const LettersPageNotSignedIn4(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage4> createState() => _LettersPageState4();
+  State<LettersPageNotSignedIn4> createState() =>
+      _LettersPageNotSignedInState4();
 }
 
-class _LettersPageState4 extends State<LettersPage4> {
+class _LettersPageNotSignedInState4 extends State<LettersPageNotSignedIn4> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -1324,7 +1151,7 @@ class _LettersPageState4 extends State<LettersPage4> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage5(
+                            builder: (context) => LettersPageNotSignedIn5(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -1474,42 +1301,6 @@ class _LettersPageState4 extends State<LettersPage4> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -1522,7 +1313,7 @@ class _LettersPageState4 extends State<LettersPage4> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage3(
+                            builder: (context) => LettersPageNotSignedIn3(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -1587,18 +1378,7 @@ class _LettersPageState4 extends State<LettersPage4> {
         text == 'sə') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'f' &&
@@ -1610,18 +1390,6 @@ class _LettersPageState4 extends State<LettersPage4> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -1634,7 +1402,7 @@ class _LettersPageState4 extends State<LettersPage4> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage5(
+            builder: (context) => LettersPageNotSignedIn5(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -1645,20 +1413,21 @@ class _LettersPageState4 extends State<LettersPage4> {
       });
 }
 
-class LettersPage5 extends StatefulWidget {
+class LettersPageNotSignedIn5 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage5(
+  const LettersPageNotSignedIn5(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage5> createState() => _LettersPageState5();
+  State<LettersPageNotSignedIn5> createState() =>
+      _LettersPageNotSignedInState5();
 }
 
-class _LettersPageState5 extends State<LettersPage5> {
+class _LettersPageNotSignedInState5 extends State<LettersPageNotSignedIn5> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -1738,7 +1507,7 @@ class _LettersPageState5 extends State<LettersPage5> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage6(
+                            builder: (context) => LettersPageNotSignedIn6(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -1887,42 +1656,6 @@ class _LettersPageState5 extends State<LettersPage5> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -1935,7 +1668,7 @@ class _LettersPageState5 extends State<LettersPage5> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage4(
+                            builder: (context) => LettersPageNotSignedIn4(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -2008,18 +1741,7 @@ class _LettersPageState5 extends State<LettersPage5> {
         text == 'gmail') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'g' &&
@@ -2036,18 +1758,6 @@ class _LettersPageState5 extends State<LettersPage5> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -2060,7 +1770,7 @@ class _LettersPageState5 extends State<LettersPage5> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage6(
+            builder: (context) => LettersPageNotSignedIn6(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -2071,20 +1781,21 @@ class _LettersPageState5 extends State<LettersPage5> {
       });
 }
 
-class LettersPage6 extends StatefulWidget {
+class LettersPageNotSignedIn6 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page2';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage6(
+  const LettersPageNotSignedIn6(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage6> createState() => _LettersPageState6();
+  State<LettersPageNotSignedIn6> createState() =>
+      _LettersPageNotSignedInState6();
 }
 
-class _LettersPageState6 extends State<LettersPage6> {
+class _LettersPageNotSignedInState6 extends State<LettersPageNotSignedIn6> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -2164,7 +1875,7 @@ class _LettersPageState6 extends State<LettersPage6> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage7(
+                            builder: (context) => LettersPageNotSignedIn7(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -2330,7 +2041,7 @@ class _LettersPageState6 extends State<LettersPage6> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage5(
+                            builder: (context) => LettersPageNotSignedIn5(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -2392,18 +2103,7 @@ class _LettersPageState6 extends State<LettersPage6> {
     if (text == 'ə' || text == 'səhər' || text == 'hə' || text == 'şa') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'ə' &&
@@ -2413,18 +2113,6 @@ class _LettersPageState6 extends State<LettersPage6> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -2437,7 +2125,7 @@ class _LettersPageState6 extends State<LettersPage6> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage7(
+            builder: (context) => LettersPageNotSignedIn7(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -2448,20 +2136,21 @@ class _LettersPageState6 extends State<LettersPage6> {
       });
 }
 
-class LettersPage7 extends StatefulWidget {
+class LettersPageNotSignedIn7 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage7(
+  const LettersPageNotSignedIn7(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage7> createState() => _LettersPageState7();
+  State<LettersPageNotSignedIn7> createState() =>
+      _LettersPageNotSignedInState7();
 }
 
-class _LettersPageState7 extends State<LettersPage7> {
+class _LettersPageNotSignedInState7 extends State<LettersPageNotSignedIn7> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -2541,7 +2230,7 @@ class _LettersPageState7 extends State<LettersPage7> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage8(
+                            builder: (context) => LettersPageNotSignedIn8(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -2688,43 +2377,6 @@ class _LettersPageState7 extends State<LettersPage7> {
                                           ),
                                         ),
                                       ),
-                                      StreamBuilder<QuerySnapshot>(
-                                        stream: _firestore
-                                            .collection('Statistics')
-                                            .doc(_auth.currentUser!.email)
-                                            .collection('children')
-                                            .doc(widget.currentName)
-                                            .collection('letters')
-                                            .snapshots(),
-                                        builder: (context, snapshot) {
-                                          if (!snapshot.hasData) {
-                                            return const CircularProgressIndicator(); //If no data return this
-                                          }
-
-                                          final information = snapshot.data!
-                                              .docs; //information: stores gets the data from firebase documents
-
-                                          for (var item in information) {
-                                            final getCL = item
-                                                    .data()
-                                                    .toString()
-                                                    .contains('correct_letters')
-                                                ? item.get('correct_letters')
-                                                : 0;
-                                            final getWL = item
-                                                    .data()
-                                                    .toString()
-                                                    .contains('wrong_letters')
-                                                ? item.get('wrong_letters')
-                                                : 0;
-
-                                            Counter.correctLetterCounter =
-                                                getCL;
-                                            Counter.wrongLetterCounter = getWL;
-                                          }
-                                          return Container();
-                                        },
-                                      ),
                                     ],
                                   ),
                                 ],
@@ -2739,7 +2391,7 @@ class _LettersPageState7 extends State<LettersPage7> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage6(
+                            builder: (context) => LettersPageNotSignedIn6(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -2775,7 +2427,6 @@ class _LettersPageState7 extends State<LettersPage7> {
             _isListening = result;
             isMatched = true;
             correct = true;
-            Counter.correctLetterCounter++;
             _Next();
           });
         });
@@ -2813,7 +2464,7 @@ class _LettersPageState7 extends State<LettersPage7> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage8(
+            builder: (context) => LettersPageNotSignedIn8(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -2824,20 +2475,21 @@ class _LettersPageState7 extends State<LettersPage7> {
       });
 }
 
-class LettersPage8 extends StatefulWidget {
+class LettersPageNotSignedIn8 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage8(
+  const LettersPageNotSignedIn8(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage8> createState() => _LettersPageState8();
+  State<LettersPageNotSignedIn8> createState() =>
+      _LettersPageNotSignedInState8();
 }
 
-class _LettersPageState8 extends State<LettersPage8> {
+class _LettersPageNotSignedInState8 extends State<LettersPageNotSignedIn8> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -2920,7 +2572,7 @@ class _LettersPageState8 extends State<LettersPage8> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => LettersPage9(
+                              builder: (context) => LettersPageNotSignedIn9(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -3066,42 +2718,6 @@ class _LettersPageState8 extends State<LettersPage8> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -3114,7 +2730,7 @@ class _LettersPageState8 extends State<LettersPage8> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage7(
+                            builder: (context) => LettersPageNotSignedIn7(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -3181,18 +2797,7 @@ class _LettersPageState8 extends State<LettersPage8> {
         text == 'dəli') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'dərs' &&
@@ -3204,18 +2809,6 @@ class _LettersPageState8 extends State<LettersPage8> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -3228,7 +2821,7 @@ class _LettersPageState8 extends State<LettersPage8> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage9(
+            builder: (context) => LettersPageNotSignedIn9(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -3239,20 +2832,21 @@ class _LettersPageState8 extends State<LettersPage8> {
       });
 }
 
-class LettersPage9 extends StatefulWidget {
+class LettersPageNotSignedIn9 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage9(
+  const LettersPageNotSignedIn9(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage9> createState() => _LettersPageState9();
+  State<LettersPageNotSignedIn9> createState() =>
+      _LettersPageNotSignedInState9();
 }
 
-class _LettersPageState9 extends State<LettersPage9> {
+class _LettersPageNotSignedInState9 extends State<LettersPageNotSignedIn9> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -3332,7 +2926,7 @@ class _LettersPageState9 extends State<LettersPage9> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage10(
+                            builder: (context) => LettersPageNotSignedIn10(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -3493,7 +3087,7 @@ class _LettersPageState9 extends State<LettersPage9> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage8(
+                            builder: (context) => LettersPageNotSignedIn8(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -3562,18 +3156,7 @@ class _LettersPageState9 extends State<LettersPage9> {
         text == 'əvəz') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'vəli' &&
@@ -3587,18 +3170,6 @@ class _LettersPageState9 extends State<LettersPage9> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -3611,7 +3182,7 @@ class _LettersPageState9 extends State<LettersPage9> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage10(
+            builder: (context) => LettersPageNotSignedIn10(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -3622,20 +3193,21 @@ class _LettersPageState9 extends State<LettersPage9> {
       });
 }
 
-class LettersPage10 extends StatefulWidget {
+class LettersPageNotSignedIn10 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage10(
+  const LettersPageNotSignedIn10(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage10> createState() => _LettersPageState10();
+  State<LettersPageNotSignedIn10> createState() =>
+      _LettersPageNotSignedInState10();
 }
 
-class _LettersPageState10 extends State<LettersPage10> {
+class _LettersPageNotSignedInState10 extends State<LettersPageNotSignedIn10> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -3715,7 +3287,7 @@ class _LettersPageState10 extends State<LettersPage10> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage11(
+                            builder: (context) => LettersPageNotSignedIn11(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -3864,42 +3436,6 @@ class _LettersPageState10 extends State<LettersPage10> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -3912,7 +3448,7 @@ class _LettersPageState10 extends State<LettersPage10> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage9(
+                            builder: (context) => LettersPageNotSignedIn9(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -3982,18 +3518,7 @@ class _LettersPageState10 extends State<LettersPage10> {
         text == 'wap') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'ra' &&
@@ -4008,18 +3533,6 @@ class _LettersPageState10 extends State<LettersPage10> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -4032,7 +3545,7 @@ class _LettersPageState10 extends State<LettersPage10> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage11(
+            builder: (context) => LettersPageNotSignedIn11(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -4043,20 +3556,21 @@ class _LettersPageState10 extends State<LettersPage10> {
       });
 }
 
-class LettersPage11 extends StatefulWidget {
+class LettersPageNotSignedIn11 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage11(
+  const LettersPageNotSignedIn11(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage11> createState() => _LettersPageState11();
+  State<LettersPageNotSignedIn11> createState() =>
+      _LettersPageNotSignedInState11();
 }
 
-class _LettersPageState11 extends State<LettersPage11> {
+class _LettersPageNotSignedInState11 extends State<LettersPageNotSignedIn11> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -4136,7 +3650,7 @@ class _LettersPageState11 extends State<LettersPage11> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage12(
+                            builder: (context) => LettersPageNotSignedIn12(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -4293,42 +3807,6 @@ class _LettersPageState11 extends State<LettersPage11> {
                               ),
                             ),
                           ),
-                          StreamBuilder<QuerySnapshot>(
-                            stream: _firestore
-                                .collection('Statistics')
-                                .doc(_auth.currentUser!.email)
-                                .collection('children')
-                                .doc(widget.currentName)
-                                .collection('letters')
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const CircularProgressIndicator(); //If no data return this
-                              }
-
-                              final information = snapshot.data!
-                                  .docs; //information: stores gets the data from firebase documents
-
-                              for (var item in information) {
-                                final getCL = item
-                                        .data()
-                                        .toString()
-                                        .contains('correct_letters')
-                                    ? item.get('correct_letters')
-                                    : 0;
-                                final getWL = item
-                                        .data()
-                                        .toString()
-                                        .contains('wrong_letters')
-                                    ? item.get('wrong_letters')
-                                    : 0;
-
-                                Counter.correctLetterCounter = getCL;
-                                Counter.wrongLetterCounter = getWL;
-                              }
-                              return Container();
-                            },
-                          ),
                         ],
                       ),
                     ),
@@ -4337,7 +3815,7 @@ class _LettersPageState11 extends State<LettersPage11> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage10(
+                            builder: (context) => LettersPageNotSignedIn10(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -4399,18 +3877,7 @@ class _LettersPageState11 extends State<LettersPage11> {
     if (text == 'zəy' || text == 'səh' || text == 'zərf' || text == 'zəif') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'zəy' &&
@@ -4420,18 +3887,6 @@ class _LettersPageState11 extends State<LettersPage11> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -4444,7 +3899,7 @@ class _LettersPageState11 extends State<LettersPage11> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage12(
+            builder: (context) => LettersPageNotSignedIn12(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -4455,20 +3910,21 @@ class _LettersPageState11 extends State<LettersPage11> {
       });
 }
 
-class LettersPage12 extends StatefulWidget {
+class LettersPageNotSignedIn12 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage12(
+  const LettersPageNotSignedIn12(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage12> createState() => _LettersPageState12();
+  State<LettersPageNotSignedIn12> createState() =>
+      _LettersPageNotSignedInState12();
 }
 
-class _LettersPageState12 extends State<LettersPage12> {
+class _LettersPageNotSignedInState12 extends State<LettersPageNotSignedIn12> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -4548,7 +4004,7 @@ class _LettersPageState12 extends State<LettersPage12> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage13(
+                            builder: (context) => LettersPageNotSignedIn13(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -4701,42 +4157,6 @@ class _LettersPageState12 extends State<LettersPage12> {
                               ),
                             ),
                           ),
-                          StreamBuilder<QuerySnapshot>(
-                            stream: _firestore
-                                .collection('Statistics')
-                                .doc(_auth.currentUser!.email)
-                                .collection('children')
-                                .doc(widget.currentName)
-                                .collection('letters')
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const CircularProgressIndicator(); //If no data return this
-                              }
-
-                              final information = snapshot.data!
-                                  .docs; //information: stores gets the data from firebase documents
-
-                              for (var item in information) {
-                                final getCL = item
-                                        .data()
-                                        .toString()
-                                        .contains('correct_letters')
-                                    ? item.get('correct_letters')
-                                    : 0;
-                                final getWL = item
-                                        .data()
-                                        .toString()
-                                        .contains('wrong_letters')
-                                    ? item.get('wrong_letters')
-                                    : 0;
-
-                                Counter.correctLetterCounter = getCL;
-                                Counter.wrongLetterCounter = getWL;
-                              }
-                              return Container();
-                            },
-                          ),
                         ],
                       ),
                     ),
@@ -4745,7 +4165,7 @@ class _LettersPageState12 extends State<LettersPage12> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage11(
+                            builder: (context) => LettersPageNotSignedIn11(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -4807,18 +4227,7 @@ class _LettersPageState12 extends State<LettersPage12> {
     if (text == 'seyid' || text == 'sen' || text == 'sin' || text == 'sil') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'seyid' &&
@@ -4828,18 +4237,6 @@ class _LettersPageState12 extends State<LettersPage12> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -4852,7 +4249,7 @@ class _LettersPageState12 extends State<LettersPage12> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage13(
+            builder: (context) => LettersPageNotSignedIn13(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -4863,20 +4260,21 @@ class _LettersPageState12 extends State<LettersPage12> {
       });
 }
 
-class LettersPage13 extends StatefulWidget {
+class LettersPageNotSignedIn13 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage13(
+  const LettersPageNotSignedIn13(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage13> createState() => _LettersPageState13();
+  State<LettersPageNotSignedIn13> createState() =>
+      _LettersPageNotSignedInState13();
 }
 
-class _LettersPageState13 extends State<LettersPage13> {
+class _LettersPageNotSignedInState13 extends State<LettersPageNotSignedIn13> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -4956,7 +4354,7 @@ class _LettersPageState13 extends State<LettersPage13> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage14(
+                            builder: (context) => LettersPageNotSignedIn14(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -5113,42 +4511,6 @@ class _LettersPageState13 extends State<LettersPage13> {
                               ),
                             ),
                           ),
-                          StreamBuilder<QuerySnapshot>(
-                            stream: _firestore
-                                .collection('Statistics')
-                                .doc(_auth.currentUser!.email)
-                                .collection('children')
-                                .doc(widget.currentName)
-                                .collection('letters')
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const CircularProgressIndicator(); //If no data return this
-                              }
-
-                              final information = snapshot.data!
-                                  .docs; //information: stores gets the data from firebase documents
-
-                              for (var item in information) {
-                                final getCL = item
-                                        .data()
-                                        .toString()
-                                        .contains('correct_letters')
-                                    ? item.get('correct_letters')
-                                    : 0;
-                                final getWL = item
-                                        .data()
-                                        .toString()
-                                        .contains('wrong_letters')
-                                    ? item.get('wrong_letters')
-                                    : 0;
-
-                                Counter.correctLetterCounter = getCL;
-                                Counter.wrongLetterCounter = getWL;
-                              }
-                              return Container();
-                            },
-                          ),
                         ],
                       ),
                     ),
@@ -5157,7 +4519,7 @@ class _LettersPageState13 extends State<LettersPage13> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage12(
+                            builder: (context) => LettersPageNotSignedIn12(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -5219,35 +4581,12 @@ class _LettersPageState13 extends State<LettersPage13> {
     if (text == 'şirin' || text == 'şeir') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'şirin' && text != 'şeir' && text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -5260,7 +4599,7 @@ class _LettersPageState13 extends State<LettersPage13> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage14(
+            builder: (context) => LettersPageNotSignedIn14(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -5271,20 +4610,21 @@ class _LettersPageState13 extends State<LettersPage13> {
       });
 }
 
-class LettersPage14 extends StatefulWidget {
+class LettersPageNotSignedIn14 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage14(
+  const LettersPageNotSignedIn14(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage14> createState() => _LettersPageState14();
+  State<LettersPageNotSignedIn14> createState() =>
+      _LettersPageNotSignedInState14();
 }
 
-class _LettersPageState14 extends State<LettersPage14> {
+class _LettersPageNotSignedInState14 extends State<LettersPageNotSignedIn14> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -5364,7 +4704,7 @@ class _LettersPageState14 extends State<LettersPage14> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage15(
+                            builder: (context) => LettersPageNotSignedIn15(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -5518,42 +4858,6 @@ class _LettersPageState14 extends State<LettersPage14> {
                               ),
                             ),
                           ),
-                          StreamBuilder<QuerySnapshot>(
-                            stream: _firestore
-                                .collection('Statistics')
-                                .doc(_auth.currentUser!.email)
-                                .collection('children')
-                                .doc(widget.currentName)
-                                .collection('letters')
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const CircularProgressIndicator(); //If no data return this
-                              }
-
-                              final information = snapshot.data!
-                                  .docs; //information: stores gets the data from firebase documents
-
-                              for (var item in information) {
-                                final getCL = item
-                                        .data()
-                                        .toString()
-                                        .contains('correct_letters')
-                                    ? item.get('correct_letters')
-                                    : 0;
-                                final getWL = item
-                                        .data()
-                                        .toString()
-                                        .contains('wrong_letters')
-                                    ? item.get('wrong_letters')
-                                    : 0;
-
-                                Counter.correctLetterCounter = getCL;
-                                Counter.wrongLetterCounter = getWL;
-                              }
-                              return Container();
-                            },
-                          ),
                         ],
                       ),
                     ),
@@ -5562,7 +4866,7 @@ class _LettersPageState14 extends State<LettersPage14> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage13(
+                            builder: (context) => LettersPageNotSignedIn13(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -5629,18 +4933,7 @@ class _LettersPageState14 extends State<LettersPage14> {
         text == 'sadə') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'sayt' &&
@@ -5652,18 +4945,6 @@ class _LettersPageState14 extends State<LettersPage14> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -5676,7 +4957,7 @@ class _LettersPageState14 extends State<LettersPage14> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage15(
+            builder: (context) => LettersPageNotSignedIn15(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -5687,20 +4968,21 @@ class _LettersPageState14 extends State<LettersPage14> {
       });
 }
 
-class LettersPage15 extends StatefulWidget {
+class LettersPageNotSignedIn15 extends StatefulWidget {
   static const String ScreenRoute = 'letters_page';
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage15(
+  const LettersPageNotSignedIn15(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage15> createState() => _LettersPageState15();
+  State<LettersPageNotSignedIn15> createState() =>
+      _LettersPageNotSignedInState15();
 }
 
-class _LettersPageState15 extends State<LettersPage15> {
+class _LettersPageNotSignedInState15 extends State<LettersPageNotSignedIn15> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -5780,7 +5062,7 @@ class _LettersPageState15 extends State<LettersPage15> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage16(
+                            builder: (context) => LettersPageNotSignedIn16(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -5932,42 +5214,6 @@ class _LettersPageState15 extends State<LettersPage15> {
                                         ),
                                       ],
                                     ),
-                                    StreamBuilder<QuerySnapshot>(
-                                      stream: _firestore
-                                          .collection('Statistics')
-                                          .doc(_auth.currentUser!.email)
-                                          .collection('children')
-                                          .doc(widget.currentName)
-                                          .collection('letters')
-                                          .snapshots(),
-                                      builder: (context, snapshot) {
-                                        if (!snapshot.hasData) {
-                                          return const CircularProgressIndicator(); //If no data return this
-                                        }
-
-                                        final information = snapshot.data!
-                                            .docs; //information: stores gets the data from firebase documents
-
-                                        for (var item in information) {
-                                          final getCL = item
-                                                  .data()
-                                                  .toString()
-                                                  .contains('correct_letters')
-                                              ? item.get('correct_letters')
-                                              : 0;
-                                          final getWL = item
-                                                  .data()
-                                                  .toString()
-                                                  .contains('wrong_letters')
-                                              ? item.get('wrong_letters')
-                                              : 0;
-
-                                          Counter.correctLetterCounter = getCL;
-                                          Counter.wrongLetterCounter = getWL;
-                                        }
-                                        return Container();
-                                      },
-                                    ),
                                   ],
                                 ),
                               ),
@@ -5981,7 +5227,7 @@ class _LettersPageState15 extends State<LettersPage15> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage14(
+                            builder: (context) => LettersPageNotSignedIn14(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -6054,18 +5300,7 @@ class _LettersPageState15 extends State<LettersPage15> {
         text == 'vaz') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'y' &&
@@ -6083,18 +5318,6 @@ class _LettersPageState15 extends State<LettersPage15> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -6107,7 +5330,7 @@ class _LettersPageState15 extends State<LettersPage15> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage16(
+            builder: (context) => LettersPageNotSignedIn16(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -6118,19 +5341,20 @@ class _LettersPageState15 extends State<LettersPage15> {
       });
 }
 
-class LettersPage16 extends StatefulWidget {
+class LettersPageNotSignedIn16 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage16(
+  const LettersPageNotSignedIn16(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage16> createState() => _LettersPageState16();
+  State<LettersPageNotSignedIn16> createState() =>
+      _LettersPageNotSignedInState16();
 }
 
-class _LettersPageState16 extends State<LettersPage16> {
+class _LettersPageNotSignedInState16 extends State<LettersPageNotSignedIn16> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -6210,7 +5434,7 @@ class _LettersPageState16 extends State<LettersPage16> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage17(
+                            builder: (context) => LettersPageNotSignedIn17(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -6369,42 +5593,6 @@ class _LettersPageState16 extends State<LettersPage16> {
                                         ),
                                       ],
                                     ),
-                                    StreamBuilder<QuerySnapshot>(
-                                      stream: _firestore
-                                          .collection('Statistics')
-                                          .doc(_auth.currentUser!.email)
-                                          .collection('children')
-                                          .doc(widget.currentName)
-                                          .collection('letters')
-                                          .snapshots(),
-                                      builder: (context, snapshot) {
-                                        if (!snapshot.hasData) {
-                                          return const CircularProgressIndicator(); //If no data return this
-                                        }
-
-                                        final information = snapshot.data!
-                                            .docs; //information: stores gets the data from firebase documents
-
-                                        for (var item in information) {
-                                          final getCL = item
-                                                  .data()
-                                                  .toString()
-                                                  .contains('correct_letters')
-                                              ? item.get('correct_letters')
-                                              : 0;
-                                          final getWL = item
-                                                  .data()
-                                                  .toString()
-                                                  .contains('wrong_letters')
-                                              ? item.get('wrong_letters')
-                                              : 0;
-
-                                          Counter.correctLetterCounter = getCL;
-                                          Counter.wrongLetterCounter = getWL;
-                                        }
-                                        return Container();
-                                      },
-                                    ),
                                   ],
                                 ),
                               ),
@@ -6418,7 +5606,7 @@ class _LettersPageState16 extends State<LettersPage16> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage15(
+                            builder: (context) => LettersPageNotSignedIn15(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -6486,18 +5674,7 @@ class _LettersPageState16 extends State<LettersPage16> {
         text == 'bağ') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'a' &&
@@ -6508,18 +5685,6 @@ class _LettersPageState16 extends State<LettersPage16> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -6532,7 +5697,7 @@ class _LettersPageState16 extends State<LettersPage16> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage17(
+            builder: (context) => LettersPageNotSignedIn17(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -6543,19 +5708,20 @@ class _LettersPageState16 extends State<LettersPage16> {
       });
 }
 
-class LettersPage17 extends StatefulWidget {
+class LettersPageNotSignedIn17 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage17(
+  const LettersPageNotSignedIn17(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage17> createState() => _LettersPageState17();
+  State<LettersPageNotSignedIn17> createState() =>
+      _LettersPageNotSignedInState17();
 }
 
-class _LettersPageState17 extends State<LettersPage17> {
+class _LettersPageNotSignedInState17 extends State<LettersPageNotSignedIn17> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -6635,7 +5801,7 @@ class _LettersPageState17 extends State<LettersPage17> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage18(
+                            builder: (context) => LettersPageNotSignedIn18(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -6784,42 +5950,6 @@ class _LettersPageState17 extends State<LettersPage17> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -6832,7 +5962,7 @@ class _LettersPageState17 extends State<LettersPage17> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage16(
+                            builder: (context) => LettersPageNotSignedIn16(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -6894,18 +6024,7 @@ class _LettersPageState17 extends State<LettersPage17> {
     if (text == 'o' || text == 'var' || text == 'y' || text == 'wap') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'o' &&
@@ -6915,18 +6034,6 @@ class _LettersPageState17 extends State<LettersPage17> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -6939,7 +6046,7 @@ class _LettersPageState17 extends State<LettersPage17> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage18(
+            builder: (context) => LettersPageNotSignedIn18(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -6950,19 +6057,20 @@ class _LettersPageState17 extends State<LettersPage17> {
       });
 }
 
-class LettersPage18 extends StatefulWidget {
+class LettersPageNotSignedIn18 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage18(
+  const LettersPageNotSignedIn18(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage18> createState() => _LettersPageState18();
+  State<LettersPageNotSignedIn18> createState() =>
+      _LettersPageNotSignedInState18();
 }
 
-class _LettersPageState18 extends State<LettersPage18> {
+class _LettersPageNotSignedInState18 extends State<LettersPageNotSignedIn18> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -7041,7 +6149,7 @@ class _LettersPageState18 extends State<LettersPage18> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage19(
+                            builder: (context) => LettersPageNotSignedIn19(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -7190,42 +6298,6 @@ class _LettersPageState18 extends State<LettersPage18> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -7238,7 +6310,7 @@ class _LettersPageState18 extends State<LettersPage18> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage17(
+                            builder: (context) => LettersPageNotSignedIn17(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -7302,35 +6374,12 @@ class _LettersPageState18 extends State<LettersPage18> {
     if (text == 'əyin' || text == 'həyat' || text == 'təyin') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'əyin' && text != 'həyat' && text != 'təyin' && text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -7343,7 +6392,7 @@ class _LettersPageState18 extends State<LettersPage18> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage19(
+            builder: (context) => LettersPageNotSignedIn19(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -7354,19 +6403,20 @@ class _LettersPageState18 extends State<LettersPage18> {
       });
 }
 
-class LettersPage19 extends StatefulWidget {
+class LettersPageNotSignedIn19 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage19(
+  const LettersPageNotSignedIn19(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage19> createState() => _LettersPageState19();
+  State<LettersPageNotSignedIn19> createState() =>
+      _LettersPageNotSignedInState19();
 }
 
-class _LettersPageState19 extends State<LettersPage19> {
+class _LettersPageNotSignedInState19 extends State<LettersPageNotSignedIn19> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -7445,7 +6495,7 @@ class _LettersPageState19 extends State<LettersPage19> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage20(
+                            builder: (context) => LettersPageNotSignedIn20(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -7594,42 +6644,6 @@ class _LettersPageState19 extends State<LettersPage19> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -7642,7 +6656,7 @@ class _LettersPageState19 extends State<LettersPage19> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage18(
+                            builder: (context) => LettersPageNotSignedIn18(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -7714,18 +6728,7 @@ class _LettersPageState19 extends State<LettersPage19> {
         text == 'təyin') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'ağayev' &&
@@ -7740,18 +6743,6 @@ class _LettersPageState19 extends State<LettersPage19> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -7764,7 +6755,7 @@ class _LettersPageState19 extends State<LettersPage19> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage20(
+            builder: (context) => LettersPageNotSignedIn20(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -7775,19 +6766,20 @@ class _LettersPageState19 extends State<LettersPage19> {
       });
 }
 
-class LettersPage20 extends StatefulWidget {
+class LettersPageNotSignedIn20 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage20(
+  const LettersPageNotSignedIn20(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage20> createState() => _LettersPageState20();
+  State<LettersPageNotSignedIn20> createState() =>
+      _LettersPageNotSignedInState20();
 }
 
-class _LettersPageState20 extends State<LettersPage20> {
+class _LettersPageNotSignedInState20 extends State<LettersPageNotSignedIn20> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -7866,7 +6858,7 @@ class _LettersPageState20 extends State<LettersPage20> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage21(
+                            builder: (context) => LettersPageNotSignedIn21(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -8015,42 +7007,6 @@ class _LettersPageState20 extends State<LettersPage20> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -8063,7 +7019,7 @@ class _LettersPageState20 extends State<LettersPage20> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage19(
+                            builder: (context) => LettersPageNotSignedIn19(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -8127,35 +7083,12 @@ class _LettersPageState20 extends State<LettersPage20> {
     if (text == 'sifətə' || text == 'f' || text == 'fb') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'sifətə' && text != 'f' && text != 'fb' && text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -8168,7 +7101,7 @@ class _LettersPageState20 extends State<LettersPage20> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage21(
+            builder: (context) => LettersPageNotSignedIn21(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -8179,19 +7112,20 @@ class _LettersPageState20 extends State<LettersPage20> {
       });
 }
 
-class LettersPage21 extends StatefulWidget {
+class LettersPageNotSignedIn21 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage21(
+  const LettersPageNotSignedIn21(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage21> createState() => _LettersPageState21();
+  State<LettersPageNotSignedIn21> createState() =>
+      _LettersPageNotSignedInState21();
 }
 
-class _LettersPageState21 extends State<LettersPage21> {
+class _LettersPageNotSignedInState21 extends State<LettersPageNotSignedIn21> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -8270,7 +7204,7 @@ class _LettersPageState21 extends State<LettersPage21> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage22(
+                            builder: (context) => LettersPageNotSignedIn22(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -8419,42 +7353,6 @@ class _LettersPageState21 extends State<LettersPage21> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -8467,7 +7365,7 @@ class _LettersPageState21 extends State<LettersPage21> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage20(
+                            builder: (context) => LettersPageNotSignedIn20(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -8538,18 +7436,7 @@ class _LettersPageState21 extends State<LettersPage21> {
         text == 'az') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'a' &&
@@ -8563,18 +7450,6 @@ class _LettersPageState21 extends State<LettersPage21> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -8587,7 +7462,7 @@ class _LettersPageState21 extends State<LettersPage21> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage22(
+            builder: (context) => LettersPageNotSignedIn22(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -8599,19 +7474,20 @@ class _LettersPageState21 extends State<LettersPage21> {
 }
 
 //t3al
-class LettersPage22 extends StatefulWidget {
+class LettersPageNotSignedIn22 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage22(
+  const LettersPageNotSignedIn22(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage22> createState() => _LettersPageState22();
+  State<LettersPageNotSignedIn22> createState() =>
+      _LettersPageNotSignedInState22();
 }
 
-class _LettersPageState22 extends State<LettersPage22> {
+class _LettersPageNotSignedInState22 extends State<LettersPageNotSignedIn22> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -8690,7 +7566,7 @@ class _LettersPageState22 extends State<LettersPage22> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage23(
+                            builder: (context) => LettersPageNotSignedIn23(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -8839,42 +7715,6 @@ class _LettersPageState22 extends State<LettersPage22> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -8887,7 +7727,7 @@ class _LettersPageState22 extends State<LettersPage22> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage21(
+                            builder: (context) => LettersPageNotSignedIn21(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -8953,18 +7793,7 @@ class _LettersPageState22 extends State<LettersPage22> {
         text == 'k') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'f' &&
@@ -8975,18 +7804,6 @@ class _LettersPageState22 extends State<LettersPage22> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -8999,7 +7816,7 @@ class _LettersPageState22 extends State<LettersPage22> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage23(
+            builder: (context) => LettersPageNotSignedIn23(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -9010,19 +7827,20 @@ class _LettersPageState22 extends State<LettersPage22> {
       });
 }
 
-class LettersPage23 extends StatefulWidget {
+class LettersPageNotSignedIn23 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage23(
+  const LettersPageNotSignedIn23(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage23> createState() => _LettersPageState23();
+  State<LettersPageNotSignedIn23> createState() =>
+      _LettersPageNotSignedInState23();
 }
 
-class _LettersPageState23 extends State<LettersPage23> {
+class _LettersPageNotSignedInState23 extends State<LettersPageNotSignedIn23> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -9101,7 +7919,7 @@ class _LettersPageState23 extends State<LettersPage23> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage24(
+                            builder: (context) => LettersPageNotSignedIn24(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -9254,42 +8072,6 @@ class _LettersPageState23 extends State<LettersPage23> {
                               ),
                             ),
                           ),
-                          StreamBuilder<QuerySnapshot>(
-                            stream: _firestore
-                                .collection('Statistics')
-                                .doc(_auth.currentUser!.email)
-                                .collection('children')
-                                .doc(widget.currentName)
-                                .collection('letters')
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const CircularProgressIndicator(); //If no data return this
-                              }
-
-                              final information = snapshot.data!
-                                  .docs; //information: stores gets the data from firebase documents
-
-                              for (var item in information) {
-                                final getCL = item
-                                        .data()
-                                        .toString()
-                                        .contains('correct_letters')
-                                    ? item.get('correct_letters')
-                                    : 0;
-                                final getWL = item
-                                        .data()
-                                        .toString()
-                                        .contains('wrong_letters')
-                                    ? item.get('wrong_letters')
-                                    : 0;
-
-                                Counter.correctLetterCounter = getCL;
-                                Counter.wrongLetterCounter = getWL;
-                              }
-                              return Container();
-                            },
-                          ),
                         ],
                       ),
                     ),
@@ -9298,7 +8080,7 @@ class _LettersPageState23 extends State<LettersPage23> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage22(
+                            builder: (context) => LettersPageNotSignedIn22(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -9365,18 +8147,7 @@ class _LettersPageState23 extends State<LettersPage23> {
         text == 'illər') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'ləm' &&
@@ -9388,18 +8159,6 @@ class _LettersPageState23 extends State<LettersPage23> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -9412,7 +8171,7 @@ class _LettersPageState23 extends State<LettersPage23> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage24(
+            builder: (context) => LettersPageNotSignedIn24(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -9423,19 +8182,20 @@ class _LettersPageState23 extends State<LettersPage23> {
       });
 }
 
-class LettersPage24 extends StatefulWidget {
+class LettersPageNotSignedIn24 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage24(
+  const LettersPageNotSignedIn24(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage24> createState() => _LettersPageState24();
+  State<LettersPageNotSignedIn24> createState() =>
+      _LettersPageNotSignedInState24();
 }
 
-class _LettersPageState24 extends State<LettersPage24> {
+class _LettersPageNotSignedInState24 extends State<LettersPageNotSignedIn24> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -9514,7 +8274,7 @@ class _LettersPageState24 extends State<LettersPage24> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage25(
+                            builder: (context) => LettersPageNotSignedIn25(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -9670,42 +8430,6 @@ class _LettersPageState24 extends State<LettersPage24> {
                                 ),
                               ),
                             ),
-                            StreamBuilder<QuerySnapshot>(
-                              stream: _firestore
-                                  .collection('Statistics')
-                                  .doc(_auth.currentUser!.email)
-                                  .collection('children')
-                                  .doc(widget.currentName)
-                                  .collection('letters')
-                                  .snapshots(),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return const CircularProgressIndicator(); //If no data return this
-                                }
-
-                                final information = snapshot.data!
-                                    .docs; //information: stores gets the data from firebase documents
-
-                                for (var item in information) {
-                                  final getCL = item
-                                          .data()
-                                          .toString()
-                                          .contains('correct_letters')
-                                      ? item.get('correct_letters')
-                                      : 0;
-                                  final getWL = item
-                                          .data()
-                                          .toString()
-                                          .contains('wrong_letters')
-                                      ? item.get('wrong_letters')
-                                      : 0;
-
-                                  Counter.correctLetterCounter = getCL;
-                                  Counter.wrongLetterCounter = getWL;
-                                }
-                                return Container();
-                              },
-                            ),
                           ],
                         ),
                       ),
@@ -9715,7 +8439,7 @@ class _LettersPageState24 extends State<LettersPage24> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage23(
+                            builder: (context) => LettersPageNotSignedIn23(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -9788,18 +8512,7 @@ class _LettersPageState24 extends State<LettersPage24> {
         text == 'mi') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'meyim' &&
@@ -9817,18 +8530,6 @@ class _LettersPageState24 extends State<LettersPage24> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -9841,7 +8542,7 @@ class _LettersPageState24 extends State<LettersPage24> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage25(
+            builder: (context) => LettersPageNotSignedIn25(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -9852,19 +8553,20 @@ class _LettersPageState24 extends State<LettersPage24> {
       });
 }
 
-class LettersPage25 extends StatefulWidget {
+class LettersPageNotSignedIn25 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage25(
+  const LettersPageNotSignedIn25(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage25> createState() => _LettersPageState25();
+  State<LettersPageNotSignedIn25> createState() =>
+      _LettersPageNotSignedInState25();
 }
 
-class _LettersPageState25 extends State<LettersPage25> {
+class _LettersPageNotSignedInState25 extends State<LettersPageNotSignedIn25> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -9943,7 +8645,7 @@ class _LettersPageState25 extends State<LettersPage25> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage26(
+                            builder: (context) => LettersPageNotSignedIn26(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -10096,42 +8798,6 @@ class _LettersPageState25 extends State<LettersPage25> {
                               ),
                             ),
                           ),
-                          StreamBuilder<QuerySnapshot>(
-                            stream: _firestore
-                                .collection('Statistics')
-                                .doc(_auth.currentUser!.email)
-                                .collection('children')
-                                .doc(widget.currentName)
-                                .collection('letters')
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const CircularProgressIndicator(); //If no data return this
-                              }
-
-                              final information = snapshot.data!
-                                  .docs; //information: stores gets the data from firebase documents
-
-                              for (var item in information) {
-                                final getCL = item
-                                        .data()
-                                        .toString()
-                                        .contains('correct_letters')
-                                    ? item.get('correct_letters')
-                                    : 0;
-                                final getWL = item
-                                        .data()
-                                        .toString()
-                                        .contains('wrong_letters')
-                                    ? item.get('wrong_letters')
-                                    : 0;
-
-                                Counter.correctLetterCounter = getCL;
-                                Counter.wrongLetterCounter = getWL;
-                              }
-                              return Container();
-                            },
-                          ),
                         ],
                       ),
                     ),
@@ -10140,7 +8806,7 @@ class _LettersPageState25 extends State<LettersPage25> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage24(
+                            builder: (context) => LettersPageNotSignedIn24(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -10209,18 +8875,7 @@ class _LettersPageState25 extends State<LettersPage25> {
         text == 'nani') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'nuri' &&
@@ -10234,18 +8889,6 @@ class _LettersPageState25 extends State<LettersPage25> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -10258,7 +8901,7 @@ class _LettersPageState25 extends State<LettersPage25> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage26(
+            builder: (context) => LettersPageNotSignedIn26(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -10269,19 +8912,20 @@ class _LettersPageState25 extends State<LettersPage25> {
       });
 }
 
-class LettersPage26 extends StatefulWidget {
+class LettersPageNotSignedIn26 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage26(
+  const LettersPageNotSignedIn26(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage26> createState() => _LettersPageState26();
+  State<LettersPageNotSignedIn26> createState() =>
+      _LettersPageNotSignedInState26();
 }
 
-class _LettersPageState26 extends State<LettersPage26> {
+class _LettersPageNotSignedInState26 extends State<LettersPageNotSignedIn26> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -10363,7 +9007,7 @@ class _LettersPageState26 extends State<LettersPage26> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => LettersPage27(
+                              builder: (context) => LettersPageNotSignedIn27(
                                 childID: widget.childID,
                                 currentAvatar: widget.currentAvatar,
                                 currentName: widget.currentName,
@@ -10509,42 +9153,6 @@ class _LettersPageState26 extends State<LettersPage26> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -10557,7 +9165,7 @@ class _LettersPageState26 extends State<LettersPage26> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage25(
+                            builder: (context) => LettersPageNotSignedIn25(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -10619,35 +9227,12 @@ class _LettersPageState26 extends State<LettersPage26> {
     if (text == 'hə' || text == 'h') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'hə' && text != 'h' && text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -10660,7 +9245,7 @@ class _LettersPageState26 extends State<LettersPage26> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage27(
+            builder: (context) => LettersPageNotSignedIn27(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -10671,19 +9256,20 @@ class _LettersPageState26 extends State<LettersPage26> {
       });
 }
 
-class LettersPage27 extends StatefulWidget {
+class LettersPageNotSignedIn27 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage27(
+  const LettersPageNotSignedIn27(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage27> createState() => _LettersPageState27();
+  State<LettersPageNotSignedIn27> createState() =>
+      _LettersPageNotSignedInState27();
 }
 
-class _LettersPageState27 extends State<LettersPage27> {
+class _LettersPageNotSignedInState27 extends State<LettersPageNotSignedIn27> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -10762,7 +9348,7 @@ class _LettersPageState27 extends State<LettersPage27> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage28(
+                            builder: (context) => LettersPageNotSignedIn28(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -10918,42 +9504,6 @@ class _LettersPageState27 extends State<LettersPage27> {
                                 ),
                               ),
                             ),
-                            StreamBuilder<QuerySnapshot>(
-                              stream: _firestore
-                                  .collection('Statistics')
-                                  .doc(_auth.currentUser!.email)
-                                  .collection('children')
-                                  .doc(widget.currentName)
-                                  .collection('letters')
-                                  .snapshots(),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return const CircularProgressIndicator(); //If no data return this
-                                }
-
-                                final information = snapshot.data!
-                                    .docs; //information: stores gets the data from firebase documents
-
-                                for (var item in information) {
-                                  final getCL = item
-                                          .data()
-                                          .toString()
-                                          .contains('correct_letters')
-                                      ? item.get('correct_letters')
-                                      : 0;
-                                  final getWL = item
-                                          .data()
-                                          .toString()
-                                          .contains('wrong_letters')
-                                      ? item.get('wrong_letters')
-                                      : 0;
-
-                                  Counter.correctLetterCounter = getCL;
-                                  Counter.wrongLetterCounter = getWL;
-                                }
-                                return Container();
-                              },
-                            ),
                           ],
                         ),
                       ),
@@ -10963,7 +9513,7 @@ class _LettersPageState27 extends State<LettersPage27> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage26(
+                            builder: (context) => LettersPageNotSignedIn26(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -11029,18 +9579,7 @@ class _LettersPageState27 extends State<LettersPage27> {
         text == 'wap') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'valyuta' &&
@@ -11051,18 +9590,6 @@ class _LettersPageState27 extends State<LettersPage27> {
         text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -11075,7 +9602,7 @@ class _LettersPageState27 extends State<LettersPage27> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => LettersPage28(
+            builder: (context) => LettersPageNotSignedIn28(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -11086,19 +9613,20 @@ class _LettersPageState27 extends State<LettersPage27> {
       });
 }
 
-class LettersPage28 extends StatefulWidget {
+class LettersPageNotSignedIn28 extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const LettersPage28(
+  const LettersPageNotSignedIn28(
       {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<LettersPage28> createState() => _LettersPageState28();
+  State<LettersPageNotSignedIn28> createState() =>
+      _LettersPageNotSignedInState28();
 }
 
-class _LettersPageState28 extends State<LettersPage28> {
+class _LettersPageNotSignedInState28 extends State<LettersPageNotSignedIn28> {
   bool play = false;
   bool correct = false;
   bool wrong = false;
@@ -11314,42 +9842,6 @@ class _LettersPageState28 extends State<LettersPage28> {
                                       ),
                                     ],
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: _firestore
-                                        .collection('Statistics')
-                                        .doc(_auth.currentUser!.email)
-                                        .collection('children')
-                                        .doc(widget.currentName)
-                                        .collection('letters')
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator(); //If no data return this
-                                      }
-
-                                      final information = snapshot.data!
-                                          .docs; //information: stores gets the data from firebase documents
-
-                                      for (var item in information) {
-                                        final getCL = item
-                                                .data()
-                                                .toString()
-                                                .contains('correct_letters')
-                                            ? item.get('correct_letters')
-                                            : 0;
-                                        final getWL = item
-                                                .data()
-                                                .toString()
-                                                .contains('wrong_letters')
-                                            ? item.get('wrong_letters')
-                                            : 0;
-
-                                        Counter.correctLetterCounter = getCL;
-                                        Counter.wrongLetterCounter = getWL;
-                                      }
-                                      return Container();
-                                    },
-                                  ),
                                 ],
                               ),
                             ),
@@ -11362,7 +9854,7 @@ class _LettersPageState28 extends State<LettersPage28> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LettersPage27(
+                            builder: (context) => LettersPageNotSignedIn27(
                               childID: widget.childID,
                               currentAvatar: widget.currentAvatar,
                               currentName: widget.currentName,
@@ -11424,35 +9916,12 @@ class _LettersPageState28 extends State<LettersPage28> {
     if (text == 'y' || text == 'niyə') {
       isMatched = true;
       correct = true;
-      Counter.correctLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
+
       _Next();
     }
     if (text != 'y' && text != 'niyə' && text != '') {
       isMatched = false;
       wrong = true;
-      Counter.wrongLetterCounter++;
-      _firestore
-          .collection('Statistics')
-          .doc("${_auth.currentUser!.email}")
-          .collection('children')
-          .doc(widget.currentName)
-          .collection('letters')
-          .doc('letters')
-          .update({
-        "correct_letters": Counter.correctLetterCounter,
-        "wrong_letters": Counter.wrongLetterCounter,
-      });
     }
   }
 
@@ -11465,7 +9934,7 @@ class _LettersPageState28 extends State<LettersPage28> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Congrats(
+            builder: (context) => CongratsNotSignedIn(
               childID: widget.childID,
               currentAvatar: widget.currentAvatar,
               currentName: widget.currentName,
@@ -11476,18 +9945,19 @@ class _LettersPageState28 extends State<LettersPage28> {
       });
 }
 
-class Congrats extends StatefulWidget {
+class CongratsNotSignedIn extends StatefulWidget {
   final String? childID;
   final String? currentAvatar;
   final String? currentName;
-  const Congrats({Key? key, this.childID, this.currentAvatar, this.currentName})
+  const CongratsNotSignedIn(
+      {Key? key, this.childID, this.currentAvatar, this.currentName})
       : super(key: key);
 
   @override
-  State<Congrats> createState() => _Congrats();
+  State<CongratsNotSignedIn> createState() => _CongratsNotSignedIn();
 }
 
-class _Congrats extends State<Congrats> {
+class _CongratsNotSignedIn extends State<CongratsNotSignedIn> {
   bool _play = false;
 
   @override
@@ -11503,7 +9973,6 @@ class _Congrats extends State<Congrats> {
   @override
   Widget build(BuildContext context) {
     final double currentHeight = MediaQuery.of(context).size.height;
-    final double currentWidht = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: AudioWidget.assets(
@@ -11545,10 +10014,10 @@ class _Congrats extends State<Congrats> {
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Home(
-                                    childID: widget.childID,
-                                    currentAvatar: widget.currentAvatar,
-                                    currentName: widget.currentName,
+                                  builder: (context) => const Home(
+                                    childID: '',
+                                    currentAvatar: '',
+                                    currentName: '',
                                   ),
                                 ),
                                 (Route<dynamic> route) => false);
@@ -11563,34 +10032,6 @@ class _Congrats extends State<Congrats> {
                             radius: currentHeight / 16,
                             child: Icon(
                               Icons.home,
-                              color: Colors.white,
-                              size: currentHeight / 14,
-                            ),
-                          ),
-                        ),
-                        MaterialButton(
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => childStatistics(
-                                    id_st: widget.childID,
-                                    avatar_url_st: widget.currentAvatar,
-                                    name_st: widget.currentName,
-                                  ),
-                                ),
-                                (Route<dynamic> route) => false);
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          splashColor: Colors.amber,
-                          child: CircleAvatar(
-                            backgroundColor:
-                                const Color.fromRGBO(245, 171, 0, 1),
-                            radius: currentHeight / 16,
-                            child: Icon(
-                              Icons.add_chart_sharp,
                               color: Colors.white,
                               size: currentHeight / 14,
                             ),

@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:little_reader/views/home/home.dart';
+import 'package:little_reader/views/registeration/inf_entry/accounts.dart';
+import 'package:little_reader/views/registeration/inf_entry/add_child.dart';
 
 class childStatistics extends StatelessWidget {
   final String? avatar_url_st;
@@ -15,18 +19,85 @@ class childStatistics extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentHeight = MediaQuery.of(context).size.height;
     final currentwidth = MediaQuery.of(context).size.width;
+
+    WidgetsFlutterBinding.ensureInitialized();
+
+    //these lines of code to make the screen in horizontal state
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return SafeArea(
       child: Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircleAvatar(
-                maxRadius: currentHeight / 12,
-                minRadius: currentwidth / 12,
-                child: Image.network(
-                  '$avatar_url_st',
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddChild(
+                              childID: id_st,
+                              currentAvatar: avatar_url_st,
+                              currentName: name_st,
+                            ),
+                          ),
+                          (Route<dynamic> route) => false);
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    splashColor: Colors.amber,
+                    child: CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                      radius: currentHeight / 36,
+                      child: Icon(
+                        Icons.arrow_back_sharp,
+                        color: Colors.white,
+                        size: currentHeight / 24,
+                      ),
+                    ),
+                  ),
+                  CircleAvatar(
+                    maxRadius: currentHeight / 12,
+                    minRadius: currentwidth / 12,
+                    child: Image.network(
+                      '$avatar_url_st',
+                    ),
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Home(
+                              childID: id_st,
+                              currentAvatar: avatar_url_st,
+                              currentName: name_st,
+                            ),
+                          ),
+                          (Route<dynamic> route) => false);
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    splashColor: Colors.amber,
+                    child: CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(245, 171, 0, 1),
+                      radius: currentHeight / 36,
+                      child: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                        size: currentHeight / 30,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Text(
                 '$name_st',

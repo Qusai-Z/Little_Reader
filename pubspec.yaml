@@ -41,12 +41,15 @@ dependencies:
   random_string_generator: ^2.0.0
   permission_handler: ^10.2.0
   page_transition: ^2.0.9
-  flutter_speech: ^2.0.0
   assets_audio_player: ^3.0.5
   flutter_tts: ^3.6.3
   flutter_sound: ^9.2.13
   url_launcher: ^6.1.9
-  speech_to_text: ^6.1.1
+  flutter_speech: ^2.0.0
+  flutter_launcher_icons: ^0.11.0
+
+  
+ 
   
 
 
@@ -86,7 +89,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 flutter_icons:
   android: "launcher_icon"
-  image_path: "imgs/little-kid.png"
+  image_path: "imgs/logo_launcher.jpg"
 
 # The following section is specific to Flutter packages.
 flutter:
